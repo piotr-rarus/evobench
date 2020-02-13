@@ -51,7 +51,7 @@ class IsingSpinGlass(Benchmark):
 
     def evaluate_solution(self, solution: Solution) -> float:
 
-        score = 0.0
+        energy = 0.0
 
         genome = solution.genome.copy()
         genome[solution.genome == 0] = -1
@@ -61,6 +61,7 @@ class IsingSpinGlass(Benchmark):
             b_gene = solution.genome[spin.b_index]
 
             spin = a_gene * b_gene * spin.factor
-            score += spin
+            energy -= spin
 
-        return score
+        score = (energy - self.config.min_energy) / self.config.span
+        return 1 - score

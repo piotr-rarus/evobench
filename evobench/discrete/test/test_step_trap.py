@@ -3,38 +3,31 @@ import numpy as np
 from evobench.model import Solution
 
 from ..step_trap import StepTrap
+from pytest import fixture
 
-__BLOCK_SIZE = 8
-__REPETITIONS = 3
+__BLOCK_SIZE = 6
+__REPETITIONS = 2
 __STEP_SIZE = 2
 
-__GLOBAL_OPTIMUM = 12
-__LOCAL_OPTIMUM = 9
+__SAMPLES = [
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 6),
+    ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 4),
+]
 
 
-def test_global_optimum():
-
-    trap = StepTrap(__BLOCK_SIZE, __REPETITIONS, __STEP_SIZE)
-
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-
-    solution = Solution(genome)
-    score = trap.evaluate_solution(solution)
-
-    assert isinstance(score, float)
-    assert score == __GLOBAL_OPTIMUM
+@fixture
+def step_trap() -> StepTrap:
+    return StepTrap(__BLOCK_SIZE, __REPETITIONS, __STEP_SIZE)
 
 
-def test_local_optima():
+def test_samples(step_trap: StepTrap):
+    for genome, score in __SAMPLES:
+        solution = Solution(np.array(genome))
+        pred_score = step_trap.evaluate_solution(solution)
 
-    trap = StepTrap(__BLOCK_SIZE, __REPETITIONS, __STEP_SIZE)
+        assert isinstance(pred_score, float)
+        assert pred_score == score
 
-    genome = [1] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
 
-    solution = Solution(genome)
-    score = trap.evaluate_solution(solution)
-
-    assert isinstance(score, float)
-    assert score == __LOCAL_OPTIMUM
+def test_as_dict(step_trap: StepTrap):
+    assert isinstance(step_trap.as_dict, dict)

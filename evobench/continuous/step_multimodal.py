@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from ..separable import Separable
+from evobench.separable import Separable
 
 
 class StepMultimodal(Separable):

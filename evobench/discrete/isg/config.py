@@ -10,7 +10,7 @@ from .spin import Spin
 @dataclass(frozen=True)
 class Config:
     name: str
-    global_optimum: int
+    min_energy: int
     best_solution: np.ndarray
     spins: List[Spin]
 
@@ -19,10 +19,14 @@ class Config:
         return self.best_solution.size
 
     @lazy
+    def span(self) -> int:
+        return len(self.spins) - self.min_energy
+
+    @lazy
     def as_dict(self) -> Dict:
         as_dict = {}
         as_dict['name'] = self.name
-        as_dict['global_optimum'] = self.global_optimum
+        as_dict['min_energy'] = self.min_energy
         as_dict['best_solution'] = list(self.best_solution)
         as_dict['configs_len'] = len(self.spins)
 

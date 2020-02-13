@@ -1,27 +1,33 @@
 import numpy as np
+from pytest import fixture
 
 from evobench.model import Solution
 
 from ..trap import Trap
 
 __BLOCK_SIZE = 5
-__REPETITIONS = 4
-__OPTIMUM = float('inf')
+__REPETITIONS = 2
 
 
-def test_optimum():
+__SAMPLES = [
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], float('inf')),
+    ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 10),
+    ([0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], 4),
+]
 
-    trap = Trap(
+
+@fixture
+def trap() -> Trap:
+    return Trap(
         block_size=__BLOCK_SIZE,
-        repetitions=__REPETITIONS,
-        overlap_size=0
+        repetitions=__REPETITIONS
     )
 
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
 
-    solution = Solution(genome)
-    fitness = trap.evaluate_solution(solution)
+def test_samples(trap: Trap):
+    for genome, score in __SAMPLES:
+        solution = Solution(np.array(genome))
+        pred_score = trap.evaluate_solution(solution)
 
-    assert isinstance(fitness, float)
-    assert fitness == __OPTIMUM
+        assert isinstance(pred_score, float)
+        assert pred_score == score

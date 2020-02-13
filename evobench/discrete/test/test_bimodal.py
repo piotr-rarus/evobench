@@ -1,34 +1,31 @@
 import numpy as np
+from pytest import fixture
 
 from evobench.discrete.bimodal import Bimodal
-from evobench.model import Population, Solution
+from evobench.model import Solution
 
 __BLOCK_SIZE = 6
-__REPETITIONS = 3
+__REPETITIONS = 2
 
-__GLOBAL_OPTIMUM = 9
-__LOCAL_OPTIMUM = 6
+__GLOBAL_OPTIMUM = 6
+__LOCAL_OPTIMUM = 4
+
+samples = [
+    ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 6),
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 6),
+    ([0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1], 3)
+]
 
 
-def test_global_optima():
+@fixture
+def bimodal() -> Bimodal:
+    return Bimodal(__BLOCK_SIZE, __REPETITIONS)
 
-    bimodal = Bimodal(__BLOCK_SIZE, __REPETITIONS)
-    solutions = []
 
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-    solution = Solution(genome)
+def test_samples(bimodal: Bimodal):
+    for genome, score in samples:
+        solution = Solution(np.array(genome))
+        pred_score = bimodal.evaluate_solution(solution)
 
-    solutions.append(solution)
-
-    genome = [1] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-    solution = Solution(genome)
-
-    solutions.append(solution)
-    population = Population(solutions)
-
-    scores = bimodal.evaluate_population(population)
-
-    assert [isinstance(score, int) for score in scores]
-    assert [score == __GLOBAL_OPTIMUM for score in scores]
+        assert isinstance(pred_score, float)
+        assert pred_score == score

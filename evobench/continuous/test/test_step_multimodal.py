@@ -1,28 +1,31 @@
 import numpy as np
+from pytest import fixture
 
 from evobench.model import Solution
 
 from ..step_multimodal import StepMultimodal
 
 __BLOCK_SIZE = 5
-__REPETITIONS = 4
-__OPTIMUM = 0
+__REPETITIONS = 2
+
+__SAMPLES = [
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0),
+]
 
 
-def test_optimum():
-
-    step_multimodal = StepMultimodal(
+@fixture
+def step_multimodal() -> StepMultimodal:
+    return StepMultimodal(
         block_size=__BLOCK_SIZE,
         repetitions=__REPETITIONS,
         step_size=0.1,
-        overlap_size=0
     )
 
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
 
-    solution = Solution(genome)
-    fitness = step_multimodal.evaluate_solution(solution)
+def test_samples(step_multimodal: StepMultimodal):
+    for genome, score in __SAMPLES:
+        solution = Solution(np.array(genome))
+        pred_score = step_multimodal.evaluate_solution(solution)
 
-    assert isinstance(fitness, float)
-    assert fitness == __OPTIMUM
+        assert isinstance(pred_score, float)
+        assert pred_score == score

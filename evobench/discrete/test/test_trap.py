@@ -1,39 +1,35 @@
 import numpy as np
+from pytest import fixture
 
 from evobench.model import Solution
 
 from ..trap import Trap
 
-__BLOCK_SIZE = 8
+__BLOCK_SIZE = 4
 __REPETITIONS = 3
 
-__GLOBAL_OPTIMUM = 24
-__LOCAL_OPTIMUM = 21
+__SAMPLES = [
+    ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 9),
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 12),
+    ([0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0], 0),
+]
 
 
-def test_global_optimum():
+@fixture
+def trap() -> Trap:
+    return Trap(__BLOCK_SIZE, __REPETITIONS)
 
+
+def test_samples(trap: Trap):
+    for genome, score in __SAMPLES:
+        solution = Solution(np.array(genome))
+        pred_score = trap.evaluate_solution(solution)
+
+        assert isinstance(pred_score, float)
+        assert pred_score == score
+
+
+def test_as_dict():
     trap = Trap(__BLOCK_SIZE, __REPETITIONS)
 
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-
-    solution = Solution(genome)
-    score = trap.evaluate_solution(solution)
-
-    assert isinstance(score, float)
-    assert score == __GLOBAL_OPTIMUM
-
-
-def test_local_optimum():
-
-    trap = Trap(__BLOCK_SIZE, __REPETITIONS)
-
-    genome = [1] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-
-    solution = Solution(genome)
-    score = trap.evaluate_solution(solution)
-
-    assert isinstance(score, float)
-    assert score == __LOCAL_OPTIMUM
+    assert isinstance(trap.as_dict, dict)

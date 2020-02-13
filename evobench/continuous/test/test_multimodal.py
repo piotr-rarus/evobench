@@ -1,27 +1,28 @@
 import numpy as np
+from pytest import fixture
 
 from evobench.model import Solution
 
 from ..multimodal import Multimodal
 
 __BLOCK_SIZE = 5
-__REPETITIONS = 4
-__MIN = 0
+__REPETITIONS = 2
 
 
-def test_min():
+__SAMPLES = [
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0),
+]
 
-    multimodal = Multimodal(
-        block_size=__BLOCK_SIZE,
-        repetitions=__REPETITIONS,
-        overlap_size=0
-    )
 
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
+@fixture
+def multimodal() -> Multimodal:
+    return Multimodal(block_size=__BLOCK_SIZE, repetitions=__REPETITIONS)
 
-    solution = Solution(genome)
-    fitness = multimodal.evaluate_solution(solution)
 
-    assert isinstance(fitness, float)
-    assert fitness == __MIN
+def test_samples(multimodal: Multimodal):
+    for genome, score in __SAMPLES:
+        solution = Solution(np.array(genome))
+        pred_score = multimodal.evaluate_solution(solution)
+
+        assert isinstance(pred_score, float)
+        assert pred_score == score

@@ -1,36 +1,32 @@
 import numpy as np
+from pytest import fixture
 
-from evobench.model import Population, Solution
-
-from ..step_bimodal import StepBimodal
+from evobench.discrete.step_bimodal import StepBimodal
+from evobench.model import Solution
 
 __BLOCK_SIZE = 11
-__REPETITIONS = 3
+__REPETITIONS = 1
 __STEP_SIZE = 2
 
-__GLOBAL_OPTIMUM = 4
-__LOCAL_OPTIMUM = 3
+
+SAMPLES = [
+    ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 3),
+    ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 3),
+    ([0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1], 2),
+    ([0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1], 1),
+
+]
 
 
-def test_global_optima():
+@fixture
+def step_bimodal() -> StepBimodal:
+    return StepBimodal(__BLOCK_SIZE, __REPETITIONS, __STEP_SIZE)
 
-    bimodal = StepBimodal(__BLOCK_SIZE, __REPETITIONS, __STEP_SIZE)
-    solutions = []
 
-    genome = [0] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-    solution = Solution(genome)
+def test_samples(step_bimodal: StepBimodal):
+    for genome, score in SAMPLES:
+        solution = Solution(np.array(genome))
+        pred_score = step_bimodal.evaluate_solution(solution)
 
-    solutions.append(solution)
-
-    genome = [1] * __BLOCK_SIZE * __REPETITIONS
-    genome = np.array(genome)
-    solution = Solution(genome)
-
-    solutions.append(solution)
-    population = Population(solutions)
-
-    scores = bimodal.evaluate_population(population)
-
-    assert [isinstance(score, int) for score in scores]
-    assert [score == __GLOBAL_OPTIMUM for score in scores]
+        assert isinstance(pred_score, float)
+        assert pred_score == score
