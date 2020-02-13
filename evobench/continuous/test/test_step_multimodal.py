@@ -1,7 +1,6 @@
-import numpy as np
 from pytest import fixture
 
-from evobench.model import Solution
+from evobench.util import check_samples
 
 from ..step_multimodal import StepMultimodal
 
@@ -23,9 +22,4 @@ def step_multimodal() -> StepMultimodal:
 
 
 def test_samples(step_multimodal: StepMultimodal):
-    for genome, score in __SAMPLES:
-        solution = Solution(np.array(genome))
-        pred_score = step_multimodal.evaluate_solution(solution)
-
-        assert isinstance(pred_score, float)
-        assert pred_score == score
+    check_samples(__SAMPLES, step_multimodal)

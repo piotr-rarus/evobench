@@ -1,7 +1,5 @@
-import numpy as np
 from pytest import fixture
-
-from evobench.model import Solution
+from evobench.util import check_samples
 
 from ..hiff import Hiff
 
@@ -21,9 +19,4 @@ def hiff() -> Hiff:
 
 
 def test_samples(hiff: Hiff):
-    for genome, score in __SAMPLES:
-        solution = Solution(np.array(genome))
-        pred_score = hiff.evaluate_solution(solution)
-
-        assert isinstance(pred_score, float)
-        assert pred_score == score
+    check_samples(__SAMPLES, hiff)

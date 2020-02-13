@@ -1,7 +1,6 @@
-import numpy as np
 from pytest import fixture
 
-from evobench.model import Solution
+from evobench.util import check_samples
 
 from ..sawtooth import Sawtooth
 
@@ -21,9 +20,4 @@ def sawtooth() -> Sawtooth:
 
 
 def test_samples(sawtooth: Sawtooth):
-    for genome, score in __SAMPLES:
-        solution = Solution(np.array(genome))
-        pred_score = sawtooth.evaluate_solution(solution)
-
-        assert isinstance(pred_score, float)
-        assert pred_score == score
+    check_samples(__SAMPLES, sawtooth)

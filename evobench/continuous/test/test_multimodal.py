@@ -1,7 +1,6 @@
-import numpy as np
 from pytest import fixture
 
-from evobench.model import Solution
+from evobench.util import check_samples
 
 from ..multimodal import Multimodal
 
@@ -20,9 +19,4 @@ def multimodal() -> Multimodal:
 
 
 def test_samples(multimodal: Multimodal):
-    for genome, score in __SAMPLES:
-        solution = Solution(np.array(genome))
-        pred_score = multimodal.evaluate_solution(solution)
-
-        assert isinstance(pred_score, float)
-        assert pred_score == score
+    check_samples(__SAMPLES, multimodal)

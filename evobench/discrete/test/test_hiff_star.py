@@ -1,7 +1,5 @@
-import numpy as np
 from pytest import fixture
-
-from evobench.model import Solution
+from evobench.util import check_samples
 
 from ..hiff_star import HiffStar
 
@@ -21,8 +19,4 @@ def hiff_star() -> HiffStar:
 
 
 def test_scores(hiff_star: HiffStar):
-    for genome, score in __SAMPLES:
-        solution = Solution(np.array(genome))
-        pred_score = hiff_star.evaluate_solution(solution)
-
-        assert pred_score == __GLOBAL_OPTIMUM
+    check_samples(__SAMPLES, hiff_star)
