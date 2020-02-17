@@ -14,7 +14,7 @@ setuptools.setup(
 
     url='https://github.com/piotr-rarus/evobench',
     license='MIT',
-    version='0.0.3',
+    version='0.0.4',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -29,8 +29,11 @@ setuptools.setup(
         'sympy',
         'lazy',
         'tqdm'
-
     ],
+    package_data={
+        'evobench.discrete.isg': ['data/*.txt']
+    },
+    include_package_data=True,
     tests_require=[
         'pytest',
         'pytest-cov',
