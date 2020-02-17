@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod, abstractproperty
-from multiprocessing import Pool
+from functools import partial
+from multiprocessing import Manager, Pool, RLock
 from typing import Dict
 
 import numpy as np
 from lazy import lazy
+from tqdm import tqdm
 
 from evobench.model.population import Population
 from evobench.model.solution import Solution
-from multiprocessing import RLock, Manager
-from functools import partial
 
 
 class Benchmark(ABC):
@@ -60,9 +60,16 @@ class Benchmark(ABC):
         manager = Manager()
         lock = manager.RLock()
 
+        tqdm.write('\n')
+        tqdm.write(
+            'Evaluating population of {} solutions'
+            .format(population.length)
+        )
+        tqdm.write('\n')
+
         fitness = pool.map(
             partial(self.evaluate_solution, lock=lock),
-            population.solutions
+            tqdm(population.solutions)
         )
 
         fitness = np.array(fitness, dtype=np.float16)

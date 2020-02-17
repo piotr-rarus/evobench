@@ -12,7 +12,7 @@ class Uniform(Initialization):
         self.low = low
         self.high = high
 
-    def initialize_population(self, genome_size: int) -> Population:
+    def _initialize_population(self, genome_size: int) -> Population:
 
         solutions = []
 

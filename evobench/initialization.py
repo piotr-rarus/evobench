@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Dict
 
 from lazy import lazy
+from tqdm import tqdm
 
 from evobench.model import Population
 
@@ -17,8 +18,18 @@ class Initialization(ABC):
 
         self.POPULATION_SIZE = int(population_size)
 
-    @abstractmethod
     def initialize_population(self, genome_size: int) -> Population:
+        tqdm.write('\n')
+        tqdm.write(
+            'Initializing population of {} solutions'
+            .format(self.POPULATION_SIZE)
+        )
+        tqdm.write('\n')
+
+        return self._initialize_population(genome_size)
+
+    @abstractmethod
+    def _initialize_population(self, genome_size: int) -> Population:
         pass
 
     @lazy
