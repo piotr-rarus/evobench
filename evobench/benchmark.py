@@ -12,6 +12,11 @@ from functools import partial
 
 
 class Benchmark(ABC):
+    """
+    Base class for problem encapsulation.
+    If you wish to implement your own problem, please
+    inherit from this class.
+    """
 
     def __init__(self):
         super(Benchmark, self).__init__()
@@ -23,6 +28,11 @@ class Benchmark(ABC):
 
     @lazy
     def as_dict(self) -> Dict:
+        """
+        Benchmark description in dictionary format.
+        You can dump it as `json` file to log your research.
+        """
+
         as_dict = {}
 
         as_dict['name'] = self.__class__.__name__
@@ -31,6 +41,21 @@ class Benchmark(ABC):
         return as_dict
 
     def evaluate_population(self, population: Population) -> np.ndarray:
+        """
+        Evaluates population of solutions.
+
+        Parameters
+        ----------
+        population : Population
+            Collection of solutions wrapped as `Population`.
+
+        Returns
+        -------
+        np.ndarray
+            An array of fitness values.
+            Order is the same as input population.
+        """
+
         pool = Pool()
         manager = Manager()
         lock = manager.RLock()
@@ -49,6 +74,22 @@ class Benchmark(ABC):
         solution: Solution,
         lock: RLock = None
     ) -> float:
+        """
+        Evaluate fitness of a single solution.
+
+        Parameters
+        ----------
+        solution : Solution
+            Genome wrapped as `Solution`.
+        lock : RLock, optional
+            Lock to access ffe counter, by default None
+
+        Returns
+        -------
+        float
+            Fitness value.
+        """
+
         if lock:
             with lock:
                 self.ffe += 1

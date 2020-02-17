@@ -10,12 +10,28 @@ from evobench.model import Solution
 
 class Separable(Benchmark):
 
+    """
+    Base class for fully separable problems.
+    """
+
     def __init__(
         self,
         block_size: int,
         repetitions: int,
         overlap_size: int = 0
     ):
+        """
+        Parameters
+        ----------
+        block_size : int
+            Size of a single block.
+        repetitions : int
+            Number of concats.
+            That many times your base problem will be repeated.
+        overlap_size : int, optional
+            That many genes will overlap between different blocks, by default 0
+        """
+
         super(Separable, self).__init__()
 
         self.BLOCK_SIZE = block_size
@@ -31,6 +47,11 @@ class Separable(Benchmark):
 
     @lazy
     def as_dict(self) -> Dict:
+        """
+        Initialization description in dictionary format.
+        You can dump it as `json` file to log your research.
+        """
+
         as_dict = {}
         as_dict['block_size'] = self.BLOCK_SIZE
         as_dict['repetitions'] = self.REPETITIONS
@@ -56,4 +77,18 @@ class Separable(Benchmark):
 
     @abstractmethod
     def evaluate_block(self, block: np.ndarray) -> float:
+        """
+        Base evaluation of single block.
+        If you wish to implement your own problem, please implement this.
+
+        Parameters
+        ----------
+        block : np.ndarray
+            Separated genome slice of your problem.
+
+        Returns
+        -------
+        float
+            Fitness value of a block.
+        """
         pass

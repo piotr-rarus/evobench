@@ -14,6 +14,18 @@ from .parser import load
 class IsingSpinGlass(Benchmark):
 
     def __init__(self, config_name: str):
+        """
+        Instantiates _ISG_ benchmark
+
+        Parameters
+        ----------
+        config_name : str
+            Name of configuration file, without suffix.
+            Predefined configurations can be found at
+            `evobench.discrete.isg.data`. These problem files are ported from
+            _P3_ repository.
+        """
+
         super(IsingSpinGlass, self).__init__()
         self.config_name = config_name
 

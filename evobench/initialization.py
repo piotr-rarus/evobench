@@ -8,6 +8,10 @@ from evobench.model import Population
 
 class Initialization(ABC):
 
+    """
+    Base class for population initialization.
+    """
+
     def __init__(self, population_size: int):
         super(Initialization, self).__init__()
 
@@ -19,6 +23,11 @@ class Initialization(ABC):
 
     @lazy
     def as_dict(self) -> Dict:
+        """
+        Initialization description in dictionary format.
+        You can dump it as `json` file to log your research.
+        """
+
         as_dict = {}
 
         as_dict['name'] = self.__class__.__name__
