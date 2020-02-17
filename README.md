@@ -1,1 +1,61 @@
-evobench
+# Evobench
+
+Evobench is a collection of benchmark problems dedicated for model-based large scale optimization.
+
+## Overview
+
+This package contains following problems.
+
+### Discrete
+
+- trap
+- step trap
+- bimodal
+- step bimodal
+- HIFF
+- Ising Spin Glass
+
+### Continous
+
+- trap
+- multimodal
+- step multimodal
+- sawtooth
+
+## Getting started
+
+```sh
+pip install evobench
+```
+
+```py
+import evobench
+
+
+trap = evobench.discrete.Trap(block_size=5, repetitions=3)
+initialization = evobench.discrete.initialization.Uniform(population_size=4e3)
+
+population = initialization.initialize_population(trap.genome_size)
+fitness = trap.evaluate_population(population)
+```
+
+You can also evaluate single solution.
+
+```py
+fitness = trap.evaluate_solution(population.solutions[0])
+```
+
+Everytime you're evaluating solutions we increment _ffe_ counter.
+You can access it through `benchmark` instance.
+
+```py
+print(trap.ffe)
+```
+
+## Coming soon
+
+We'll be adding more problems in near future. If you're looking for any particular problem, please mail us or open an issue.
+
+We're thinking about interactive visualizations, so you can sample the space and check how it looks. It's easier than digging through definitions.
+
+We're working on linkage quality metrics. Once they're published, we'll incorporate them to this package.

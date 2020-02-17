@@ -1,0 +1,7 @@
+numpy
+flake8
+sympy
+lazy
+pytest
+pytest-cov
+tqdm
