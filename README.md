@@ -15,7 +15,7 @@ This package contains following problems.
 - HIFF
 - Ising Spin Glass
 
-### Continous
+### Continuous
 
 - trap
 - multimodal
@@ -45,7 +45,7 @@ You can also evaluate single solution.
 fitness = trap.evaluate_solution(population.solutions[0])
 ```
 
-Everytime you're evaluating solutions we increment _ffe_ counter.
+Every time you're evaluating solutions we increment _ffe_ counter.
 You can access it through `benchmark` instance.
 
 ```py
@@ -54,7 +54,7 @@ print(trap.ffe)
 
 ## Ising Spin Glass
 
-To instantiate _ISG_ you neet to pass specific problem configuaration.
+To instantiate _ISG_ you need to pass specific problem configuration.
 
 ```py
 from evobench.discrete import IsingSpinGlass

@@ -29,7 +29,6 @@ setuptools.setup(
         'sympy',
         'lazy',
         'tqdm'
-
     ],
     tests_require=[
         'pytest',
