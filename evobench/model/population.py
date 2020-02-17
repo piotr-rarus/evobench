@@ -11,6 +11,10 @@ from .solution import Solution
 class Population:
     solutions: List[Solution]
 
+    @property
+    def length(self) -> int:
+        return len(self.solutions)
+
     @lazy
     def as_ndarray(self) -> np.ndarray:
         population = [solution.genome for solution in self.solutions]

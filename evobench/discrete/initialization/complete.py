@@ -16,7 +16,7 @@ class Complete(Initialization):
     def __init__(self, population_size: int):
         super().__init__(population_size)
 
-    def initialize_population(self, genome_size: int) -> Population:
+    def _initialize_population(self, genome_size: int) -> Population:
 
         solutions = variations([0, 1], genome_size, repetition=True)
 
