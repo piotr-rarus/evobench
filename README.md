@@ -65,6 +65,17 @@ isg = IsingSpinGlass('IsingSpinGlass_pm_16_0')
 
 You can find 5,000 instances at `evobench\discrete\isg\data` folder. Instances vary in length and complexity.
 
+## How to implement your own function
+
+### Fully separable
+
+You need to inherit `Separable` class from `evobench.separable`.
+Then just implement `def evaluate_block(self, block: np.ndarray) -> int` method. Best follow `evobench.discrete.trap` implementation.
+
+### Other
+
+Inherit `Benchmark` class from `evobench.benchmark`. Then implement `def _evaluate_solution(self, solution: Solution) -> float` method.
+
 ## Coming soon
 
 We'll be adding more problems in near future. If you're looking for any particular problem, please mail us or open an issue.
