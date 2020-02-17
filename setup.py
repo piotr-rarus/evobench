@@ -30,6 +30,10 @@ setuptools.setup(
         'lazy',
         'tqdm'
     ],
+    package_data={
+        'evobench.discrete.isg': ['data/*.txt']
+    },
+    include_package_data=True,
     tests_require=[
         'pytest',
         'pytest-cov',
