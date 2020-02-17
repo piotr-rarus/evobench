@@ -8,6 +8,10 @@ from evobench.model import Population, Solution
 
 
 class Complete(Initialization):
+    """
+    Returns all samples from a given discrete distribution.
+    Sometimes useful ;)
+    """
 
     def __init__(self, population_size: int):
         super().__init__(population_size)
