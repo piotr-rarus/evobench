@@ -52,6 +52,19 @@ You can access it through `benchmark` instance.
 print(trap.ffe)
 ```
 
+## Ising Spin Glass
+
+To instantiate _ISG_ you neet to pass specific problem configuaration.
+
+```py
+from evobench.discrete import IsingSpinGlass
+
+
+isg = IsingSpinGlass('IsingSpinGlass_pm_16_0')
+```
+
+You can find 5,000 instances at `evobench\discrete\isg\data` folder. Instances vary in length and complexity.
+
 ## Coming soon
 
 We'll be adding more problems in near future. If you're looking for any particular problem, please mail us or open an issue.
