@@ -7,9 +7,15 @@ from lazy import lazy
 
 from evobench.model.population import Population
 from evobench.model.solution import Solution
+from multiprocessing import RLock, Manager
+from functools import partial
 
 
 class Benchmark(ABC):
+
+    def __init__(self):
+        super(Benchmark, self).__init__()
+        self.ffe = 0
 
     @abstractproperty
     def genome_size(self) -> int:
@@ -26,11 +32,29 @@ class Benchmark(ABC):
 
     def evaluate_population(self, population: Population) -> np.ndarray:
         pool = Pool()
-        fitness = pool.map(self.evaluate_solution, population.solutions)
+        manager = Manager()
+        lock = manager.RLock()
+
+        fitness = pool.map(
+            partial(self.evaluate_solution, lock=lock),
+            population.solutions
+        )
+
         fitness = np.array(fitness, dtype=np.float16)
 
         return fitness
 
+    def evaluate_solution(
+        self,
+        solution: Solution,
+        lock: RLock = None
+    ) -> float:
+        if lock:
+            with lock:
+                self.ffe += 1
+
+        return self._evaluate_solution(solution)
+
     @abstractmethod
-    def evaluate_solution(self, solution: Solution) -> float:
+    def _evaluate_solution(self, solution: Solution) -> float:
         pass

@@ -49,7 +49,7 @@ class IsingSpinGlass(Benchmark):
 
         return as_dict
 
-    def evaluate_solution(self, solution: Solution) -> float:
+    def _evaluate_solution(self, solution: Solution) -> float:
 
         energy = 0.0
 
