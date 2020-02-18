@@ -6,8 +6,14 @@ from evobench.model import Population, Solution
 
 class Uniform(Initialization):
 
-    def __init__(self, population_size: int, low: float = 0, high: float = 1):
-        super(Uniform, self).__init__(population_size)
+    def __init__(
+        self,
+        population_size: int,
+        low: float = 0,
+        high: float = 1,
+        random_seed: int = 0
+    ):
+        super(Uniform, self).__init__(population_size, random_seed)
 
         self.low = low
         self.high = high

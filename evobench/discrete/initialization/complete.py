@@ -13,7 +13,7 @@ class Complete(Initialization):
     Sometimes useful ;)
     """
 
-    def __init__(self, population_size: int):
+    def __init__(self, population_size: int, random_seed: int = 0):
         super().__init__(population_size)
 
     def _initialize_population(self, genome_size: int) -> Population:

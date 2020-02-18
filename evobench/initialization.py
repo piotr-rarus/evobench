@@ -3,7 +3,7 @@ from typing import Dict
 
 from lazy import lazy
 from tqdm import tqdm
-
+import numpy as np
 from evobench.model import Population
 
 
@@ -13,10 +13,12 @@ class Initialization(ABC):
     Base class for population initialization.
     """
 
-    def __init__(self, population_size: int):
+    def __init__(self, population_size: int, random_seed: int = 0):
         super(Initialization, self).__init__()
 
         self.POPULATION_SIZE = int(population_size)
+        self.RANDOM_SEED = random_seed
+        np.random.seed(random_seed)
 
     def initialize_population(self, genome_size: int) -> Population:
         tqdm.write('\n')
