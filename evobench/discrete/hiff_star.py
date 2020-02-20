@@ -13,7 +13,7 @@ class HiffStar(Separable):
     ):
         super(HiffStar, self).__init__(block_size, repetitions, overlap_size)
 
-    def evaluate_block(self, block: np.ndarray) -> int:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
 
         fitness = 0
         level = 1

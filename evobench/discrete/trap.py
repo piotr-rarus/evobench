@@ -15,7 +15,7 @@ class Trap(Separable):
 
         self.GLOBAL_OPTIMUM = self.BLOCK_SIZE
 
-    def evaluate_block(self, block: np.ndarray) -> int:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():
             return self.GLOBAL_OPTIMUM
         else:

@@ -17,7 +17,7 @@ class Multimodal(Separable):
 
         self.GLOBAL_OPTIMUM = 1
 
-    def evaluate_block(self, block: np.ndarray) -> float:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
         fitness = abs(math.sin(s))
 

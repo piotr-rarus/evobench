@@ -24,7 +24,7 @@ class StepBimodal(Separable):
         self.GLOBAL_OPTIMUM = self.LOCAL_OPTIMUM + 1
         self.HALF_RANGE = self.BLOCK_SIZE // 2
 
-    def evaluate_block(self, block: np.ndarray) -> int:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():
             return self.GLOBAL_OPTIMUM
 

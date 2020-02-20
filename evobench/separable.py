@@ -71,12 +71,16 @@ class Separable(Benchmark):
             block = solution.genome[start:start+self.BLOCK_SIZE]
             blocks.append(block)
 
-        score = sum(self.evaluate_block(block) for block in blocks)
+        score = sum(
+            self.evaluate_block(block, index)
+            for index, block
+            in enumerate(blocks)
+        )
 
         return float(score)
 
     @abstractmethod
-    def evaluate_block(self, block: np.ndarray) -> float:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         """
         Base evaluation of single block.
         If you wish to implement your own problem, please implement this.
@@ -85,6 +89,7 @@ class Separable(Benchmark):
         ----------
         block : np.ndarray
             Separated genome slice of your problem.
+        block_index : int
 
         Returns
         -------

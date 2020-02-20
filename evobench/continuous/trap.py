@@ -15,7 +15,7 @@ class Trap(Separable):
 
         self.GLOBAL_OPTIMUM = float('inf')
 
-    def evaluate_block(self, block: np.ndarray) -> float:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
 
         fitness = 0
