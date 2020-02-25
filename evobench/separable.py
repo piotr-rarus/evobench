@@ -27,6 +27,7 @@ class Separable(Benchmark):
         super(Separable, self).__init__()
 
         self.BLOCKS = blocks
+        self.OVERLAP_SIZE = overlap_size
 
         self.GENOME_SIZE = sum(blocks)
         self.GENOME_SIZE -= (len(blocks) - 1) * self.OVERLAP_SIZE
@@ -44,6 +45,7 @@ class Separable(Benchmark):
 
         as_dict = {}
         as_dict['blocks'] = self.BLOCKS
+        as_dict['overlap_size'] = self.OVERLAP_SIZE
 
         benchmark_as_dict = super().as_dict
         as_dict = {**benchmark_as_dict, **as_dict}
