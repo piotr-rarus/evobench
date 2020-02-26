@@ -83,7 +83,11 @@ class Benchmark(ABC):
         tqdm.write('\n')
 
         fitness = pool.map(
-            partial(self.evaluate_solution, lock=lock),
+            partial(
+                self.evaluate_solution,
+                gene_order=self.gene_order,
+                lock=lock
+            ),
             tqdm(population.solutions)
         )
 
@@ -94,7 +98,8 @@ class Benchmark(ABC):
     def evaluate_solution(
         self,
         solution: Solution,
-        lock: RLock = None
+        gene_order: List[int] = None,
+        lock: RLock = None,
     ) -> float:
         """
         Evaluate fitness of a single solution.
