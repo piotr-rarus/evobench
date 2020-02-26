@@ -9,8 +9,13 @@ from evobench.separable import Separable
 
 class Sawtooth(Separable):
 
-    def __init__(self, blocks: List[int], overlap_size: int = 0):
-        super(Sawtooth, self).__init__(blocks, overlap_size)
+    def __init__(
+        self,
+        blocks: List[int],
+        overlap_size: int = 0,
+        shuffle: bool = False
+    ):
+        super(Sawtooth, self).__init__(blocks, overlap_size, shuffle)
 
     @lazy
     def global_opt(self) -> float:

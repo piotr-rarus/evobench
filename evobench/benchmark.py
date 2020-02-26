@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from functools import partial
 from multiprocessing import Manager, Pool, RLock
-from typing import Dict
+from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
@@ -18,9 +18,10 @@ class Benchmark(ABC):
     inherit from this class.
     """
 
-    def __init__(self):
+    def __init__(self, shuffle: bool = False):
         super(Benchmark, self).__init__()
         self.ffe = 0
+        self.shuffle = shuffle
 
     @abstractproperty
     def genome_size(self) -> int:
@@ -29,6 +30,15 @@ class Benchmark(ABC):
     @abstractproperty
     def global_opt(self) -> float:
         pass
+
+    @lazy
+    def gene_order(self) -> List[int]:
+        gene_order = range(0, self.genome_size)
+
+        if self.shuffle:
+            gene_order = np.random.permutation(gene_order)
+
+        return gene_order
 
     @lazy
     def as_dict(self) -> Dict:
@@ -41,6 +51,7 @@ class Benchmark(ABC):
 
         as_dict['name'] = self.__class__.__name__
         as_dict['genome_size'] = self.genome_size
+        as_dict['shuffle'] = self.shuffle
 
         return as_dict
 
@@ -104,6 +115,16 @@ class Benchmark(ABC):
         if lock:
             with lock:
                 self.ffe += 1
+        else:
+            self.ffe += 1
+
+        if self.shuffle:
+            shuffled = []
+
+            for gene_index in self.gene_order:
+                shuffled.append(solution.genome[gene_index])
+
+            solution = Solution(np.array(shuffled))
 
         return self._evaluate_solution(solution)
 
