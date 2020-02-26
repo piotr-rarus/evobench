@@ -3,11 +3,6 @@ from pytest import fixture
 from evobench.discrete.bimodal import Bimodal
 from evobench.util import check_samples
 
-__BLOCK_SIZE = 6
-__REPETITIONS = 2
-
-__GLOBAL_OPTIMUM = 6
-__LOCAL_OPTIMUM = 4
 
 __SAMPLES = [
     ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 6),
@@ -18,8 +13,13 @@ __SAMPLES = [
 
 @fixture
 def bimodal() -> Bimodal:
-    return Bimodal(__BLOCK_SIZE, __REPETITIONS)
+    return Bimodal(blocks=[6, 6])
 
 
 def test_samples(bimodal: Bimodal):
     check_samples(__SAMPLES, bimodal)
+
+
+def test_global_opt(bimodal: Bimodal):
+    assert isinstance(bimodal.global_opt, float)
+    assert bimodal.global_opt == 6

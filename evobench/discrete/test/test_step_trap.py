@@ -4,9 +4,6 @@ from evobench.util import check_samples
 
 from ..step_trap import StepTrap
 
-__BLOCK_SIZE = 6
-__REPETITIONS = 2
-__STEP_SIZE = 2
 
 __SAMPLES = [
     ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 6),
@@ -16,11 +13,19 @@ __SAMPLES = [
 
 @fixture
 def step_trap() -> StepTrap:
-    return StepTrap(__BLOCK_SIZE, __REPETITIONS, __STEP_SIZE)
+    return StepTrap(
+        blocks=[6, 6],
+        step_size=2
+    )
 
 
 def test_samples(step_trap: StepTrap):
     check_samples(__SAMPLES, step_trap)
+
+
+def test_global_opt(step_trap: StepTrap):
+    assert isinstance(step_trap.global_opt, float)
+    assert step_trap.global_opt == 6
 
 
 def test_as_dict(step_trap: StepTrap):

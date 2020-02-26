@@ -26,6 +26,10 @@ class Benchmark(ABC):
     def genome_size(self) -> int:
         pass
 
+    @abstractproperty
+    def global_opt(self) -> float:
+        pass
+
     @lazy
     def as_dict(self) -> Dict:
         """
