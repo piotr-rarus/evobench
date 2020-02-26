@@ -1,4 +1,5 @@
 import math
+from typing import List
 
 import numpy as np
 
@@ -9,16 +10,11 @@ class StepMultimodal(Separable):
 
     def __init__(
         self,
-        block_size: int,
-        repetitions: int,
-        step_size: float,
+        blocks: List[int],
+        step_size: int,
         overlap_size: int = 0
     ):
-        super(StepMultimodal, self).__init__(
-            block_size,
-            repetitions,
-            overlap_size
-        )
+        super(StepMultimodal, self).__init__(blocks, overlap_size)
 
         self.STEP_SIZE = step_size
         self.GLOBAL_OPTIMUM = 1

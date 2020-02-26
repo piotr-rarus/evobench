@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
@@ -10,19 +10,18 @@ class StepTrap(Separable):
 
     def __init__(
         self,
-        block_size: int,
-        repetitions: int,
+        blocks: List[int],
         step_size: int,
         overlap_size: int = 0
     ):
-        super(StepTrap, self).__init__(block_size, repetitions, overlap_size)
+        super(StepTrap, self).__init__(blocks, overlap_size)
 
         self.STEP_SIZE = step_size
-        self.GLOBAL_OPTIMUM = self.BLOCK_SIZE // self.STEP_SIZE
+        self.GLOBAL_OPTIMUM = sum(block.size // step_size for block in blocks)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():
-            return self.GLOBAL_OPTIMUM
+            return block.size // self.STEP_SIZE
         else:
             return (np.count_nonzero(block) + 1) // self.STEP_SIZE - 1
 
