@@ -4,9 +4,6 @@ from evobench.util import check_samples
 
 from ..multimodal import Multimodal
 
-__BLOCK_SIZE = 5
-__REPETITIONS = 2
-
 
 __SAMPLES = [
     ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0),
@@ -15,8 +12,13 @@ __SAMPLES = [
 
 @fixture
 def multimodal() -> Multimodal:
-    return Multimodal(block_size=__BLOCK_SIZE, repetitions=__REPETITIONS)
+    return Multimodal(blocks=[5, 5])
 
 
 def test_samples(multimodal: Multimodal):
     check_samples(__SAMPLES, multimodal)
+
+
+def test_global_opt(multimodal: Multimodal):
+    assert isinstance(multimodal.global_opt, float)
+    assert multimodal.global_opt == 2

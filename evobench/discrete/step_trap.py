@@ -15,9 +15,12 @@ class StepTrap(Separable):
         overlap_size: int = 0
     ):
         super(StepTrap, self).__init__(blocks, overlap_size)
-
         self.STEP_SIZE = step_size
-        self.GLOBAL_OPTIMUM = sum(block.size // step_size for block in blocks)
+
+    @lazy
+    def global_opt(self) -> float:
+        global_opt = sum(block // self.STEP_SIZE for block in self.BLOCKS)
+        return float(global_opt)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():

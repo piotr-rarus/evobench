@@ -4,9 +4,6 @@ from evobench.util import check_samples
 
 from ..sawtooth import Sawtooth
 
-__BLOCK_SIZE = 5
-__REPETITIONS = 2
-
 __SAMPLES = [
     ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0),
     ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 0),
@@ -16,8 +13,13 @@ __SAMPLES = [
 
 @fixture
 def sawtooth() -> Sawtooth:
-    return Sawtooth(block_size=__BLOCK_SIZE, repetitions=__REPETITIONS)
+    return Sawtooth(blocks=[5, 5])
 
 
 def test_samples(sawtooth: Sawtooth):
     check_samples(__SAMPLES, sawtooth)
+
+
+def test_global_opt(sawtooth: Sawtooth):
+    assert isinstance(sawtooth.global_opt, float)
+    assert sawtooth.global_opt == 2

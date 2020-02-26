@@ -4,9 +4,6 @@ from evobench.util import check_samples
 
 from ..trap import Trap
 
-__BLOCK_SIZE = 5
-__REPETITIONS = 2
-
 
 __SAMPLES = [
     ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], float('inf')),
@@ -17,11 +14,13 @@ __SAMPLES = [
 
 @fixture
 def trap() -> Trap:
-    return Trap(
-        block_size=__BLOCK_SIZE,
-        repetitions=__REPETITIONS
-    )
+    return Trap(blocks=[5, 5])
 
 
 def test_samples(trap: Trap):
     check_samples(__SAMPLES, trap)
+
+
+def test_global_opt(trap: Trap):
+    assert isinstance(trap.global_opt, float)
+    assert trap.global_opt == float('inf')

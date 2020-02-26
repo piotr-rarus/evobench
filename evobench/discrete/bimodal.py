@@ -1,6 +1,7 @@
 from typing import List
 
 import numpy as np
+from lazy import lazy
 
 from evobench.separable import Separable
 
@@ -8,9 +9,12 @@ from evobench.separable import Separable
 class Bimodal(Separable):
 
     def __init__(self, blocks: List[int], overlap_size: int = 0):
-
         super(Bimodal, self).__init__(blocks, overlap_size)
-        self.GLOBAL_OPTIMUM = sum(block.size // 2 for block in blocks)
+
+    @lazy
+    def global_opt(self) -> float:
+        global_opt = sum(block // 2 for block in self.BLOCKS)
+        return float(global_opt)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
 
@@ -22,7 +26,7 @@ class Bimodal(Separable):
         unitation = np.count_nonzero(block)
 
         if unitation == block.size:
-            return block.size
+            return block.size // 2
 
         if unitation < half_range:
             return unitation - 1

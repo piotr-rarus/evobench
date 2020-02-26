@@ -20,7 +20,7 @@ def initialization() -> Initialization:
 
 @fixture(scope='session')
 def benchmark() -> Benchmark:
-    benchmark = Trap(block_size=6, repetitions=4)
+    benchmark = Trap(blocks=[6, 6, 6, 6])
     return benchmark
 
 

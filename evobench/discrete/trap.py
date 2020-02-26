@@ -10,7 +10,10 @@ class Trap(Separable):
 
     def __init__(self, blocks: List[int], overlap_size: int = 0):
         super(Trap, self).__init__(blocks, overlap_size)
-        self.GLOBAL_OPTIMUM = sum(blocks)
+
+    @lazy
+    def global_opt(self) -> float:
+        return float(sum(self.BLOCKS))
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():

@@ -2,7 +2,7 @@ import math
 from typing import List
 
 import numpy as np
-
+from lazy import lazy
 from evobench.separable import Separable
 
 
@@ -17,7 +17,10 @@ class StepMultimodal(Separable):
         super(StepMultimodal, self).__init__(blocks, overlap_size)
 
         self.STEP_SIZE = step_size
-        self.GLOBAL_OPTIMUM = 1
+
+    @lazy
+    def global_opt(self) -> float:
+        return float(len(self.BLOCKS))
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
