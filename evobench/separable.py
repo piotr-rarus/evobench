@@ -14,7 +14,12 @@ class Separable(Benchmark):
     Base class for fully separable problems.
     """
 
-    def __init__(self, blocks: List[int], overlap_size: int = 0):
+    def __init__(
+        self,
+        blocks: List[int],
+        overlap_size: int = 0,
+        shuffle: bool = False
+    ):
         """
         Parameters
         ----------
@@ -22,9 +27,11 @@ class Separable(Benchmark):
             Sizes of each block
         overlap_size : int, optional
             That many genes will overlap between different blocks, by default 0
+        shuffle : bool, optional
+            Whether to shuffle the genome, by default False
         """
 
-        super(Separable, self).__init__()
+        super(Separable, self).__init__(shuffle)
 
         self.BLOCKS = blocks
         self.OVERLAP_SIZE = overlap_size

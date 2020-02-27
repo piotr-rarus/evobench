@@ -13,7 +13,7 @@ from .parser import load
 
 class IsingSpinGlass(Benchmark):
 
-    def __init__(self, config_name: str):
+    def __init__(self, config_name: str, shuffle: bool = False):
         """
         Instantiates _ISG_ benchmark
 
@@ -26,7 +26,7 @@ class IsingSpinGlass(Benchmark):
             _P3_ repository.
         """
 
-        super(IsingSpinGlass, self).__init__()
+        super(IsingSpinGlass, self).__init__(shuffle)
         self.config_name = config_name
 
     @lazy

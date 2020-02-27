@@ -12,9 +12,10 @@ class StepBimodal(Separable):
         self,
         blocks: List[int],
         step_size: int,
-        overlap_size: int = 0
+        overlap_size: int = 0,
+        shuffle: bool = False
     ):
-        super(StepBimodal, self).__init__(blocks, overlap_size)
+        super(StepBimodal, self).__init__(blocks, overlap_size, shuffle)
         self.STEP_SIZE = step_size
 
     @lazy

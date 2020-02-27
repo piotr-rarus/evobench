@@ -12,9 +12,10 @@ class StepMultimodal(Separable):
         self,
         blocks: List[int],
         step_size: int,
-        overlap_size: int = 0
+        overlap_size: int = 0,
+        shuffle: bool = False
     ):
-        super(StepMultimodal, self).__init__(blocks, overlap_size)
+        super(StepMultimodal, self).__init__(blocks, overlap_size, shuffle)
 
         self.STEP_SIZE = step_size
 
