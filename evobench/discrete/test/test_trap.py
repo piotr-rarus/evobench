@@ -1,7 +1,5 @@
-import numpy as np
 from pytest import fixture
 
-from evobench.model import Solution
 from evobench.util import check_samples
 
 from ..trap import Trap
@@ -29,12 +27,3 @@ def test_global_opt(trap: Trap):
 
 def test_as_dict(trap: Trap):
     assert isinstance(trap.as_dict, dict)
-
-
-def test_shuffle():
-    trap = Trap(blocks=[4, 4], shuffle=True)
-    solution = Solution(np.array([0] * 8))
-    pred_score = trap.evaluate_solution(solution)
-
-    assert isinstance(pred_score, float)
-    assert pred_score == 8

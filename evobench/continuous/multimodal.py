@@ -13,9 +13,15 @@ class Multimodal(Separable):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False
+        shuffle: bool = False,
+        multiprocessing: bool = False
     ):
-        super(Multimodal, self).__init__(blocks, overlap_size, shuffle)
+        super(Multimodal, self).__init__(
+            blocks,
+            overlap_size,
+            shuffle,
+            multiprocessing
+        )
 
     @lazy
     def global_opt(self) -> float:
