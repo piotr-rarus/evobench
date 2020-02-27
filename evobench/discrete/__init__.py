@@ -7,4 +7,3 @@ from .step_bimodal import StepBimodal
 from .step_trap import StepTrap
 from .trap import Trap
 from .isg.isg import IsingSpinGlass
-# from .max_sat import MaxSat
