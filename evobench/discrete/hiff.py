@@ -1,4 +1,7 @@
+from typing import List
+
 import numpy as np
+from lazy import lazy
 
 from evobench.separable import Separable
 
@@ -7,16 +10,22 @@ class Hiff(Separable):
 
     def __init__(
         self,
-        block_size: int,
-        repetitions: int,
-        overlap_size: int = 0
+        blocks: List[int],
+        overlap_size: int = 0,
+        shuffle: bool = False
     ):
-        super(Hiff, self).__init__(block_size, repetitions, overlap_size)
+        super(Hiff, self).__init__(blocks, overlap_size, shuffle)
 
-    def evaluate_block(self, block: np.ndarray) -> int:
+    @lazy
+    def global_opt(self) -> float:
 
-        fitness = 0
+        global_opt = sum(block * block // 2 for block in self.BLOCKS)
+        return float(global_opt)
+
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
+
         level = 1
+        fitness = self.evaluate_level(block, level)
 
         while block.size > 1:
             block = block.reshape((block.size // 2, 2))
@@ -28,8 +37,8 @@ class Hiff(Separable):
                 next_block.append(next_gene)
 
             block = np.array(next_block)
-            fitness += self.evaluate_level(block, level)
             level *= 2
+            fitness += self.evaluate_level(block, level)
 
         return fitness
 

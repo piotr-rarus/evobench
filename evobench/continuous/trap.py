@@ -1,4 +1,7 @@
+from typing import List
+
 import numpy as np
+from lazy import lazy
 
 from evobench.separable import Separable
 
@@ -7,21 +10,23 @@ class Trap(Separable):
 
     def __init__(
         self,
-        block_size: int,
-        repetitions: int,
-        overlap_size: int = 0
+        blocks: List[int],
+        overlap_size: int = 0,
+        shuffle: bool = False
     ):
-        super(Trap, self).__init__(block_size, repetitions, overlap_size)
+        super(Trap, self).__init__(blocks, overlap_size, shuffle)
 
-        self.GLOBAL_OPTIMUM = float('inf')
+    @lazy
+    def global_opt(self) -> float:
+        return float('inf')
 
-    def evaluate_block(self, block: np.ndarray) -> float:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
 
         fitness = 0
 
         if s == 0:
-            fitness = self.GLOBAL_OPTIMUM
+            fitness = float('inf')
         elif s < 1:
             fitness = 1 / s
         else:
