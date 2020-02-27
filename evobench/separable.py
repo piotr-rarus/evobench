@@ -18,7 +18,8 @@ class Separable(Benchmark):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False
+        shuffle: bool = False,
+        multiprocessing: bool = False
     ):
         """
         Parameters
@@ -29,9 +30,11 @@ class Separable(Benchmark):
             That many genes will overlap between different blocks, by default 0
         shuffle : bool, optional
             Whether to shuffle the genome, by default False
+        multiprocessing : bool, optional
+            Whether to evaluate population on all cores, by default False
         """
 
-        super(Separable, self).__init__(shuffle)
+        super(Separable, self).__init__(shuffle, multiprocessing)
 
         self.BLOCKS = blocks
         self.OVERLAP_SIZE = overlap_size

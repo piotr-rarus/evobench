@@ -12,9 +12,15 @@ class Trap(Separable):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False
+        shuffle: bool = False,
+        multiprocessing: bool = False
     ):
-        super(Trap, self).__init__(blocks, overlap_size, shuffle)
+        super(Trap, self).__init__(
+            blocks,
+            overlap_size,
+            shuffle,
+            multiprocessing
+        )
 
     @lazy
     def global_opt(self) -> float:

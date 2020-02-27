@@ -13,9 +13,15 @@ class StepMultimodal(Separable):
         blocks: List[int],
         step_size: int,
         overlap_size: int = 0,
-        shuffle: bool = False
+        shuffle: bool = False,
+        multiprocessing: bool = False
     ):
-        super(StepMultimodal, self).__init__(blocks, overlap_size, shuffle)
+        super(StepMultimodal, self).__init__(
+            blocks,
+            overlap_size,
+            shuffle,
+            multiprocessing
+        )
 
         self.STEP_SIZE = step_size
 
