@@ -1,7 +1,5 @@
-import numpy as np
 from pytest import fixture
 
-from evobench.model import Solution
 from evobench.util import check_samples
 
 from ..trap import Trap
