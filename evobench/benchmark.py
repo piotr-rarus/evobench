@@ -18,10 +18,11 @@ class Benchmark(ABC):
     inherit from this class.
     """
 
-    def __init__(self, shuffle: bool = False):
+    def __init__(self, shuffle: bool = False, multiprocessing: bool = False):
         super(Benchmark, self).__init__()
         self.ffe = 0
-        self.shuffle = shuffle
+        self.SHUFFLE = shuffle
+        self.MULTIPROCESSING = multiprocessing
 
     @abstractproperty
     def genome_size(self) -> int:
@@ -35,7 +36,7 @@ class Benchmark(ABC):
     def gene_order(self) -> List[int]:
         gene_order = range(0, self.genome_size)
 
-        if self.shuffle:
+        if self.SHUFFLE:
             gene_order = np.random.permutation(gene_order)
 
         return gene_order
@@ -51,7 +52,7 @@ class Benchmark(ABC):
 
         as_dict['name'] = self.__class__.__name__
         as_dict['genome_size'] = self.genome_size
-        as_dict['shuffle'] = self.shuffle
+        as_dict['shuffle'] = self.SHUFFLE
 
         return as_dict
 
@@ -71,10 +72,6 @@ class Benchmark(ABC):
             Order is the same as input population.
         """
 
-        pool = Pool()
-        manager = Manager()
-        lock = manager.RLock()
-
         tqdm.write('\n')
         tqdm.write(
             'Evaluating population of {} solutions'
@@ -82,18 +79,29 @@ class Benchmark(ABC):
         )
         tqdm.write('\n')
 
-        fitness = pool.map(
-            partial(
-                self.evaluate_solution,
-                gene_order=self.gene_order,
-                lock=lock
-            ),
-            tqdm(population.solutions)
-        )
+        fitness = None
 
-        fitness = np.array(fitness, dtype=np.float16)
+        if self.MULTIPROCESSING:
+            pool = Pool()
+            manager = Manager()
+            lock = manager.RLock()
 
-        return fitness
+            fitness = pool.map(
+                partial(
+                    self.evaluate_solution,
+                    gene_order=self.gene_order,
+                    lock=lock
+                ),
+                tqdm(population.solutions)
+            )
+
+        else:
+            fitness = [
+                self.evaluate_solution(solution)
+                for solution in population.solutions
+            ]
+
+        return np.array(fitness, dtype=np.float16)
 
     def evaluate_solution(
         self,
@@ -117,21 +125,27 @@ class Benchmark(ABC):
             Fitness value.
         """
 
+        if not gene_order:
+            gene_order = self.gene_order
+
         if lock:
             with lock:
                 self.ffe += 1
         else:
             self.ffe += 1
 
-        if self.shuffle:
-            shuffled = []
-
-            for gene_index in self.gene_order:
-                shuffled.append(solution.genome[gene_index])
-
-            solution = Solution(np.array(shuffled))
+        if self.SHUFFLE:
+            solution = self._shuffle_solution(solution, gene_order)
 
         return self._evaluate_solution(solution)
+
+    def _shuffle_solution(self, solution: Solution, gene_order: List[int]):
+        shuffled = []
+
+        for gene_index in gene_order:
+            shuffled.append(solution.genome[gene_index])
+
+        return Solution(np.array(shuffled))
 
     @abstractmethod
     def _evaluate_solution(self, solution: Solution) -> float:
