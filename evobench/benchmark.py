@@ -98,7 +98,7 @@ class Benchmark(ABC):
         else:
             fitness = [
                 self.evaluate_solution(solution)
-                for solution in population.solutions
+                for solution in tqdm(population.solutions)
             ]
 
         return np.array(fitness, dtype=np.float16)
