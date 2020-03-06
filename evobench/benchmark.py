@@ -101,7 +101,7 @@ class Benchmark(ABC):
                 for solution in tqdm(population.solutions)
             ]
 
-        return np.array(fitness, dtype=np.float16)
+        return np.array(fitness)
 
     def evaluate_solution(
         self,
