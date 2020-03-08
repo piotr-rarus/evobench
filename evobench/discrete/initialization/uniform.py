@@ -1,7 +1,8 @@
 from numpy.random import randint
+from tqdm import tqdm
 
-from evobench.model import Population, Solution
 from evobench.initialization import Initialization
+from evobench.model import Population, Solution
 
 
 class Uniform(Initialization):
@@ -13,12 +14,11 @@ class Uniform(Initialization):
 
         solutions = []
 
-        for i in range(self.POPULATION_SIZE):
+        for i in tqdm(range(self.POPULATION_SIZE)):
             genome = randint(low=0, high=2, size=genome_size)
             solution = Solution(genome)
             solutions.append(solution)
 
-        solutions = tuple(solutions)
         population = Population(solutions)
 
         return population
