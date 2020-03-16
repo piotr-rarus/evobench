@@ -1,6 +1,8 @@
 import math
+from typing import List
 
 import numpy as np
+from lazy import lazy
 
 from evobench.separable import Separable
 
@@ -9,15 +11,23 @@ class Sawtooth(Separable):
 
     def __init__(
         self,
-        block_size: int,
-        repetitions: int,
-        overlap_size: int = 0
+        blocks: List[int],
+        overlap_size: int = 0,
+        shuffle: bool = False,
+        multiprocessing: bool = False
     ):
-        super(Sawtooth, self).__init__(block_size, repetitions, overlap_size)
+        super(Sawtooth, self).__init__(
+            blocks,
+            overlap_size,
+            shuffle,
+            multiprocessing
+        )
 
-        self.GLOBAL_OPTIMUM = 1
+    @lazy
+    def global_opt(self) -> float:
+        return float(len(self.BLOCKS))
 
-    def evaluate_block(self, block: np.ndarray) -> float:
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
         fitness = s - math.floor(s)
 

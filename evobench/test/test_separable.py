@@ -14,25 +14,31 @@ __POPULATION_SIZE = 20
 
 @fixture(scope='session')
 def initialization() -> Initialization:
-    initialization = Uniform(__POPULATION_SIZE)
-    return initialization
+    return Uniform(__POPULATION_SIZE)
 
 
-@fixture(scope='session')
-def benchmark() -> Benchmark:
-    benchmark = Trap(block_size=6, repetitions=4)
-    return benchmark
+@fixture(
+    scope='module',
+    params=[(False, True), (True, False)],
+)
+def benchmark(request) -> Benchmark:
+
+    multiprocessing, shuffle = request.param
+
+    return Trap(
+        blocks=[6, 6, 6, 6],
+        multiprocessing=multiprocessing,
+        shuffle=shuffle
+    )
 
 
-@fixture(scope='session')
+@fixture(scope='module')
 def population(
     initialization: Initialization,
     benchmark: Benchmark
 ) -> Population:
 
-    population = initialization.initialize_population(benchmark.genome_size)
-
-    return population
+    return initialization.initialize_population(benchmark.genome_size)
 
 
 def test_evaluate_population(benchmark: Benchmark, population: Population):

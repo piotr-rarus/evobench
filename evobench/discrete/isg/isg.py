@@ -13,7 +13,12 @@ from .parser import load
 
 class IsingSpinGlass(Benchmark):
 
-    def __init__(self, config_name: str):
+    def __init__(
+        self,
+        config_name: str,
+        shuffle: bool = False,
+        multiprocessing: bool = False
+    ):
         """
         Instantiates _ISG_ benchmark
 
@@ -26,7 +31,7 @@ class IsingSpinGlass(Benchmark):
             _P3_ repository.
         """
 
-        super(IsingSpinGlass, self).__init__()
+        super(IsingSpinGlass, self).__init__(shuffle, multiprocessing)
         self.config_name = config_name
 
     @lazy
@@ -36,6 +41,10 @@ class IsingSpinGlass(Benchmark):
         path = path.joinpath(self.config_name + '.txt')
 
         return load(path)
+
+    @lazy
+    def global_opt(self) -> float:
+        return 1
 
     @lazy
     def dsm(self) -> np.ndarray:
