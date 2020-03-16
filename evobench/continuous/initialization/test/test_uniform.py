@@ -15,7 +15,7 @@ def test_initialize_population():
 
     assert isinstance(population, Population)
 
-    assert isinstance(population.solutions, tuple)
+    assert isinstance(population.solutions, list)
 
     assert all(
         isinstance(solution, Solution) for
