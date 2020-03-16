@@ -18,6 +18,6 @@ class Population:
     @lazy
     def as_ndarray(self) -> np.ndarray:
         population = [solution.genome for solution in self.solutions]
-        population = np.array(population, dtype=np.float16)
+        population = np.array(population)
 
         return population
