@@ -39,7 +39,7 @@ jobs:
           command: |
             . env/bin/activate
             mkdir test-reports
-            python -m pytest -o junit_family=xunit2 --junitxml=test-reports/junit.xm
+            python -m pytest -o junit_family=xunit2 --junitxml=test-reports/junit.xml
           
 
       - run:
