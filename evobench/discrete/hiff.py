@@ -3,10 +3,10 @@ from typing import List
 import numpy as np
 from lazy import lazy
 
-from evobench.separable import Separable
+from evobench.discrete.discrete import Discrete
 
 
-class Hiff(Separable):
+class Hiff(Discrete):
 
     def __init__(
         self,

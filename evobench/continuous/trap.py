@@ -3,10 +3,10 @@ from typing import List
 import numpy as np
 from lazy import lazy
 
-from evobench.separable import Separable
+from evobench.continuous.continuous import Continuous
 
 
-class Trap(Separable):
+class Trap(Continuous):
 
     def __init__(
         self,
