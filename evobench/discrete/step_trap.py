@@ -3,10 +3,10 @@ from typing import Dict, List
 import numpy as np
 from lazy import lazy
 
-from evobench.separable import Separable
+from evobench.discrete.discrete import Discrete
 
 
-class StepTrap(Separable):
+class StepTrap(Discrete):
 
     def __init__(
         self,

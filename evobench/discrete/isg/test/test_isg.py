@@ -53,3 +53,33 @@ def test_dsm(isg: IsingSpinGlass):
 
     assert isinstance(dsm, np.ndarray)
     assert dsm.size == isg.genome_size ** 2
+
+
+def test_lower_bound(isg: IsingSpinGlass):
+    lower_bound = isg.lower_bound
+
+    assert isinstance(lower_bound, np.ndarray)
+    assert lower_bound.size == isg.genome_size
+
+
+def test_upper_bound(isg: IsingSpinGlass):
+    upper_bound = isg.upper_bound
+
+    assert isinstance(upper_bound, np.ndarray)
+    assert upper_bound.size == isg.genome_size
+
+
+def test_bound_range(isg: IsingSpinGlass):
+    bound_range = isg.bound_range
+
+    assert isinstance(bound_range, np.ndarray)
+    assert bound_range.size == isg.genome_size
+
+
+def test_random_solution(isg: IsingSpinGlass):
+    solution = isg.random_solution()
+
+    assert isinstance(solution, Solution)
+
+    assert isinstance(solution.genome, np.ndarray)
+    assert solution.genome.size == isg.genome_size

@@ -39,7 +39,19 @@ class Benchmark(ABC):
         if self.SHUFFLE:
             gene_order = np.random.permutation(gene_order)
 
-        return gene_order
+        return list(gene_order)
+
+    @lazy
+    def lower_bound(self) -> np.ndarray:
+        pass
+
+    @lazy
+    def upper_bound(self) -> np.ndarray:
+        pass
+
+    @lazy
+    def bound_range(self) -> np.ndarray:
+        return self.upper_bound - self.lower_bound
 
     @lazy
     def as_dict(self) -> Dict:
@@ -55,6 +67,34 @@ class Benchmark(ABC):
         as_dict['shuffle'] = self.SHUFFLE
 
         return as_dict
+
+    @lazy
+    def random_solution(self) -> Solution:
+        pass
+
+    def initialize_population(self, size: int) -> Population:
+        size = int(size)
+        solutions = []
+
+        tqdm.write('\n')
+        for _ in tqdm(range(size), desc='Initializing population'):
+            genome = self.random_solution().genome
+
+            solution = Solution(genome)
+            solutions.append(solution)
+
+        return Population(solutions)
+
+    def fix(self, solution: Solution) -> Solution:
+        genome = solution.genome.copy()
+
+        mask = genome > self.upper_bound
+        genome[mask] = self.upper_bound[mask]
+
+        mask = genome < self.lower_bound
+        genome[mask] = self.lower_bound[mask]
+
+        return Solution(genome)
 
     def evaluate_population(self, population: Population) -> np.ndarray:
         """
