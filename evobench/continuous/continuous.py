@@ -34,7 +34,7 @@ class Continuous(Separable):
         return np.array(upper_bound)
 
     def random_solution(self) -> Solution:
-        genome = np.random.uniform(low=0, high=2, size=self.genome_size)
+        genome = np.random.uniform(low=0, high=1, size=self.genome_size)
 
         genome *= self.bound_range
         genome -= self.lower_bound
