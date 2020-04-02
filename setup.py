@@ -25,20 +25,18 @@ setuptools.setup(
         ]
     ),
     install_requires=[
-        'numpy',
-        'sympy',
-        'lazy',
-        'tqdm'
+        'lazy==1.4',
+        'numpy==1.18.1',
+        'tqdm==4.43.0'
     ],
     package_data={
         'evobench.discrete.isg': ['data/*.txt']
     },
     include_package_data=True,
     tests_require=[
-        'pytest',
-        'pytest-cov',
-        'flake8',
-        'pylint'
+        'flake8==3.7.9',
+        'pytest==5.3.5',
+        'pytest-cov==2.8.1'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
