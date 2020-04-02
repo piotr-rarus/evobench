@@ -74,13 +74,13 @@ class Separable(Benchmark):
 
             start += block_size - index * self.OVERLAP_SIZE
 
-        score = sum(
+        fitness = sum(
             self.evaluate_block(block, index)
             for index, block
             in enumerate(blocks)
         )
 
-        return float(score)
+        return float(fitness)
 
     @abstractmethod
     def evaluate_block(self, block: np.ndarray, block_index: int) -> float:

@@ -10,9 +10,9 @@ def check_samples(
     samples: List[Tuple[np.ndarray, float]],
     benchmark: Benchmark
 ):
-    for genome, score in samples:
+    for genome, fitness in samples:
         solution = Solution(np.array(genome))
-        pred_score = benchmark.evaluate_solution(solution)
+        pred_fitness = benchmark.evaluate_solution(solution)
 
-        assert isinstance(pred_score, float)
-        assert pred_score == score
+        assert isinstance(pred_fitness, float)
+        assert pred_fitness == fitness

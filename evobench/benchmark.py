@@ -107,7 +107,7 @@ class Benchmark(ABC):
 
         return Solution(genome)
 
-    def evaluate_population(self, population: Population) -> np.ndarray:
+    def evaluate_population(self, population: Population):
         """
         Evaluates population of solutions.
 
@@ -123,7 +123,7 @@ class Benchmark(ABC):
             Order is the same as input population.
         """
 
-        solutions = population.solutions
+        solutions = population.get_not_evaluated_solutions()
 
         if self.VERBOSE:
             tqdm.write('\n')
@@ -135,14 +135,12 @@ class Benchmark(ABC):
 
             solutions = tqdm(solutions)
 
-        fitness = None
-
         if self.MULTIPROCESSING:
             pool = Pool()
             manager = Manager()
             lock = manager.RLock()
 
-            fitness = pool.map(
+            fitness_map = pool.map(
                 partial(
                     self.evaluate_solution,
                     gene_order=self.gene_order,
@@ -151,13 +149,12 @@ class Benchmark(ABC):
                 solutions
             )
 
-        else:
-            fitness = [
-                self.evaluate_solution(solution)
-                for solution in solutions
-            ]
+            for solution, fitness in zip(solutions, fitness_map):
+                solution.fitness = fitness
 
-        return np.array(fitness)
+        else:
+            for solution in solutions:
+                solution.fitness = self.evaluate_solution(solution)
 
     def evaluate_solution(
         self,

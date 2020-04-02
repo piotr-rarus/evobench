@@ -30,8 +30,10 @@ def population(benchmark: Benchmark) -> Population:
 
 
 def test_evaluate_population(benchmark: Benchmark, population: Population):
-    scores = benchmark.evaluate_population(population)
+    benchmark.evaluate_population(population)
 
-    assert isinstance(scores, np.ndarray)
-    assert len(scores.shape) == 1
-    assert scores.size == len(population.solutions)
+    fitness = population.fitness
+
+    assert isinstance(fitness, np.ndarray)
+    assert len(fitness.shape) == 1
+    assert fitness.size == len(population.solutions)
