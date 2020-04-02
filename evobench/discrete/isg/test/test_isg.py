@@ -42,10 +42,10 @@ def test_as_dict(isg: IsingSpinGlass):
 def test_best_solution(isg: IsingSpinGlass):
 
     best_solution = Solution(isg.config.best_solution)
-    pred_score = isg.evaluate_solution(best_solution)
+    pred_fitness = isg.evaluate_solution(best_solution)
 
-    assert isinstance(pred_score, float)
-    assert 0 <= pred_score <= 1
+    assert isinstance(pred_fitness, float)
+    assert 0 <= pred_fitness <= 1
 
 
 def test_dsm(isg: IsingSpinGlass):

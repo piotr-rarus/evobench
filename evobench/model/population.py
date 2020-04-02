@@ -25,6 +25,25 @@ class Population:
     @property
     def as_ndarray(self) -> np.ndarray:
         population = [solution.genome for solution in self.solutions]
-        population = np.array(population)
+        return np.array(population)
 
-        return population
+    @property
+    def is_all_evaluated(self) -> bool:
+        return all(solution.fitness for solution in self.solutions)
+
+    def get_not_evaluated_solutions(self) -> List[Solution]:
+        solutions = [
+            solution
+            for solution in self.solutions
+            if solution.fitness is None
+        ]
+
+        return list(solutions)
+
+    @property
+    def fitness(self) -> np.ndarray:
+        if not self.is_all_evaluated:
+            raise Exception('Please evaluate your population first.')
+
+        fitness = [solution.fitness for solution in self.solutions]
+        return np.array(fitness)

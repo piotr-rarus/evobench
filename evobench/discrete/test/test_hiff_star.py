@@ -15,7 +15,7 @@ def hiff_star() -> HiffStar:
     return HiffStar(blocks=[8, 8, 8])
 
 
-def test_scores(hiff_star: HiffStar):
+def test_fitness(hiff_star: HiffStar):
     check_samples(__SAMPLES, hiff_star)
 
 

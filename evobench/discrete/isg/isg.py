@@ -103,5 +103,5 @@ class IsingSpinGlass(Benchmark):
             spin = a_gene * b_gene * spin.factor
             energy -= spin
 
-        score = (energy - self.config.min_energy) / self.config.span
-        return 1 - score
+        fitness = (energy - self.config.min_energy) / self.config.span
+        return 1 - fitness
