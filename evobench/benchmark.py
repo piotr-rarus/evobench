@@ -5,7 +5,7 @@ from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 from evobench.model.population import Population
 from evobench.model.solution import Solution
@@ -18,11 +18,17 @@ class Benchmark(ABC):
     inherit from this class.
     """
 
-    def __init__(self, shuffle: bool = False, multiprocessing: bool = False):
+    def __init__(
+        self,
+        shuffle: bool = False,
+        multiprocessing: bool = False,
+        verbose: int = 0
+    ):
         super(Benchmark, self).__init__()
         self.ffe = 0
         self.SHUFFLE = shuffle
         self.MULTIPROCESSING = multiprocessing
+        self.VERBOSE = verbose
 
     @abstractproperty
     def genome_size(self) -> int:
@@ -76,8 +82,13 @@ class Benchmark(ABC):
         size = int(size)
         solutions = []
 
-        tqdm.write('\n')
-        for _ in tqdm(range(size), desc='Initializing population'):
+        iterator = range(size)
+
+        if self.VERBOSE:
+            tqdm.write('\n')
+            iterator = tqdm(iterator, desc='Initializing population')
+
+        for _ in iterator:
             genome = self.random_solution().genome
 
             solution = Solution(genome)
@@ -112,12 +123,17 @@ class Benchmark(ABC):
             Order is the same as input population.
         """
 
-        tqdm.write('\n')
-        tqdm.write(
-            'Evaluating population of {} solutions'
-            .format(population.length)
-        )
-        tqdm.write('\n')
+        solutions = population.solutions
+
+        if self.VERBOSE:
+            tqdm.write('\n')
+            tqdm.write(
+                'Evaluating population of {} solutions'
+                .format(population.length)
+            )
+            tqdm.write('\n')
+
+            solutions = tqdm(solutions)
 
         fitness = None
 
@@ -132,13 +148,13 @@ class Benchmark(ABC):
                     gene_order=self.gene_order,
                     lock=lock
                 ),
-                tqdm(population.solutions)
+                solutions
             )
 
         else:
             fitness = [
                 self.evaluate_solution(solution)
-                for solution in tqdm(population.solutions)
+                for solution in solutions
             ]
 
         return np.array(fitness)
