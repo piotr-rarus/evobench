@@ -14,13 +14,15 @@ class StepTrap(Discrete):
         step_size: int,
         overlap_size: int = 0,
         shuffle: bool = False,
-        multiprocessing: bool = False
+        multiprocessing: bool = False,
+        verbose: int = 0
     ):
         super(StepTrap, self).__init__(
             blocks,
             overlap_size,
             shuffle,
-            multiprocessing
+            multiprocessing,
+            verbose
         )
 
         self.STEP_SIZE = step_size

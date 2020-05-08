@@ -7,14 +7,14 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='evobench',
-    description='Benchmarks for large scale, model-based optimization.',
+    description='Benchmarks for model-based optimization.',
 
     author='Piotr Rarus',
     author_email='piotr.rarus@gmail.com',
 
     url='https://github.com/piotr-rarus/evobench',
     license='MIT',
-    version='0.2.0',
+    version='0.2.1',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -26,8 +26,8 @@ setuptools.setup(
     ),
     install_requires=[
         'lazy==1.4',
-        'numpy==1.18.1',
-        'tqdm==4.43.0'
+        'numpy==1.18.4',
+        'tqdm==4.46.0'
     ],
     package_data={
         'evobench.discrete.isg': ['data/*.txt']

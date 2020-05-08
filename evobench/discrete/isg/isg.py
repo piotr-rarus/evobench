@@ -17,7 +17,8 @@ class IsingSpinGlass(Benchmark):
         self,
         config_name: str,
         shuffle: bool = False,
-        multiprocessing: bool = False
+        multiprocessing: bool = False,
+        verbose: int = 0
     ):
         """
         Instantiates _ISG_ benchmark
@@ -31,7 +32,7 @@ class IsingSpinGlass(Benchmark):
             _P3_ repository.
         """
 
-        super(IsingSpinGlass, self).__init__(shuffle, multiprocessing)
+        super(IsingSpinGlass, self).__init__(shuffle, multiprocessing, verbose)
         self.config_name = config_name
 
     @lazy
