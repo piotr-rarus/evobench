@@ -28,8 +28,12 @@ class Population:
         return np.array(population)
 
     @property
-    def is_all_evaluated(self) -> bool:
-        return all(solution.fitness for solution in self.solutions)
+    def are_all_evaluated(self) -> bool:
+        return all(
+            solution.fitness
+            for solution in self.solutions
+            if solution is not None
+        )
 
     def get_not_evaluated_solutions(self) -> List[Solution]:
         solutions = [
@@ -42,7 +46,7 @@ class Population:
 
     @property
     def fitness(self) -> np.ndarray:
-        if not self.is_all_evaluated:
+        if not self.are_all_evaluated:
             raise Exception('Please evaluate your population first.')
 
         fitness = [solution.fitness for solution in self.solutions]
