@@ -30,9 +30,8 @@ class Population:
     @property
     def are_all_evaluated(self) -> bool:
         return all(
-            solution.fitness
+            solution.fitness is not None
             for solution in self.solutions
-            if solution is not None
         )
 
     def get_not_evaluated_solutions(self) -> List[Solution]:
