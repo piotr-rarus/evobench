@@ -7,14 +7,14 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='evobench',
-    description='Benchmarks for large scale, model-based optimization.',
+    description='Benchmarks for model-based optimization.',
 
     author='Piotr Rarus',
     author_email='piotr.rarus@gmail.com',
 
     url='https://github.com/piotr-rarus/evobench',
     license='MIT',
-    version='0.2.0',
+    version='0.2.1',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
