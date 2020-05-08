@@ -14,7 +14,7 @@ setuptools.setup(
 
     url='https://github.com/piotr-rarus/evobench',
     license='MIT',
-    version='0.2.1',
+    version='0.2.2',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
