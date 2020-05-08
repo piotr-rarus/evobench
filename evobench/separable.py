@@ -19,7 +19,8 @@ class Separable(Benchmark):
         blocks: List[int],
         overlap_size: int = 0,
         shuffle: bool = False,
-        multiprocessing: bool = False
+        multiprocessing: bool = False,
+        verbose: int = 0
     ):
         """
         Parameters
@@ -34,7 +35,7 @@ class Separable(Benchmark):
             Whether to evaluate population on all cores, by default False
         """
 
-        super(Separable, self).__init__(shuffle, multiprocessing)
+        super(Separable, self).__init__(shuffle, multiprocessing, verbose)
 
         self.BLOCKS = blocks
         self.OVERLAP_SIZE = overlap_size
