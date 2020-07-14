@@ -101,3 +101,78 @@ class Separable(Benchmark):
             Fitness value of a block.
         """
         pass
+
+    @lazy
+    def true_dsm(self) -> np.ndarray:
+        start = 0
+        dsm = np.zeros((self.genome_size, self.genome_size))
+
+        for index, block_size in enumerate(self.BLOCKS):
+
+            width = start + block_size
+            dsm[start:width, start:width] = 1
+
+            start += block_size - index * self.OVERLAP_SIZE
+
+        return dsm
+
+    def dsm_fill_quality(self, pred_dsm: np.ndarray) -> List[float]:
+        # TODO: link the paper
+
+        fill_quality = []
+
+        for gene_index in range(self.genome_size):
+            pred_ils = self._get_ils(gene_index, pred_dsm)
+            true_ils = self._get_ils(gene_index, self.true_dsm)
+
+            block_width = self._get_block_width(gene_index)
+
+            pred_ils = pred_ils[1:block_width]
+            true_ils = true_ils[1:block_width]
+
+            pred_ils = set(pred_ils)
+            true_ils = set(true_ils)
+
+            pred_positive = true_ils.intersection(pred_ils)
+
+            quality = len(pred_positive) / len(true_ils)
+
+            fill_quality.append(quality)
+
+        return fill_quality
+
+    def _get_block_width(self, gene_index: int) -> int:
+        start = 0
+
+        for index, block_size in enumerate(self. BLOCKS):
+            end = start + block_size
+
+            if gene_index < end:
+                return block_size
+
+            start += block_size - index * self.OVERLAP_SIZE
+
+
+    def _get_ils(self, gene_index: int, dsm: np.ndarray):
+        # TODO: link the paper
+        ils = []
+        ils.append(gene_index)
+
+        while len(ils) < self.genome_size:
+            last_gene_index = ils[-1]
+
+            available_genes = [
+                gene_index
+                for gene_index in range(0, self.genome_size)
+                if gene_index not in ils
+            ]
+
+            dependencies = [
+                dsm[last_gene_index, available_gene]
+                for available_gene in available_genes
+            ]
+
+            max_index = np.argmax(dependencies)
+            ils.append(available_genes[max_index])
+
+        return ils
