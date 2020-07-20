@@ -117,7 +117,28 @@ class Separable(Benchmark):
         return dsm
 
     def dsm_fill_quality(self, pred_dsm: np.ndarray) -> List[float]:
-        # TODO: link the paper
+        """
+        On measuring and improving the quality of linkage learning in
+        modern evolutionary algorithms applied to solve partially additively
+        separable problems
+
+        Michal W. Przewozniczek, Bartosz Frej, Marcin M. Komarnicki
+
+        Calculates fill quality linkage metric based on true and predicted DSM.
+        Metric was proposed in the paper mentioned above. It's applicable
+        only for partially separable problems.
+        It won't work for overlapping ones.
+
+        Parameters
+        ----------
+        pred_dsm : np.ndarray
+            Predicted DSM for which linkage quality will be calculated.
+
+        Returns
+        -------
+        List[float]
+            Distribution of fill quality metric for each gene in the genome.
+        """
 
         fill_quality = []
 
@@ -141,20 +162,30 @@ class Separable(Benchmark):
 
         return fill_quality
 
-    def _get_block_width(self, gene_index: int) -> int:
-        start = 0
+    def _get_ils(self, gene_index: int, dsm: np.ndarray) -> List[int]:
+        """
+        Optimization by Pairwise Linkage Detection,
+        Incremental Linkage Set, and Restricted / Back Mixing: DSMGA-II
 
-        for index, block_size in enumerate(self. BLOCKS):
-            end = start + block_size
+        Shih-Huan Hsu, Tian-Li Yu
 
-            if gene_index < end:
-                return block_size
+        arXiv:1807.11669
 
-            start += block_size - index * self.OVERLAP_SIZE
+        Calculates Incremental Linkage Set for a given gene and DSM.
 
+        Parameters
+        ----------
+        gene_index : int
+            Gene which starts the sequence of dependencies.
+        dsm : np.ndarray
+            Dependency structure matrix
 
-    def _get_ils(self, gene_index: int, dsm: np.ndarray):
-        # TODO: link the paper
+        Returns
+        -------
+        List[int]
+            Incremental Linkage Set
+        """
+
         ils = []
         ils.append(gene_index)
 
@@ -176,3 +207,14 @@ class Separable(Benchmark):
             ils.append(available_genes[max_index])
 
         return ils
+
+    def _get_block_width(self, gene_index: int) -> int:
+        start = 0
+
+        for index, block_size in enumerate(self. BLOCKS):
+            end = start + block_size
+
+            if gene_index < end:
+                return block_size
+
+            start += block_size - index * self.OVERLAP_SIZE
