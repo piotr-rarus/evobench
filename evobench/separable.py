@@ -120,7 +120,7 @@ class Separable(Benchmark):
         """
         On measuring and improving the quality of linkage learning in
         modern evolutionary algorithms applied to solve partially additively
-        separable problems
+        separable problems.
 
         Michal W. Przewozniczek, Bartosz Frej, Marcin M. Komarnicki
 
@@ -209,12 +209,12 @@ class Separable(Benchmark):
         return ils
 
     def _get_block_width(self, gene_index: int) -> int:
-        start = 0
+        block_size = 0
 
-        for index, block_size in enumerate(self. BLOCKS):
-            end = start + block_size
+        for i in range(self.genome_size):
+            interaction = self.true_dsm[gene_index, i]
 
-            if gene_index < end:
-                return block_size
+            if interaction == 1:
+                block_size += 1
 
-            start += block_size - index * self.OVERLAP_SIZE
+        return block_size
