@@ -1,9 +1,11 @@
+from typing import List
+
 import numpy as np
 from pytest import fixture
-from typing import List
 
 from evobench.discrete.trap import Trap
 from evobench.model import Population
+from evobench.util import dsm_fill_quality
 
 from ..separable import Separable
 
@@ -60,7 +62,7 @@ def test_dsm_fill_quality():
 
     pred_dsm = np.array(pred_dsm)
 
-    fill_quality = benchmark.dsm_fill_quality(pred_dsm)
+    fill_quality = dsm_fill_quality(pred_dsm, benchmark.true_dsm)
 
     assert isinstance(fill_quality, List)
     assert len(fill_quality) == 5
