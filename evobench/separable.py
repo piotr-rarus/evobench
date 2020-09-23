@@ -110,7 +110,7 @@ class Separable(Benchmark):
         for index, block_size in enumerate(self.BLOCKS):
 
             width = start + block_size
-            dsm[start:width, start:width] = 1
+            dsm[start:width, start:width] = 1.0
 
             start += block_size - index * self.OVERLAP_SIZE
 
