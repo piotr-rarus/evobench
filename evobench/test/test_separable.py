@@ -50,14 +50,15 @@ def test_true_dsm(benchmark: Separable):
 
 
 def test_dsm_fill_quality():
-    benchmark = Trap(blocks=[2, 3])
+    benchmark = Trap(blocks=[2, 1, 3])
 
     pred_dsm = [
-        [1, 1, 1, 0, 0],
-        [1, 1, 1, 0, 0],
-        [1, 1, 1, 0, 0],
-        [0, 0, 0, 1, 1],
-        [0, 0, 0, 1, 1]
+        [1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 0, 0, 0],
+        [1, 1, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 1, 1],
+        [0, 0, 0, 0, 1, 1]
     ]
 
     pred_dsm = np.array(pred_dsm)
@@ -65,6 +66,6 @@ def test_dsm_fill_quality():
     fill_quality = dsm_fill_quality(pred_dsm, benchmark.true_dsm)
 
     assert isinstance(fill_quality, List)
-    assert len(fill_quality) == 5
+    assert len(fill_quality) == 6
 
-    assert fill_quality == [1, 1, 0, 0.5, 0.5]
+    assert fill_quality == [1, 1, 1, 0, 0.5, 0.5]

@@ -64,9 +64,9 @@ def dsm_fill_quality(
 
         pred_positive = true_ils.intersection(pred_ils)
 
-        quality = len(pred_positive) / len(true_ils)
-
-        fill_quality.append(quality)
+        if true_ils:
+            quality = len(pred_positive) / len(true_ils)
+            fill_quality.append(quality)
 
     return fill_quality
 
