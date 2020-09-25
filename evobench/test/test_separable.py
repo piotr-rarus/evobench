@@ -66,6 +66,6 @@ def test_dsm_fill_quality():
     fill_quality = dsm_fill_quality(pred_dsm, benchmark.true_dsm)
 
     assert isinstance(fill_quality, List)
-    assert len(fill_quality) == 6
+    assert len(fill_quality) == 5
 
-    assert fill_quality == [1, 1, 1, 0, 0.5, 0.5]
+    assert fill_quality == [1, 1, 0, 0.5, 0.5]

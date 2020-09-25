@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 import numpy as np
+from tqdm import tqdm
 
 from evobench.benchmark import Benchmark
 from evobench.model.solution import Solution
@@ -47,31 +48,36 @@ def dsm_fill_quality(
         Distribution of fill quality metric for each gene in the genome.
     """
 
+    tqdm.write('Calculating DSM fill quality')
+
     fill_quality = []
     genome_size, _ = pred_dsm.shape
 
     for gene_index in range(genome_size):
-        pred_ils = _get_ils(gene_index, pred_dsm)
-        true_ils = _get_ils(gene_index, true_dsm)
-
         block_width = _get_block_width(gene_index, true_dsm)
+        true_ils = _get_ils(gene_index, true_dsm, block_width)
 
-        pred_ils = pred_ils[1:block_width]
-        true_ils = true_ils[1:block_width]
+        if not true_ils:
+            continue
+
+        pred_ils = _get_ils(gene_index, pred_dsm, block_width)
 
         pred_ils = set(pred_ils)
         true_ils = set(true_ils)
 
         pred_positive = true_ils.intersection(pred_ils)
 
-        if true_ils:
-            quality = len(pred_positive) / len(true_ils)
-            fill_quality.append(quality)
+        quality = len(pred_positive) / len(true_ils)
+        fill_quality.append(quality)
 
     return fill_quality
 
 
-def _get_ils(gene_index: int, dsm: np.ndarray) -> List[int]:
+def _get_ils(
+    gene_index: int,
+    dsm: np.ndarray,
+    block_width: int
+) -> List[int]:
     """
     Optimization by Pairwise Linkage Detection,
     Incremental Linkage Set, and Restricted / Back Mixing: DSMGA-II
@@ -88,6 +94,8 @@ def _get_ils(gene_index: int, dsm: np.ndarray) -> List[int]:
         Gene which starts the sequence of dependencies.
     dsm : np.ndarray
         Dependency structure matrix
+    block_width : int
+        Block width for given index. Used to speed up computation.
 
     Returns
     -------
@@ -99,7 +107,7 @@ def _get_ils(gene_index: int, dsm: np.ndarray) -> List[int]:
     ils.append(gene_index)
     genome_size, _ = dsm.shape
 
-    while len(ils) < genome_size:
+    while len(ils) < block_width:
         last_gene_index = ils[-1]
 
         available_genes = [
@@ -116,7 +124,7 @@ def _get_ils(gene_index: int, dsm: np.ndarray) -> List[int]:
         max_index = np.argmax(dependencies)
         ils.append(available_genes[max_index])
 
-    return ils
+    return ils[1:]
 
 
 def _get_block_width(
