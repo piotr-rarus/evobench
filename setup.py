@@ -26,7 +26,7 @@ setuptools.setup(
     ),
     install_requires=[
         'lazy==1.4',
-        'numpy==1.19.0',
+        'numpy==1.19.2',
         'tqdm==4.47.0'
     ],
     package_data={
