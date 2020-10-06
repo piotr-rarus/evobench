@@ -22,8 +22,3 @@ def step_bimodal() -> StepBimodal:
 
 def test_samples(step_bimodal: StepBimodal):
     check_samples(__SAMPLES, step_bimodal)
-
-
-def test_global_opt(step_bimodal: StepBimodal):
-    assert isinstance(step_bimodal.global_opt, float)
-    assert step_bimodal.global_opt == 3

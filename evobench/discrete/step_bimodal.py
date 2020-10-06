@@ -1,7 +1,6 @@
 from typing import List
 
 import numpy as np
-from lazy import lazy
 
 from evobench.discrete.discrete import Discrete
 
@@ -26,16 +25,6 @@ class StepBimodal(Discrete):
         )
 
         self.STEP_SIZE = step_size
-
-    @lazy
-    def global_opt(self) -> float:
-
-        global_opt = sum(
-            block // 2 // self.STEP_SIZE + 1
-            for block in self.BLOCKS
-        )
-
-        return float(global_opt)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         # global opt

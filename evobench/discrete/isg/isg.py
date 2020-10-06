@@ -44,10 +44,6 @@ class IsingSpinGlass(Benchmark):
         return load(path)
 
     @lazy
-    def global_opt(self) -> float:
-        return 1
-
-    @lazy
     def dsm(self) -> np.ndarray:
         dsm = np.eye(self.config.genome_size)
 

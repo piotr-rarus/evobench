@@ -27,11 +27,6 @@ class StepTrap(Discrete):
 
         self.STEP_SIZE = step_size
 
-    @lazy
-    def global_opt(self) -> float:
-        global_opt = sum(block // self.STEP_SIZE for block in self.BLOCKS)
-        return float(global_opt)
-
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():
             return block.size // self.STEP_SIZE

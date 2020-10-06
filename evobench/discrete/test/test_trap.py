@@ -22,11 +22,6 @@ def test_samples(trap: Trap):
     check_samples(__SAMPLES, trap)
 
 
-def test_global_opt(trap: Trap):
-    assert isinstance(trap.global_opt, float)
-    assert trap.global_opt == 12
-
-
 def test_as_dict(trap: Trap):
     assert isinstance(trap.as_dict, dict)
 

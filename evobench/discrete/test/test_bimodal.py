@@ -18,8 +18,3 @@ def bimodal() -> Bimodal:
 
 def test_samples(bimodal: Bimodal):
     check_samples(__SAMPLES, bimodal)
-
-
-def test_global_opt(bimodal: Bimodal):
-    assert isinstance(bimodal.global_opt, float)
-    assert bimodal.global_opt == 6

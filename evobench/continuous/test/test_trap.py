@@ -22,11 +22,6 @@ def test_samples(trap: Trap):
     check_samples(__SAMPLES, trap)
 
 
-def test_global_opt(trap: Trap):
-    assert isinstance(trap.global_opt, float)
-    assert trap.global_opt == float('inf')
-
-
 def test_lower_bound(trap: Trap):
     lower_bound = trap.lower_bound
 

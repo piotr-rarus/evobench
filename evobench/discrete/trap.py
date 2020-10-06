@@ -1,7 +1,6 @@
 from typing import List
 
 import numpy as np
-from lazy import lazy
 
 from evobench.discrete.discrete import Discrete
 
@@ -23,10 +22,6 @@ class Trap(Discrete):
             multiprocessing,
             verbose
         )
-
-    @lazy
-    def global_opt(self) -> float:
-        return float(sum(self.BLOCKS))
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():

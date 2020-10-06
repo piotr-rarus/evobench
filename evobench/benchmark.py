@@ -34,10 +34,6 @@ class Benchmark(ABC):
     def genome_size(self) -> int:
         pass
 
-    @abstractproperty
-    def global_opt(self) -> float:
-        pass
-
     @lazy
     def gene_order(self) -> List[int]:
         gene_order = range(0, self.genome_size)

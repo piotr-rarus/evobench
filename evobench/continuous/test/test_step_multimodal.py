@@ -17,8 +17,3 @@ def step_multimodal() -> StepMultimodal:
 
 def test_samples(step_multimodal: StepMultimodal):
     check_samples(__SAMPLES, step_multimodal)
-
-
-def test_global_opt(step_multimodal: StepMultimodal):
-    assert isinstance(step_multimodal.global_opt, float)
-    assert step_multimodal.global_opt == 2

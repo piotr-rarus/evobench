@@ -18,8 +18,3 @@ def sawtooth() -> Sawtooth:
 
 def test_samples(sawtooth: Sawtooth):
     check_samples(__SAMPLES, sawtooth)
-
-
-def test_global_opt(sawtooth: Sawtooth):
-    assert isinstance(sawtooth.global_opt, float)
-    assert sawtooth.global_opt == 2

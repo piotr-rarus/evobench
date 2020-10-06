@@ -1,7 +1,6 @@
 from typing import List
 
 import numpy as np
-from lazy import lazy
 
 from evobench.discrete.discrete import Discrete
 
@@ -23,12 +22,6 @@ class Hiff(Discrete):
             multiprocessing,
             verbose
         )
-
-    @lazy
-    def global_opt(self) -> float:
-
-        global_opt = sum(block * block // 2 for block in self.BLOCKS)
-        return float(global_opt)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
 

@@ -2,7 +2,6 @@ import math
 from typing import List
 
 import numpy as np
-from lazy import lazy
 
 from evobench.continuous.continuous import Continuous
 
@@ -24,10 +23,6 @@ class Sawtooth(Continuous):
             multiprocessing,
             verbose
         )
-
-    @lazy
-    def global_opt(self) -> float:
-        return float(len(self.BLOCKS))
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)

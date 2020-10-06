@@ -17,8 +17,3 @@ def hiff_star() -> HiffStar:
 
 def test_fitness(hiff_star: HiffStar):
     check_samples(__SAMPLES, hiff_star)
-
-
-def test_global_opt(hiff_star: HiffStar):
-    assert isinstance(hiff_star.global_opt, float)
-    assert hiff_star.global_opt == 36
