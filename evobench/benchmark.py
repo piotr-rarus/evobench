@@ -74,7 +74,6 @@ class Benchmark(ABC):
 
         return as_dict
 
-    @lazy
     def random_solution(self) -> Solution:
         pass
 
