@@ -1,4 +1,3 @@
-import math
 from typing import List
 
 import numpy as np
@@ -7,7 +6,7 @@ from lazy import lazy
 from evobench.continuous.continuous import Continuous
 
 
-class Schwefel(Continuous):
+class Sphere(Continuous):
 
     def __init__(
         self,
@@ -17,7 +16,7 @@ class Schwefel(Continuous):
         multiprocessing: bool = False,
         verbose: int = 0
     ):
-        super(Schwefel, self).__init__(
+        super(Sphere, self).__init__(
             blocks,
             overlap_size,
             shuffle,
@@ -26,24 +25,14 @@ class Schwefel(Continuous):
         )
 
     @lazy
-    def global_opt(self) -> float:
-        # TODO
-        pass
-
-    @lazy
     def lower_bound(self) -> np.ndarray:
-        lower_bound = [-500] * self.genome_size
+        lower_bound = [-5.12] * self.genome_size
         return np.array(lower_bound)
 
     @lazy
     def upper_bound(self) -> np.ndarray:
-        upper_bound = [500] * self.genome_size
+        upper_bound = [5.12] * self.genome_size
         return np.array(upper_bound)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
-        fitness = 418.9829 * block.size
-
-        for x in block:
-            fitness -= x * math.sin(math.sqrt(abs(x)))
-
-        return fitness
+        return sum(x * x for x in block)
