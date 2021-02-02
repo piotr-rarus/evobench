@@ -2,10 +2,11 @@ from typing import Dict, List
 
 import numpy as np
 from evobench.continuous.continuous import Continuous
+from evobench.separable import Separable
 from lazy import lazy
 
 
-class StepTrap(Continuous):
+class StepTrap(Separable, Continuous):
 
     def __init__(
         self,

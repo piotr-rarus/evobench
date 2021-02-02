@@ -2,10 +2,11 @@ from typing import Dict, List
 
 import numpy as np
 from evobench.discrete.discrete import Discrete
+from evobench.separable import Separable
 from lazy import lazy
 
 
-class StepBimodal(Discrete):
+class StepBimodal(Separable, Discrete):
 
     def __init__(
         self,
@@ -29,26 +30,26 @@ class StepBimodal(Discrete):
         self.STEP_SIZE = step_size
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
-        # global opt
-        if not block.any():
-            return block.size // 2 // self.STEP_SIZE + 1
-
+        fitness = 0
         unitation = np.count_nonzero(block)
-
-        # global opt
-        if unitation == block.size:
-            return block.size // 2 // self.STEP_SIZE + 1
-
         half_range = block.size // 2
 
-        if unitation < half_range:
-            return (unitation + 1) // self.STEP_SIZE - 1
+        # global opt
+        if not block.any():
+            fitness = block.size // 2 // self.STEP_SIZE + 1
 
-        if unitation >= half_range:
+        # global opt
+        elif unitation == block.size:
+            fitness = block.size // 2 // self.STEP_SIZE + 1
+
+        elif unitation < half_range:
+            fitness = (unitation + 1) // self.STEP_SIZE - 1
+
+        elif unitation >= half_range:
             unitation = block.size - unitation + 1
-            return unitation // self.STEP_SIZE - 1
+            fitness = unitation // self.STEP_SIZE - 1
 
-        return 0
+        return fitness
 
     @lazy
     def as_dict(self) -> Dict:

@@ -2,17 +2,15 @@ from pathlib import Path
 from typing import Dict
 
 import numpy as np
-from lazy import lazy
-
-from evobench.benchmark import Benchmark
+from evobench.discrete import Discrete
 from evobench.model import Solution
+from lazy import lazy
 
 from .config import Config
 from .parser import load
-from evobench.util import shuffle
 
 
-class IsingSpinGlass(Benchmark):
+class IsingSpinGlass(Discrete):
 
     def __init__(
         self,
@@ -71,28 +69,6 @@ class IsingSpinGlass(Benchmark):
         as_dict = {**benchmark_as_dict, **as_dict}
 
         return as_dict
-
-    @lazy
-    def lower_bound(self) -> np.ndarray:
-        lower_bound = [0.0] * self.genome_size
-        return np.array(lower_bound)
-
-    @lazy
-    def upper_bound(self) -> np.ndarray:
-        upper_bound = [1.0] * self.genome_size
-        return np.array(upper_bound)
-
-    def random_solution(self) -> Solution:
-        genome = np.random.uniform(low=0, high=2, size=self.genome_size)
-
-        genome *= self.bound_range
-        genome -= self.lower_bound
-        genome = genome.astype(dtype=np.int)
-
-        if self.USE_SHUFFLE:
-            genome = shuffle(genome, self.gene_order)
-
-        return Solution(genome)
 
     def _evaluate_solution(self, solution: Solution) -> float:
 

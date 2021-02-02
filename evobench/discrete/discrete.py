@@ -1,27 +1,19 @@
-from typing import List
-
 import numpy as np
 from evobench.model.solution import Solution
-from evobench.separable import Separable
+from evobench.benchmark import Benchmark
 from evobench.util import shuffle
 from lazy import lazy
 
 
-class Discrete(Separable):
+class Discrete(Benchmark):
 
     def __init__(
         self,
-        blocks: List[int],
-        blocks_scaling: List[int] = None,
-        overlap_size: int = 0,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Discrete, self).__init__(
-            blocks,
-            blocks_scaling,
-            overlap_size,
             use_shuffle,
             multiprocessing,
             verbose

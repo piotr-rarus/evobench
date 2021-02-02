@@ -1,12 +1,12 @@
 from typing import Dict, List
 
 import numpy as np
+from evobench.discrete.discrete import Discrete
+from evobench.separable import Separable
 from lazy import lazy
 
-from evobench.discrete.discrete import Discrete
 
-
-class StepTrap(Discrete):
+class StepTrap(Separable, Discrete):
 
     def __init__(
         self,

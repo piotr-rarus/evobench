@@ -11,7 +11,7 @@ from evobench.model import Solution
 class Separable(Benchmark):
 
     """
-    Base class for fully separable problems.
+    Base class for separable problems.
     """
 
     def __init__(
