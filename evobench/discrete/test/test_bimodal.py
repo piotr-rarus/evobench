@@ -1,8 +1,5 @@
-from pytest import fixture
-
 from evobench.discrete.bimodal import Bimodal
-from evobench.util import check_samples
-
+from pytest import fixture
 
 __SAMPLES = [
     ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 6),
@@ -16,10 +13,5 @@ def bimodal() -> Bimodal:
     return Bimodal(blocks=[6, 6])
 
 
-def test_samples(bimodal: Bimodal):
-    check_samples(__SAMPLES, bimodal)
-
-
-def test_global_opt(bimodal: Bimodal):
-    assert isinstance(bimodal.global_opt, float)
-    assert bimodal.global_opt == 6
+def test_samples(bimodal: Bimodal, helpers):
+    helpers.check_samples(__SAMPLES, bimodal)

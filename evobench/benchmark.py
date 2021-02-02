@@ -9,6 +9,7 @@ from tqdm.auto import tqdm
 
 from evobench.model.population import Population
 from evobench.model.solution import Solution
+from evobench.util import deshuffle_solution
 
 
 class Benchmark(ABC):
@@ -20,13 +21,13 @@ class Benchmark(ABC):
 
     def __init__(
         self,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Benchmark, self).__init__()
         self.ffe = 0
-        self.SHUFFLE = shuffle
+        self.USE_SHUFFLE = use_shuffle
         self.MULTIPROCESSING = multiprocessing
         self.VERBOSE = verbose
 
@@ -34,15 +35,11 @@ class Benchmark(ABC):
     def genome_size(self) -> int:
         pass
 
-    @abstractproperty
-    def global_opt(self) -> float:
-        pass
-
     @lazy
     def gene_order(self) -> List[int]:
         gene_order = range(0, self.genome_size)
 
-        if self.SHUFFLE:
+        if self.USE_SHUFFLE:
             gene_order = np.random.permutation(gene_order)
 
         return list(gene_order)
@@ -70,7 +67,7 @@ class Benchmark(ABC):
 
         as_dict['name'] = self.__class__.__name__
         as_dict['genome_size'] = self.genome_size
-        as_dict['shuffle'] = self.SHUFFLE
+        as_dict['shuffle'] = self.USE_SHUFFLE
 
         return as_dict
 
@@ -78,9 +75,8 @@ class Benchmark(ABC):
         pass
 
     def initialize_population(self, size: int) -> Population:
-        size = int(size)
         solutions = []
-
+        size = int(size)
         iterator = range(size)
 
         if self.VERBOSE:
@@ -88,9 +84,7 @@ class Benchmark(ABC):
             iterator = tqdm(iterator, desc='Initializing population')
 
         for _ in iterator:
-            genome = self.random_solution().genome
-
-            solution = Solution(genome)
+            solution = self.random_solution()
             solutions.append(solution)
 
         return Population(solutions)
@@ -128,7 +122,7 @@ class Benchmark(ABC):
             tqdm.write('\n')
             tqdm.write(
                 'Evaluating population of {} solutions'
-                .format(population.length)
+                .format(population.size)
             )
             tqdm.write('\n')
 
@@ -186,18 +180,10 @@ class Benchmark(ABC):
         else:
             self.ffe += 1
 
-        if self.SHUFFLE:
-            solution = self._shuffle_solution(solution, gene_order)
+        if self.USE_SHUFFLE:
+            solution = deshuffle_solution(solution, gene_order)
 
         return self._evaluate_solution(solution)
-
-    def _shuffle_solution(self, solution: Solution, gene_order: List[int]):
-        shuffled = []
-
-        for gene_index in gene_order:
-            shuffled.append(solution.genome[gene_index])
-
-        return Solution(np.array(shuffled))
 
     @abstractmethod
     def _evaluate_solution(self, solution: Solution) -> float:

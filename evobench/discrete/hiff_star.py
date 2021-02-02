@@ -1,7 +1,6 @@
 from typing import List
 
 import numpy as np
-from lazy import lazy
 
 from evobench.discrete.discrete import Discrete
 
@@ -12,27 +11,17 @@ class HiffStar(Discrete):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(HiffStar, self).__init__(
             blocks,
             overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )
-
-    @lazy
-    def global_opt(self) -> float:
-
-        global_opt = sum(
-            block // 2 * (block // 2 - 1)
-            for block in self.BLOCKS
-        )
-
-        return float(global_opt)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
 

@@ -13,14 +13,14 @@ class Continuous(Separable):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Continuous, self).__init__(
             blocks,
             overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )

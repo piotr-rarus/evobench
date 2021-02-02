@@ -1,7 +1,6 @@
 from pytest import fixture
 
 from evobench.discrete.step_bimodal import StepBimodal
-from evobench.util import check_samples
 
 
 __SAMPLES = [
@@ -20,10 +19,10 @@ def step_bimodal() -> StepBimodal:
     )
 
 
-def test_samples(step_bimodal: StepBimodal):
-    check_samples(__SAMPLES, step_bimodal)
+def test_samples(step_bimodal: StepBimodal, helpers):
+    helpers.check_samples(__SAMPLES, step_bimodal)
 
 
-def test_global_opt(step_bimodal: StepBimodal):
-    assert isinstance(step_bimodal.global_opt, float)
-    assert step_bimodal.global_opt == 3
+def test_as_dict(step_bimodal: StepBimodal):
+    as_dict = step_bimodal.as_dict
+    assert isinstance(as_dict, dict)
