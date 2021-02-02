@@ -1,9 +1,9 @@
 import math
-from typing import List
+from typing import Dict, List
 
 import numpy as np
-from lazy import lazy
 from evobench.continuous.continuous import Continuous
+from lazy import lazy
 
 
 class StepMultimodal(Continuous):
@@ -13,23 +13,19 @@ class StepMultimodal(Continuous):
         blocks: List[int],
         step_size: int,
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(StepMultimodal, self).__init__(
             blocks,
             overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )
 
         self.STEP_SIZE = step_size
-
-    @lazy
-    def global_opt(self) -> float:
-        return float(len(self.BLOCKS))
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
@@ -40,3 +36,13 @@ class StepMultimodal(Continuous):
         fitness *= self.STEP_SIZE
 
         return fitness
+
+    @lazy
+    def as_dict(self) -> Dict:
+        as_dict = {}
+        as_dict['step_size'] = self.STEP_SIZE
+
+        separable_as_dict = super().as_dict
+        as_dict = {**separable_as_dict, **as_dict}
+
+        return as_dict

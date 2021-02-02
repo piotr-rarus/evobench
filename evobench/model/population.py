@@ -11,7 +11,7 @@ class Population:
     solutions: List[Solution]
 
     @property
-    def length(self) -> int:
+    def size(self) -> int:
         return len(self.solutions)
 
     @property

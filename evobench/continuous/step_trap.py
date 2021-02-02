@@ -1,12 +1,11 @@
 from typing import Dict, List
 
 import numpy as np
+from evobench.continuous.continuous import Continuous
 from lazy import lazy
 
-from evobench.discrete.discrete import Discrete
 
-
-class StepTrap(Discrete):
+class StepTrap(Continuous):
 
     def __init__(
         self,
@@ -27,11 +26,25 @@ class StepTrap(Discrete):
 
         self.STEP_SIZE = step_size
 
-    def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
-        if not block.any():
-            return block.size // self.STEP_SIZE
+    def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
+        s = np.sum(block)
+
+        fitness = 0
+
+        if s == 0:
+            fitness = float('inf')
+        elif s < 1:
+            fitness = 1 / s
+            fitness /= self.STEP_SIZE
+            fitness = int(fitness)
+            fitness *= self.STEP_SIZE
         else:
-            return (np.count_nonzero(block) + 1) // self.STEP_SIZE - 1
+            fitness = s
+            fitness /= self.STEP_SIZE
+            fitness = int(fitness)
+            fitness *= self.STEP_SIZE
+
+        return fitness
 
     @lazy
     def as_dict(self) -> Dict:

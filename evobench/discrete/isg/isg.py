@@ -9,6 +9,7 @@ from evobench.model import Solution
 
 from .config import Config
 from .parser import load
+from evobench.util import shuffle
 
 
 class IsingSpinGlass(Benchmark):
@@ -16,7 +17,7 @@ class IsingSpinGlass(Benchmark):
     def __init__(
         self,
         config_name: str,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
@@ -32,7 +33,11 @@ class IsingSpinGlass(Benchmark):
             _P3_ repository.
         """
 
-        super(IsingSpinGlass, self).__init__(shuffle, multiprocessing, verbose)
+        super(IsingSpinGlass, self).__init__(
+            use_shuffle,
+            multiprocessing,
+            verbose
+        )
         self.config_name = config_name
 
     @lazy
@@ -44,11 +49,7 @@ class IsingSpinGlass(Benchmark):
         return load(path)
 
     @lazy
-    def global_opt(self) -> float:
-        return 1
-
-    @lazy
-    def dsm(self) -> np.ndarray:
+    def true_dsm(self) -> np.ndarray:
         dsm = np.eye(self.config.genome_size)
 
         for spin in self.config.spins:
@@ -87,6 +88,9 @@ class IsingSpinGlass(Benchmark):
         genome *= self.bound_range
         genome -= self.lower_bound
         genome = genome.astype(dtype=np.int)
+
+        if self.USE_SHUFFLE:
+            genome = shuffle(genome, self.gene_order)
 
         return Solution(genome)
 

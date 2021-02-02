@@ -1,8 +1,6 @@
 import numpy as np
-from pytest import fixture
-
 from evobench.model.solution import Solution
-from evobench.util import check_samples
+from pytest import fixture
 
 from ..trap import Trap
 
@@ -18,13 +16,8 @@ def trap() -> Trap:
     return Trap(blocks=[5, 5])
 
 
-def test_samples(trap: Trap):
-    check_samples(__SAMPLES, trap)
-
-
-def test_global_opt(trap: Trap):
-    assert isinstance(trap.global_opt, float)
-    assert trap.global_opt == float('inf')
+def test_samples(trap: Trap, helpers):
+    helpers.check_samples(__SAMPLES, trap)
 
 
 def test_lower_bound(trap: Trap):

@@ -13,4 +13,4 @@ class Solution:
 
     @lazy
     def __hash__(self):
-        return blake2b(self.genome.tobytes()).hexdigest()
+        return blake2b(self.genome.tobytes(), digest_size=10).hexdigest()

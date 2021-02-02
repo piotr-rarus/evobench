@@ -1,10 +1,10 @@
 from typing import List
 
 import numpy as np
-from lazy import lazy
-
 from evobench.model.solution import Solution
 from evobench.separable import Separable
+from evobench.util import shuffle
+from lazy import lazy
 
 
 class Discrete(Separable):
@@ -13,14 +13,14 @@ class Discrete(Separable):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Discrete, self).__init__(
             blocks,
             overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )
@@ -47,5 +47,8 @@ class Discrete(Separable):
         genome *= self.bound_range
         genome -= self.lower_bound
         genome = genome.astype(dtype=np.int)
+
+        if self.USE_SHUFFLE:
+            genome = shuffle(genome, self.gene_order)
 
         return Solution(genome)

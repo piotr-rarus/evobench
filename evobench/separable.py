@@ -18,7 +18,7 @@ class Separable(Benchmark):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
@@ -35,17 +35,16 @@ class Separable(Benchmark):
             Whether to evaluate population on all cores, by default False
         """
 
-        super(Separable, self).__init__(shuffle, multiprocessing, verbose)
+        super(Separable, self).__init__(use_shuffle, multiprocessing, verbose)
 
         self.BLOCKS = blocks
         self.OVERLAP_SIZE = overlap_size
 
-        self.GENOME_SIZE = sum(blocks)
-        self.GENOME_SIZE -= (len(blocks) - 1) * self.OVERLAP_SIZE
-
     @lazy
     def genome_size(self) -> int:
-        return self.GENOME_SIZE
+        genome_size = sum(self.BLOCKS)
+        genome_size -= (len(self.BLOCKS) - 1) * self.OVERLAP_SIZE
+        return genome_size
 
     @lazy
     def as_dict(self) -> Dict:
@@ -77,8 +76,7 @@ class Separable(Benchmark):
 
         fitness = sum(
             self.evaluate_block(block, index)
-            for index, block
-            in enumerate(blocks)
+            for index, block in enumerate(blocks)
         )
 
         return float(fitness)

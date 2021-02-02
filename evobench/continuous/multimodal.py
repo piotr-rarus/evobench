@@ -2,7 +2,6 @@ import math
 from typing import List
 
 import numpy as np
-from lazy import lazy
 
 from evobench.continuous.continuous import Continuous
 
@@ -13,21 +12,17 @@ class Multimodal(Continuous):
         self,
         blocks: List[int],
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Multimodal, self).__init__(
             blocks,
             overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )
-
-    @lazy
-    def global_opt(self) -> float:
-        return float(len(self.BLOCKS))
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> float:
         s = np.sum(block)
