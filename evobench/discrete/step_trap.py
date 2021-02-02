@@ -12,6 +12,7 @@ class StepTrap(Discrete):
         self,
         blocks: List[int],
         step_size: int,
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
@@ -19,6 +20,7 @@ class StepTrap(Discrete):
     ):
         super(StepTrap, self).__init__(
             blocks,
+            blocks_scaling,
             overlap_size,
             use_shuffle,
             multiprocessing,

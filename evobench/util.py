@@ -5,35 +5,29 @@ import numpy as np
 from evobench.model.solution import Solution
 
 
-def shuffle(a: np.ndarray, order: List[int]):
-    if a.shape[0] != len(order):
+def shuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
+    if a.shape != order.shape:
         raise AssertionError('Both array and order must be of the same shape')
 
-    shuffled = np.empty(a.shape, dtype=a.dtype)
-
-    for i, order_index in zip(range(len(order)), order):
-        shuffled[i] = a[order_index]
-
+    shuffled = a[order]
     return shuffled
 
 
-def deshuffle(a: np.ndarray, order: List[int]):
-    if a.shape[0] != len(order):
+def deshuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
+    if a.shape != order.shape:
         raise AssertionError('Both array and order must be of the same shape')
 
     deshuffled = np.empty(a.shape, dtype=a.dtype)
-
-    for i, order_index in zip(range(len(order)), order):
-        deshuffled[order_index] = a[i]
+    deshuffled[order] = a
 
     return deshuffled
 
 
-def shuffle_solution(solution: Solution, gene_order: List[int]):
+def shuffle_solution(solution: Solution, gene_order: List[int]) -> Solution:
     shuffled = shuffle(solution.genome, gene_order)
     return Solution(shuffled)
 
 
-def deshuffle_solution(solution: Solution, gene_order: List[int]):
+def deshuffle_solution(solution: Solution, gene_order: List[int]) -> Solution:
     deshuffled = deshuffle(solution.genome, gene_order)
     return Solution(deshuffled)

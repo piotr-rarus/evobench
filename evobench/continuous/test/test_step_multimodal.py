@@ -14,3 +14,8 @@ def step_multimodal() -> StepMultimodal:
 
 def test_samples(step_multimodal: StepMultimodal, helpers):
     helpers.check_samples(__SAMPLES, step_multimodal)
+
+
+def test_as_dict(step_multimodal: StepMultimodal):
+    as_dict = step_multimodal.as_dict
+    assert isinstance(as_dict, dict)

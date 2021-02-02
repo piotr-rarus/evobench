@@ -11,6 +11,7 @@ class Sawtooth(Continuous):
     def __init__(
         self,
         blocks: List[int],
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
@@ -18,6 +19,7 @@ class Sawtooth(Continuous):
     ):
         super(Sawtooth, self).__init__(
             blocks,
+            blocks_scaling,
             overlap_size,
             use_shuffle,
             multiprocessing,

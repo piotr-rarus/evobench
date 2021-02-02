@@ -17,6 +17,7 @@ class Separable(Benchmark):
     def __init__(
         self,
         blocks: List[int],
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
@@ -25,11 +26,13 @@ class Separable(Benchmark):
         """
         Parameters
         ----------
-        blocks : int
+        blocks : List[int]
             Sizes of each block
+        blocks_scaling : List[int], optional
+            Fitness scale factors for each block, by default None
         overlap_size : int, optional
             That many genes will overlap between different blocks, by default 0
-        shuffle : bool, optional
+        use_shuffle : bool, optional
             Whether to shuffle the genome, by default False
         multiprocessing : bool, optional
             Whether to evaluate population on all cores, by default False
@@ -38,6 +41,7 @@ class Separable(Benchmark):
         super(Separable, self).__init__(use_shuffle, multiprocessing, verbose)
 
         self.BLOCKS = blocks
+        self.BLOCKS_SCALING = blocks_scaling
         self.OVERLAP_SIZE = overlap_size
 
     @lazy
@@ -56,6 +60,7 @@ class Separable(Benchmark):
         as_dict = {}
         as_dict['blocks'] = self.BLOCKS
         as_dict['overlap_size'] = self.OVERLAP_SIZE
+        as_dict['block_scaling'] = self.BLOCKS_SCALING
 
         benchmark_as_dict = super().as_dict
         as_dict = {**benchmark_as_dict, **as_dict}
@@ -74,11 +79,18 @@ class Separable(Benchmark):
 
             start += block_size - index * self.OVERLAP_SIZE
 
-        fitness = sum(
+        evaluations = [
             self.evaluate_block(block, index)
             for index, block in enumerate(blocks)
-        )
+        ]
 
+        if self.BLOCKS_SCALING:
+            evaluations = [
+                evaluation * self.BLOCKS_SCALING[index]
+                for index, evaluation in enumerate(evaluations)
+            ]
+
+        fitness = sum(evaluations)
         return float(fitness)
 
     @abstractmethod
