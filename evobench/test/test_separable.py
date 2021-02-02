@@ -18,6 +18,7 @@ def benchmark(request) -> Separable:
 
     return Trap(
         blocks=[6, 6, 6, 6],
+        blocks_scaling=[1, 0.75, 0.5, 0.25],
         multiprocessing=multiprocessing,
         use_shuffle=shuffle,
         verbose=1

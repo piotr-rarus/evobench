@@ -12,7 +12,8 @@ __SAMPLES = [
 def step_trap() -> StepTrap:
     return StepTrap(
         blocks=[6, 6],
-        step_size=2
+        step_size=2,
+        use_shuffle=True
     )
 
 

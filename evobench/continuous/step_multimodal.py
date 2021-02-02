@@ -3,15 +3,17 @@ from typing import Dict, List
 
 import numpy as np
 from evobench.continuous.continuous import Continuous
+from evobench.separable import Separable
 from lazy import lazy
 
 
-class StepMultimodal(Continuous):
+class StepMultimodal(Separable, Continuous):
 
     def __init__(
         self,
         blocks: List[int],
         step_size: int,
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
@@ -19,6 +21,7 @@ class StepMultimodal(Continuous):
     ):
         super(StepMultimodal, self).__init__(
             blocks,
+            blocks_scaling,
             overlap_size,
             use_shuffle,
             multiprocessing,

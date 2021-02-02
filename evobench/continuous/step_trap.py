@@ -2,15 +2,17 @@ from typing import Dict, List
 
 import numpy as np
 from evobench.continuous.continuous import Continuous
+from evobench.separable import Separable
 from lazy import lazy
 
 
-class StepTrap(Continuous):
+class StepTrap(Separable, Continuous):
 
     def __init__(
         self,
         blocks: List[int],
         step_size: int,
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
@@ -18,6 +20,7 @@ class StepTrap(Continuous):
     ):
         super(StepTrap, self).__init__(
             blocks,
+            blocks_scaling,
             overlap_size,
             use_shuffle,
             multiprocessing,

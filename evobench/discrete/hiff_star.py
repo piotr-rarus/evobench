@@ -1,27 +1,9 @@
-from typing import List
-
 import numpy as np
-
 from evobench.discrete.discrete import Discrete
+from evobench.separable import Separable
 
 
-class HiffStar(Discrete):
-
-    def __init__(
-        self,
-        blocks: List[int],
-        overlap_size: int = 0,
-        use_shuffle: bool = False,
-        multiprocessing: bool = False,
-        verbose: int = 0
-    ):
-        super(HiffStar, self).__init__(
-            blocks,
-            overlap_size,
-            use_shuffle,
-            multiprocessing,
-            verbose
-        )
+class HiffStar(Separable, Discrete):
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
 

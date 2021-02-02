@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from functools import partial
 from multiprocessing import Manager, Pool, RLock
-from typing import Dict, List
+from typing import Dict
 
 import numpy as np
 from lazy import lazy
@@ -36,13 +36,13 @@ class Benchmark(ABC):
         pass
 
     @lazy
-    def gene_order(self) -> List[int]:
-        gene_order = range(0, self.genome_size)
+    def gene_order(self) -> np.ndarray:
+        gene_order = np.arange(self.genome_size)
 
         if self.USE_SHUFFLE:
-            gene_order = np.random.permutation(gene_order)
+            np.random.shuffle(gene_order)
 
-        return list(gene_order)
+        return gene_order
 
     @lazy
     def lower_bound(self) -> np.ndarray:
@@ -152,7 +152,7 @@ class Benchmark(ABC):
     def evaluate_solution(
         self,
         solution: Solution,
-        gene_order: List[int] = None,
+        gene_order: np.ndarray = None,
         lock: RLock = None,
     ) -> float:
         """
@@ -162,6 +162,10 @@ class Benchmark(ABC):
         ----------
         solution : Solution
             Genome wrapped as `Solution`.
+        gene_order: np.ndarray
+            When using multiprocessing lazy values aren't copied over the vms.
+            This can lead to big whoopsy, when using different
+            shuffle order on multiple vms.
         lock : RLock, optional
             Lock to access ffe counter, by default None
 
@@ -171,7 +175,7 @@ class Benchmark(ABC):
             Fitness value.
         """
 
-        if not gene_order:
+        if gene_order is None:
             gene_order = self.gene_order
 
         if lock:
