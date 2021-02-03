@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from functools import partial
 from multiprocessing import Manager, Pool, RLock
-from typing import Dict
+from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
@@ -100,7 +100,28 @@ class Benchmark(ABC):
 
         return Solution(genome)
 
-    def evaluate_population(self, population: Population):
+    def predict(self, population: np.ndarray) -> np.ndarray:
+        """
+        This method is meant to cheat on XAI methods, which require object
+        to have `predict` function. This runs just your standard evaluation.
+
+        Parameters
+        ----------
+        population : np.ndarray
+            You can get it using .as_ndarray on your Population object.
+
+        Returns
+        -------
+        np.ndarray
+            Calculated fitness.
+        """
+
+        solutions = [Solution(genome) for genome in population]
+        population = Population(solutions)
+        fitness = self.evaluate_population(population)
+        return fitness
+
+    def evaluate_population(self, population: Population) -> np.ndarray:
         """
         Evaluates population of solutions.
 
@@ -148,6 +169,8 @@ class Benchmark(ABC):
         else:
             for solution in solutions:
                 solution.fitness = self.evaluate_solution(solution)
+
+        return population.fitness
 
     def evaluate_solution(
         self,

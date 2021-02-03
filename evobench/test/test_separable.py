@@ -40,6 +40,15 @@ def test_evaluate_population(benchmark: Separable, population: Population):
     assert fitness.size == len(population.solutions)
 
 
+def test_predict(benchmark: Separable, population: Population):
+    population_array = population.as_ndarray
+    fitness = benchmark.predict(population_array)
+
+    assert isinstance(fitness, np.ndarray)
+    assert len(fitness.shape) == 1
+    assert fitness.size == len(population.solutions)
+
+
 def test_true_dsm(benchmark: Separable):
     true_dsm = benchmark.true_dsm
 
