@@ -22,6 +22,7 @@ setuptools.setup(
     packages=setuptools.find_packages(
         exclude=[
             'test',
+            'visualizations'
         ]
     ),
     install_requires=[
