@@ -74,10 +74,10 @@ class Benchmark(ABC):
     def random_solution(self) -> Solution:
         pass
 
-    def initialize_population(self, size: int) -> Population:
+    def initialize_population(self, population_size: int) -> Population:
         solutions = []
-        size = int(size)
-        iterator = range(size)
+        population_size = int(population_size)
+        iterator = range(population_size)
 
         if self.VERBOSE:
             tqdm.write('\n')

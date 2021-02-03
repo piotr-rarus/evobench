@@ -91,7 +91,7 @@ benchmark = CompoundBenchmark(
 )
 
 population = benchmark.initialize_population(population_size=1000)
-fitness = benchmark.evaluate_population(population)
+benchmark.evaluate_population(population)
 ```
 
 ## How to implement your own function
