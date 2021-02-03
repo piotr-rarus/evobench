@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from functools import partial
 from multiprocessing import Manager, Pool, RLock
-from typing import Dict, List
+from typing import Dict
 
 import numpy as np
 from lazy import lazy
