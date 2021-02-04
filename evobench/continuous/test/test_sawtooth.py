@@ -1,7 +1,5 @@
 from pytest import fixture
 
-from evobench.util import check_samples
-
 from ..sawtooth import Sawtooth
 
 __SAMPLES = [
@@ -16,10 +14,5 @@ def sawtooth() -> Sawtooth:
     return Sawtooth(blocks=[5, 5])
 
 
-def test_samples(sawtooth: Sawtooth):
-    check_samples(__SAMPLES, sawtooth)
-
-
-def test_global_opt(sawtooth: Sawtooth):
-    assert isinstance(sawtooth.global_opt, float)
-    assert sawtooth.global_opt == 2
+def test_samples(sawtooth: Sawtooth, helpers):
+    helpers.check_samples(__SAMPLES, sawtooth)

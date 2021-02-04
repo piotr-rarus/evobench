@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from functools import partial
 from multiprocessing import Manager, Pool, RLock
-from typing import Dict, List
+from typing import Dict
 
 import numpy as np
 from lazy import lazy
@@ -9,6 +9,7 @@ from tqdm.auto import tqdm
 
 from evobench.model.population import Population
 from evobench.model.solution import Solution
+from evobench.util import deshuffle_solution
 
 
 class Benchmark(ABC):
@@ -20,13 +21,13 @@ class Benchmark(ABC):
 
     def __init__(
         self,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Benchmark, self).__init__()
         self.ffe = 0
-        self.SHUFFLE = shuffle
+        self.USE_SHUFFLE = use_shuffle
         self.MULTIPROCESSING = multiprocessing
         self.VERBOSE = verbose
 
@@ -34,18 +35,14 @@ class Benchmark(ABC):
     def genome_size(self) -> int:
         pass
 
-    @abstractproperty
-    def global_opt(self) -> float:
-        pass
-
     @lazy
-    def gene_order(self) -> List[int]:
-        gene_order = range(0, self.genome_size)
+    def gene_order(self) -> np.ndarray:
+        gene_order = np.arange(self.genome_size)
 
-        if self.SHUFFLE:
-            gene_order = np.random.permutation(gene_order)
+        if self.USE_SHUFFLE:
+            np.random.shuffle(gene_order)
 
-        return list(gene_order)
+        return gene_order
 
     @lazy
     def lower_bound(self) -> np.ndarray:
@@ -70,28 +67,24 @@ class Benchmark(ABC):
 
         as_dict['name'] = self.__class__.__name__
         as_dict['genome_size'] = self.genome_size
-        as_dict['shuffle'] = self.SHUFFLE
+        as_dict['shuffle'] = self.USE_SHUFFLE
 
         return as_dict
 
-    @lazy
     def random_solution(self) -> Solution:
         pass
 
-    def initialize_population(self, size: int) -> Population:
-        size = int(size)
+    def initialize_population(self, population_size: int) -> Population:
         solutions = []
-
-        iterator = range(size)
+        population_size = int(population_size)
+        iterator = range(population_size)
 
         if self.VERBOSE:
             tqdm.write('\n')
             iterator = tqdm(iterator, desc='Initializing population')
 
         for _ in iterator:
-            genome = self.random_solution().genome
-
-            solution = Solution(genome)
+            solution = self.random_solution()
             solutions.append(solution)
 
         return Population(solutions)
@@ -107,7 +100,28 @@ class Benchmark(ABC):
 
         return Solution(genome)
 
-    def evaluate_population(self, population: Population):
+    def predict(self, population: np.ndarray) -> np.ndarray:
+        """
+        This method is meant to cheat on XAI methods, which require object
+        to have `predict` function. This runs just your standard evaluation.
+
+        Parameters
+        ----------
+        population : np.ndarray
+            You can get it using .as_ndarray on your Population object.
+
+        Returns
+        -------
+        np.ndarray
+            Calculated fitness.
+        """
+
+        solutions = [Solution(genome) for genome in population]
+        population = Population(solutions)
+        fitness = self.evaluate_population(population)
+        return fitness
+
+    def evaluate_population(self, population: Population) -> np.ndarray:
         """
         Evaluates population of solutions.
 
@@ -129,7 +143,7 @@ class Benchmark(ABC):
             tqdm.write('\n')
             tqdm.write(
                 'Evaluating population of {} solutions'
-                .format(population.length)
+                .format(population.size)
             )
             tqdm.write('\n')
 
@@ -156,10 +170,12 @@ class Benchmark(ABC):
             for solution in solutions:
                 solution.fitness = self.evaluate_solution(solution)
 
+        return population.fitness
+
     def evaluate_solution(
         self,
         solution: Solution,
-        gene_order: List[int] = None,
+        gene_order: np.ndarray = None,
         lock: RLock = None,
     ) -> float:
         """
@@ -169,6 +185,10 @@ class Benchmark(ABC):
         ----------
         solution : Solution
             Genome wrapped as `Solution`.
+        gene_order: np.ndarray
+            When using multiprocessing lazy values aren't copied over the vms.
+            This can lead to big whoopsy, when using different
+            shuffle order on multiple vms.
         lock : RLock, optional
             Lock to access ffe counter, by default None
 
@@ -178,7 +198,7 @@ class Benchmark(ABC):
             Fitness value.
         """
 
-        if not gene_order:
+        if gene_order is None:
             gene_order = self.gene_order
 
         if lock:
@@ -187,18 +207,10 @@ class Benchmark(ABC):
         else:
             self.ffe += 1
 
-        if self.SHUFFLE:
-            solution = self._shuffle_solution(solution, gene_order)
+        if self.USE_SHUFFLE:
+            solution = deshuffle_solution(solution, gene_order)
 
         return self._evaluate_solution(solution)
-
-    def _shuffle_solution(self, solution: Solution, gene_order: List[int]):
-        shuffled = []
-
-        for gene_index in gene_order:
-            shuffled.append(solution.genome[gene_index])
-
-        return Solution(np.array(shuffled))
 
     @abstractmethod
     def _evaluate_solution(self, solution: Solution) -> float:

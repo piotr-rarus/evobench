@@ -1,8 +1,8 @@
 import numpy as np
 from pytest import fixture
 
-from evobench.model.population import Population
-from evobench.model.solution import Solution
+from ..population import Population
+from ..solution import Solution
 
 
 @fixture
@@ -30,3 +30,9 @@ def test_lower_bound(population: Population):
 
 def test_as_ndarray(population: Population):
     assert isinstance(population.as_ndarray, np.ndarray)
+
+
+def test_size(population: Population):
+    size = population.size
+    assert isinstance(size, int)
+    assert size == 3

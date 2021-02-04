@@ -14,7 +14,7 @@ setuptools.setup(
 
     url='https://github.com/piotr-rarus/evobench',
     license='MIT',
-    version='0.2.3',
+    version='0.3.0',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -22,11 +22,12 @@ setuptools.setup(
     packages=setuptools.find_packages(
         exclude=[
             'test',
+            'visualizations'
         ]
     ),
     install_requires=[
         'lazy==1.4',
-        'numpy==1.19.0',
+        'numpy==1.19.2',
         'tqdm==4.47.0'
     ],
     package_data={

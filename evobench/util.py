@@ -1,18 +1,33 @@
-from typing import List, Tuple
+from typing import List
 
 import numpy as np
 
-from evobench.benchmark import Benchmark
 from evobench.model.solution import Solution
 
 
-def check_samples(
-    samples: List[Tuple[np.ndarray, float]],
-    benchmark: Benchmark
-):
-    for genome, fitness in samples:
-        solution = Solution(np.array(genome))
-        pred_fitness = benchmark.evaluate_solution(solution)
+def shuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
+    if a.shape != order.shape:
+        raise AssertionError('Both array and order must be of the same shape')
 
-        assert isinstance(pred_fitness, float)
-        assert pred_fitness == fitness
+    shuffled = a[order]
+    return shuffled
+
+
+def deshuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
+    if a.shape != order.shape:
+        raise AssertionError('Both array and order must be of the same shape')
+
+    deshuffled = np.empty(a.shape, dtype=a.dtype)
+    deshuffled[order] = a
+
+    return deshuffled
+
+
+def shuffle_solution(solution: Solution, gene_order: List[int]) -> Solution:
+    shuffled = shuffle(solution.genome, gene_order)
+    return Solution(shuffled)
+
+
+def deshuffle_solution(solution: Solution, gene_order: List[int]) -> Solution:
+    deshuffled = deshuffle(solution.genome, gene_order)
+    return Solution(deshuffled)

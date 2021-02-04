@@ -1,36 +1,33 @@
 from typing import Dict, List
 
 import numpy as np
+from evobench.discrete.discrete import Discrete
+from evobench.separable import Separable
 from lazy import lazy
 
-from evobench.discrete.discrete import Discrete
 
-
-class StepTrap(Discrete):
+class StepTrap(Separable, Discrete):
 
     def __init__(
         self,
         blocks: List[int],
         step_size: int,
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(StepTrap, self).__init__(
             blocks,
+            blocks_scaling,
             overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )
 
         self.STEP_SIZE = step_size
-
-    @lazy
-    def global_opt(self) -> float:
-        global_opt = sum(block // self.STEP_SIZE for block in self.BLOCKS)
-        return float(global_opt)
 
     def evaluate_block(self, block: np.ndarray, block_index: int) -> int:
         if not block.any():

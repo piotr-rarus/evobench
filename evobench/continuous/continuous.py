@@ -1,26 +1,19 @@
-from typing import List
-
 import numpy as np
+from evobench.benchmark import Benchmark
+from evobench.model.solution import Solution
 from lazy import lazy
 
-from evobench.model.solution import Solution
-from evobench.separable import Separable
 
-
-class Continuous(Separable):
+class Continuous(Benchmark):
 
     def __init__(
         self,
-        blocks: List[int],
-        overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Continuous, self).__init__(
-            blocks,
-            overlap_size,
-            shuffle,
+            use_shuffle,
             multiprocessing,
             verbose
         )
@@ -39,6 +32,6 @@ class Continuous(Separable):
         genome = np.random.uniform(low=0, high=1, size=self.genome_size)
 
         genome *= self.bound_range
-        genome -= self.lower_bound
+        genome += self.lower_bound
 
         return Solution(genome)

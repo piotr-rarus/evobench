@@ -11,7 +11,7 @@ __CONFIG_NAME = 'IsingSpinGlass_pm_16_0'
 
 @fixture
 def isg() -> IsingSpinGlass:
-    return IsingSpinGlass(__CONFIG_NAME)
+    return IsingSpinGlass(__CONFIG_NAME, use_shuffle=True)
 
 
 def test_config(isg: IsingSpinGlass):
@@ -48,8 +48,8 @@ def test_best_solution(isg: IsingSpinGlass):
     assert 0 <= pred_fitness <= 1
 
 
-def test_dsm(isg: IsingSpinGlass):
-    dsm = isg.dsm
+def test_true_dsm(isg: IsingSpinGlass):
+    dsm = isg.true_dsm
 
     assert isinstance(dsm, np.ndarray)
     assert dsm.size == isg.genome_size ** 2

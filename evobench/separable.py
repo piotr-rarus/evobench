@@ -11,41 +11,44 @@ from evobench.model import Solution
 class Separable(Benchmark):
 
     """
-    Base class for fully separable problems.
+    Base class for separable problems.
     """
 
     def __init__(
         self,
         blocks: List[int],
+        blocks_scaling: List[int] = None,
         overlap_size: int = 0,
-        shuffle: bool = False,
+        use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         """
         Parameters
         ----------
-        blocks : int
+        blocks : List[int]
             Sizes of each block
+        blocks_scaling : List[int], optional
+            Fitness scale factors for each block, by default None
         overlap_size : int, optional
             That many genes will overlap between different blocks, by default 0
-        shuffle : bool, optional
+        use_shuffle : bool, optional
             Whether to shuffle the genome, by default False
         multiprocessing : bool, optional
             Whether to evaluate population on all cores, by default False
         """
 
-        super(Separable, self).__init__(shuffle, multiprocessing, verbose)
+        super(Separable, self).__init__(use_shuffle, multiprocessing, verbose)
 
         self.BLOCKS = blocks
+        self.BLOCKS_SCALING = blocks_scaling
         self.OVERLAP_SIZE = overlap_size
-
-        self.GENOME_SIZE = sum(blocks)
-        self.GENOME_SIZE -= (len(blocks) - 1) * self.OVERLAP_SIZE
 
     @lazy
     def genome_size(self) -> int:
-        return self.GENOME_SIZE
+        genome_size = sum(self.BLOCKS)
+        genome_size -= (len(self.BLOCKS) - 1) * self.OVERLAP_SIZE
+        return genome_size
 
     @lazy
     def as_dict(self) -> Dict:
@@ -57,6 +60,7 @@ class Separable(Benchmark):
         as_dict = {}
         as_dict['blocks'] = self.BLOCKS
         as_dict['overlap_size'] = self.OVERLAP_SIZE
+        as_dict['block_scaling'] = self.BLOCKS_SCALING
 
         benchmark_as_dict = super().as_dict
         as_dict = {**benchmark_as_dict, **as_dict}
@@ -75,12 +79,18 @@ class Separable(Benchmark):
 
             start += block_size - index * self.OVERLAP_SIZE
 
-        fitness = sum(
+        evaluations = [
             self.evaluate_block(block, index)
-            for index, block
-            in enumerate(blocks)
-        )
+            for index, block in enumerate(blocks)
+        ]
 
+        if self.BLOCKS_SCALING:
+            evaluations = [
+                evaluation * self.BLOCKS_SCALING[index]
+                for index, evaluation in enumerate(evaluations)
+            ]
+
+        fitness = sum(evaluations)
         return float(fitness)
 
     @abstractmethod
@@ -101,3 +111,17 @@ class Separable(Benchmark):
             Fitness value of a block.
         """
         pass
+
+    @lazy
+    def true_dsm(self) -> np.ndarray:
+        start = 0
+        dsm = np.zeros((self.genome_size, self.genome_size))
+
+        for index, block_size in enumerate(self.BLOCKS):
+
+            width = start + block_size
+            dsm[start:width, start:width] = 1.0
+
+            start += block_size - index * self.OVERLAP_SIZE
+
+        return dsm
