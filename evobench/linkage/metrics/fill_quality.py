@@ -7,7 +7,8 @@ from tqdm.auto import tqdm
 
 def get_fill_quality_from_dsm(
     pred_dsm: np.ndarray,
-    true_dsm: np.ndarray
+    true_dsm: np.ndarray,
+    verbose: int = 0
 ) -> List[float]:
     """
     On measuring and improving the quality of linkage learning in
@@ -34,7 +35,8 @@ def get_fill_quality_from_dsm(
         Distribution of fill quality metric for each gene in the genome.
     """
 
-    tqdm.write('Calculating DSM fill quality')
+    if verbose:
+        tqdm.write('Calculating DSM fill quality')
 
     fill_quality = []
     genome_size, _ = pred_dsm.shape
