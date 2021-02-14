@@ -48,7 +48,7 @@ class Separable(Benchmark):
     def genome_size(self) -> int:
         genome_size = sum(self.BLOCKS)
         genome_size -= (len(self.BLOCKS) - 1) * self.OVERLAP_SIZE
-        return genome_size
+        return int(genome_size)
 
     @lazy
     def as_dict(self) -> Dict:
