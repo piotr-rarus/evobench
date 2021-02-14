@@ -13,7 +13,7 @@ def get_block_width(
 
 
 def get_ils(
-    gene_index: int,
+    starting_gene_index: int,
     dsm: np.ndarray,
     block_width: int = None
 ) -> List[int]:
@@ -29,7 +29,7 @@ def get_ils(
 
     Parameters
     ----------
-    gene_index : int
+    starting_gene_index : int
         Gene which starts the sequence of dependencies.
     dsm : np.ndarray
         Dependency structure matrix
@@ -43,28 +43,24 @@ def get_ils(
         Incremental Linkage Set
     """
 
-    ils = []
-    ils.append(gene_index)
+    ils = [starting_gene_index]
     genome_size, _ = dsm.shape
 
     if block_width is None:
         block_width = genome_size
 
+    dependencies = dsm[starting_gene_index, :].copy()
+    unavailable_genes = np.zeros(genome_size, dtype=bool)
+    unavailable_genes[starting_gene_index] = True
+    dependencies[unavailable_genes] = -1
+
     while len(ils) < block_width:
-        last_gene_index = ils[-1]
-
-        available_genes = [
-            gene_index
-            for gene_index in range(0, genome_size)
-            if gene_index not in ils
-        ]
-
-        dependencies = [
-            dsm[last_gene_index, available_gene]
-            for available_gene in available_genes
-        ]
 
         max_index = np.argmax(dependencies)
-        ils.append(available_genes[max_index])
+        ils.append(max_index)
+
+        unavailable_genes[max_index] = True
+        dependencies += dsm[max_index, :]
+        dependencies[unavailable_genes] = -1
 
     return ils[1:]
