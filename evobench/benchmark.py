@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 from functools import partial
 from multiprocessing import Manager, Pool, RLock
-from typing import Dict
+from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
@@ -71,22 +71,17 @@ class Benchmark(ABC):
 
         return as_dict
 
-    def random_solution(self) -> Solution:
+    def random_solutions(self, population_size: int) -> List[Solution]:
         pass
 
     def initialize_population(self, population_size: int) -> Population:
         solutions = []
         population_size = int(population_size)
-        iterator = range(population_size)
 
         if self.VERBOSE:
-            tqdm.write('\n')
-            iterator = tqdm(iterator, desc='Initializing population')
+            tqdm.write(f'\nInitializing poptulation: {population_size} samples')
 
-        for _ in iterator:
-            solution = self.random_solution()
-            solutions.append(solution)
-
+        solutions = self.random_solutions(population_size)
         return Population(solutions)
 
     def fix(self, solution: Solution) -> Solution:
