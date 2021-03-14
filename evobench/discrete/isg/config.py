@@ -23,6 +23,18 @@ class Config:
         return len(self.spins) - self.min_energy
 
     @lazy
+    def a_spin_indices(self) -> np.ndarray:
+        return np.array([spin.a_index for spin in self.spins])
+
+    @lazy
+    def b_spin_indices(self) -> np.ndarray:
+        return np.array([spin.b_index for spin in self.spins])
+
+    @lazy
+    def spin_factors(self) -> np.ndarray:
+        return np.array([spin.factor for spin in self.spins])
+
+    @lazy
     def as_dict(self) -> Dict:
         as_dict = {}
         as_dict['name'] = self.name
