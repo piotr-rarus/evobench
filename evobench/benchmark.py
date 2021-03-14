@@ -79,7 +79,7 @@ class Benchmark(ABC):
         population_size = int(population_size)
 
         if self.VERBOSE:
-            tqdm.write(f'\nInitializing poptulation: {population_size} samples')
+            print(f'\nInitializing poptulation: {population_size} samples')
 
         solutions = self.random_solutions(population_size)
         return Population(solutions)
@@ -135,13 +135,7 @@ class Benchmark(ABC):
         solutions = population.get_not_evaluated_solutions()
 
         if self.VERBOSE:
-            tqdm.write('\n')
-            tqdm.write(
-                'Evaluating population of {} solutions'
-                .format(population.size)
-            )
-            tqdm.write('\n')
-
+            print(f'\nEvaluating population of {population.size} solutions\n')
             solutions = tqdm(solutions)
 
         if self.MULTIPROCESSING:
