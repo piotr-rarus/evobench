@@ -6,10 +6,10 @@ from evobench.model.solution import Solution
 
 
 def shuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
-    if a.shape != order.shape:
+    if a.shape[-1] != order.shape[0]:
         raise AssertionError('Both array and order must be of the same shape')
 
-    shuffled = a[order]
+    shuffled = a[..., order]
     return shuffled
 
 
@@ -18,7 +18,7 @@ def deshuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
         raise AssertionError('Both array and order must be of the same shape')
 
     deshuffled = np.empty(a.shape, dtype=a.dtype)
-    deshuffled[order] = a
+    deshuffled[..., order] = a
 
     return deshuffled
 

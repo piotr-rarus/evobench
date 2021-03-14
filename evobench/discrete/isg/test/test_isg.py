@@ -77,7 +77,7 @@ def test_bound_range(isg: IsingSpinGlass):
 
 
 def test_random_solution(isg: IsingSpinGlass):
-    solution = isg.random_solution()
+    solution = isg.random_solutions(1)[0]
 
     assert isinstance(solution, Solution)
 

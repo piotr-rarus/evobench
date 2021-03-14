@@ -33,7 +33,7 @@ class Discrete(Benchmark):
 
     def fix(self, solution: Solution) -> Solution:
         solution = super(Discrete, self).fix(solution)
-        genome = solution.genome.astype(dtype=np.int)
+        genome = solution.genome.astype(dtype=int)
 
         return Solution(genome)
 
@@ -46,7 +46,7 @@ class Discrete(Benchmark):
 
         genomes *= self.bound_range
         genomes -= self.lower_bound
-        genomes = genomes.astype(dtype=np.int)
+        genomes = genomes.astype(dtype=int)
 
         if self.USE_SHUFFLE:
             genomes = shuffle(genomes, self.gene_order)

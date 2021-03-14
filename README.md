@@ -25,7 +25,7 @@ This package contains following problems.
 
 ### Compound
 
-You can create your own benchmark made of ther benchmarks.
+You can create your own benchmark made of other benchmarks.
 
 ## Getting started
 
@@ -39,7 +39,7 @@ import evobench
 
 trap = evobench.discrete.Trap(blocks=[4, 4, 4])
 
-population = trap.initialize_population(population_size=1000)
+population = trap.initialize_population(population_size=1e3)
 fitness = trap.evaluate_population(population)
 ```
 

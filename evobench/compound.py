@@ -9,7 +9,7 @@ from evobench.continuous.continuous import Continuous
 from evobench.discrete.discrete import Discrete
 from evobench.model.solution import Solution
 from evobench.separable import Separable
-from evobench.util import shuffle, shuffle_solution
+from evobench.util import shuffle
 
 
 class CompoundBenchmark(Benchmark):
@@ -85,19 +85,18 @@ class CompoundBenchmark(Benchmark):
 
         return as_dict
 
-    def random_solution(self) -> Solution:
-        genomes = []
+    def random_solutions(self, population_size: int) -> List[Solution]:
+        populations = []
         for benchmark in self.benchmarks:
-            solution = benchmark.random_solution()
-            genomes.append(solution.genome)
+            population = benchmark.initialize_population(population_size)
+            populations.append(population.as_ndarray)
 
-        genome = np.concatenate(genomes)
-        solution = Solution(genome)
+        genomes = np.concatenate(populations, axis=1)
 
         if self.USE_SHUFFLE:
-            solution = shuffle_solution(solution, self.gene_order)
+            genomes = shuffle(genomes, self.gene_order)
 
-        return solution
+        return list(Solution(genome) for genome in genomes)
 
     def _evaluate_solution(self, solution: Solution) -> float:
         index = 0
