@@ -26,9 +26,9 @@ setuptools.setup(
         ]
     ),
     install_requires=[
-        'lazy==1.4',
+        'lazy>=1.4',
         'numpy>=1.16.0',
-        'tqdm==4.47.0'
+        'tqdm>=4.47.0'
     ],
     package_data={
         'evobench.discrete.isg': ['data/*.txt']

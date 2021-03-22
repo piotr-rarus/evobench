@@ -2,7 +2,6 @@ from typing import List
 
 import numpy as np
 from evobench.linkage.dsm import get_block_width, get_ils
-from tqdm.auto import tqdm
 
 
 def get_fill_quality_from_dsm(
