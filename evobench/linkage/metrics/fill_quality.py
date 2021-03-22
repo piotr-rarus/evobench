@@ -36,7 +36,7 @@ def get_fill_quality_from_dsm(
     """
 
     if verbose:
-        tqdm.write('Calculating DSM fill quality')
+        print('Calculating DSM fill quality')
 
     fill_quality = []
     genome_size, _ = pred_dsm.shape
