@@ -10,21 +10,24 @@ class StepTrap(Separable, Discrete):
 
     def __init__(
         self,
+        *,
         blocks: List[int],
         step_size: int,
         blocks_scaling: List[int] = None,
         overlap_size: int = 0,
+        random_state: int = 42,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(StepTrap, self).__init__(
-            blocks,
-            blocks_scaling,
-            overlap_size,
-            use_shuffle,
-            multiprocessing,
-            verbose
+            blocks=blocks,
+            blocks_scaling=blocks_scaling,
+            overlap_size=overlap_size,
+            random_state=random_state,
+            use_shuffle=use_shuffle,
+            multiprocessing=multiprocessing,
+            verbose=verbose
         )
 
         self.STEP_SIZE = step_size

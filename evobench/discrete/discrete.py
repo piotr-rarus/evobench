@@ -11,14 +11,17 @@ class Discrete(Benchmark):
 
     def __init__(
         self,
+        *,
+        random_state: int = 42,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Discrete, self).__init__(
-            use_shuffle,
-            multiprocessing,
-            verbose
+            random_state=random_state,
+            use_shuffle=use_shuffle,
+            multiprocessing=multiprocessing,
+            verbose=verbose
         )
 
     @lazy
@@ -38,7 +41,7 @@ class Discrete(Benchmark):
         return Solution(genome)
 
     def random_solutions(self, population_size: int) -> List[Solution]:
-        genomes = np.random.uniform(
+        genomes = self.random_state.uniform(
             low=0,
             high=2,
             size=(population_size, self.genome_size)

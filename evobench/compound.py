@@ -16,6 +16,7 @@ class CompoundBenchmark(Benchmark):
 
     def __init__(
         self,
+        *,
         benchmarks: List[Benchmark],
         use_shuffle: bool = False,
         multiprocessing: bool = False,

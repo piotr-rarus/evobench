@@ -5,6 +5,7 @@ from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
+from numpy.random import RandomState
 from tqdm.auto import tqdm
 
 from evobench.model.population import Population
@@ -21,15 +22,19 @@ class Benchmark(ABC):
 
     def __init__(
         self,
+        random_state: int = 42,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Benchmark, self).__init__()
-        self.ffe = 0
+        self.RANDOM_STATE = random_state
         self.USE_SHUFFLE = use_shuffle
         self.MULTIPROCESSING = multiprocessing
         self.VERBOSE = verbose
+
+        self.ffe = 0
+        self.random_state = RandomState(random_state)
 
     @abstractproperty
     def genome_size(self) -> int:
@@ -40,7 +45,7 @@ class Benchmark(ABC):
         gene_order = np.arange(self.genome_size)
 
         if self.USE_SHUFFLE:
-            np.random.shuffle(gene_order)
+            self.random_state.shuffle(gene_order)
 
         return gene_order
 
@@ -94,27 +99,6 @@ class Benchmark(ABC):
         genome[mask] = self.lower_bound[mask]
 
         return Solution(genome)
-
-    def predict(self, population: np.ndarray) -> np.ndarray:
-        """
-        This method is meant to cheat on XAI methods, which require object
-        to have `predict` function. This runs just your standard evaluation.
-
-        Parameters
-        ----------
-        population : np.ndarray
-            You can get it using .as_ndarray on your Population object.
-
-        Returns
-        -------
-        np.ndarray
-            Calculated fitness.
-        """
-
-        solutions = [Solution(genome) for genome in population]
-        population = Population(solutions)
-        fitness = self.evaluate_population(population)
-        return fitness
 
     def evaluate_population(self, population: Population) -> np.ndarray:
         """
