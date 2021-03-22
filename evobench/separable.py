@@ -16,9 +16,11 @@ class Separable(Benchmark):
 
     def __init__(
         self,
+        *,
         blocks: List[int],
         blocks_scaling: List[int] = None,
         overlap_size: int = 0,
+        random_state: int = 42,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
@@ -38,7 +40,12 @@ class Separable(Benchmark):
             Whether to evaluate population on all cores, by default False
         """
 
-        super(Separable, self).__init__(use_shuffle, multiprocessing, verbose)
+        super(Separable, self).__init__(
+            random_state=random_state,
+            use_shuffle=use_shuffle,
+            multiprocessing=multiprocessing,
+            verbose=verbose
+        )
 
         self.BLOCKS = blocks
         self.BLOCKS_SCALING = blocks_scaling

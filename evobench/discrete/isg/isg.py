@@ -15,6 +15,8 @@ class IsingSpinGlass(Discrete):
     def __init__(
         self,
         config_name: str,
+        *,
+        random_state: int = 42,
         use_shuffle: bool = False,
         multiprocessing: bool = False,
         verbose: int = 0
@@ -32,10 +34,12 @@ class IsingSpinGlass(Discrete):
         """
 
         super(IsingSpinGlass, self).__init__(
-            use_shuffle,
-            multiprocessing,
-            verbose
+            random_state=random_state,
+            use_shuffle=use_shuffle,
+            multiprocessing=multiprocessing,
+            verbose=verbose,
         )
+
         self.config_name = config_name
 
     @lazy
