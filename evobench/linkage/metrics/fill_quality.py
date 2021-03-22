@@ -2,7 +2,6 @@ from typing import List
 
 import numpy as np
 from evobench.linkage.dsm import get_block_width, get_ils
-from tqdm.auto import tqdm
 
 
 def get_fill_quality_from_dsm(
@@ -36,7 +35,7 @@ def get_fill_quality_from_dsm(
     """
 
     if verbose:
-        tqdm.write('Calculating DSM fill quality')
+        print('Calculating DSM fill quality')
 
     fill_quality = []
     genome_size, _ = pred_dsm.shape

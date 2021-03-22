@@ -1,6 +1,9 @@
+from typing import List
+
 import numpy as np
 from evobench.benchmark import Benchmark
 from evobench.model.solution import Solution
+from evobench.util import shuffle
 from lazy import lazy
 
 
@@ -28,10 +31,17 @@ class Continuous(Benchmark):
         upper_bound = [1.0] * self.genome_size
         return np.array(upper_bound)
 
-    def random_solution(self) -> Solution:
-        genome = np.random.uniform(low=0, high=1, size=self.genome_size)
+    def random_solutions(self, population_size: int) -> List[Solution]:
+        genomes = np.random.uniform(
+            low=0,
+            high=1,
+            size=(population_size, self.genome_size)
+        )
 
-        genome *= self.bound_range
-        genome += self.lower_bound
+        genomes *= self.bound_range
+        genomes += self.lower_bound
 
-        return Solution(genome)
+        if self.USE_SHUFFLE:
+            genomes = shuffle(genomes, self.gene_order)
+
+        return list(Solution(genome) for genome in genomes)

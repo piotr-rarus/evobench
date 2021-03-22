@@ -42,7 +42,7 @@ def test_bound_range(trap: Trap):
 
 
 def test_random_solution(trap: Trap):
-    solution = trap.random_solution()
+    solution = trap.random_solutions(1)[0]
 
     assert isinstance(solution, Solution)
 

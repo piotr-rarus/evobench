@@ -72,17 +72,15 @@ class IsingSpinGlass(Discrete):
 
     def _evaluate_solution(self, solution: Solution) -> float:
 
-        energy = 0.0
-
         genome = solution.genome.copy()
         genome[solution.genome == 0] = -1
 
-        for spin in self.config.spins:
-            a_gene = solution.genome[spin.a_index]
-            b_gene = solution.genome[spin.b_index]
+        a_genes = genome[self.config.a_spin_indices]
+        b_genes = genome[self.config.b_spin_indices]
 
-            spin = a_gene * b_gene * spin.factor
-            energy -= spin
+        spins = a_genes * b_genes * self.config.spin_factors
+
+        energy = - spins.sum()
 
         fitness = (energy - self.config.min_energy) / self.config.span
         return 1 - fitness

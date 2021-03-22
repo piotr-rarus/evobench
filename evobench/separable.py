@@ -90,7 +90,7 @@ class Separable(Benchmark):
                 for index, evaluation in enumerate(evaluations)
             ]
 
-        fitness = sum(evaluations)
+        fitness = np.sum(evaluations)
         return float(fitness)
 
     @abstractmethod
