@@ -14,7 +14,7 @@ setuptools.setup(
 
     url='https://github.com/piotr-rarus/evobench',
     license='MIT',
-    version='0.3.2',
+    version='0.4.0',
 
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -35,9 +35,9 @@ setuptools.setup(
     },
     include_package_data=True,
     tests_require=[
-        'flake8==3.8.3',
-        'pytest==5.4.3',
-        'pytest-cov==2.10.0'
+        'flake8>=3.8.3',
+        'pytest>=5.4.3',
+        'pytest-cov>=2.10.0'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
