@@ -6,7 +6,7 @@ from lazy import lazy
 from numpy import ndarray
 
 
-@dataclass()
+@dataclass
 class Solution:
     genome: ndarray
     fitness: Optional[float] = None

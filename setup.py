@@ -31,13 +31,15 @@ setuptools.setup(
         'tqdm>=4.47.0'
     ],
     package_data={
-        'evobench.discrete.isg': ['data/*.txt']
+        'evobench.discrete.isg': ['data/*.txt'],
+        'evobench.routing': ['data/*']
     },
     include_package_data=True,
     tests_require=[
         'flake8>=3.8.3',
         'pytest>=5.4.3',
-        'pytest-cov>=2.10.0'
+        'pytest-cov>=2.10.0',
+        'scipy==1.6.1'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',

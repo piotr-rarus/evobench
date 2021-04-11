@@ -6,10 +6,10 @@ from evobench.discrete.isg.isg import IsingSpinGlass
 from evobench.discrete.isg.spin import Spin
 from evobench.model import Solution
 
-__CONFIG_NAME = 'IsingSpinGlass_pm_16_0'
+__CONFIG_NAME = "IsingSpinGlass_pm_16_0"
 
 
-@fixture
+@fixture(scope="module")
 def isg() -> IsingSpinGlass:
     return IsingSpinGlass(__CONFIG_NAME, use_shuffle=True)
 
