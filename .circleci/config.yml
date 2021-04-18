@@ -32,7 +32,7 @@ jobs:
           name: Linter
           command: |
             . env/bin/activate
-            python -m flake8 ./evobench/
+            python -m flake8 --max-line-length=88 ./evobench/
 
       - run:
           name: Tests
