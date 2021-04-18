@@ -103,7 +103,7 @@ class CVRP(Benchmark):
         cargo = 0
 
         for i in range(1, len(phenome)):
-            prev_node = phenome[i - 1]
+            prev_node = fixed_phenome[-1]
             node = phenome[i]
 
             # ? removing adjacent depots
@@ -129,12 +129,32 @@ class CVRP(Benchmark):
         for node in phenome:
 
             if node.is_depot:
-                sub_routes.append(sub_route)
+                if sub_route:
+                    sub_routes.append(sub_route)
+
                 sub_route = []
             else:
                 sub_route.append(node)
 
         return sub_routes
+
+    def print_route(self, solution: Solution):
+        phenome = self.get_phenome(solution)
+        sub_routes = self.get_sub_routes(phenome)
+
+        for index, route in enumerate(sub_routes):
+
+            sub_route = [self.config.depot, *route, self.config.depot]
+            sub_route_genome = [node.id for node in sub_route]
+            sub_route_genome = np.array(sub_route_genome)
+            sub_route_solution = Solution(sub_route_genome)
+
+            length = self._evaluate_solution(sub_route_solution)
+            cargo = sum([node.demand for node in sub_route])
+
+            print(f"Route {index}")
+            print(f"Length: {length:.0f}, Cargo: {cargo}")
+            print(f"Nodes: {[node.id for node in route]}\n")
 
     def are_constraints_satisfied(self, route: List[Node]) -> bool:
         cargo = 0
@@ -158,7 +178,7 @@ class CVRP(Benchmark):
         total_distance = 0
 
         for i, node in enumerate(phenome[1:]):
-            prev_node = phenome[i - 1]
+            prev_node = phenome[i]
             total_distance += self.distances[prev_node.id - 1, node.id - 1]
 
         return total_distance
