@@ -11,5 +11,5 @@ def solution() -> Solution:
 
 
 def test_hash(solution: Solution):
-    h = solution.__hash__
-    assert isinstance(h, str)
+    h = solution.__hash__()
+    assert isinstance(h, int)

@@ -1,3 +1,4 @@
 # flake8: noqa
-from .benchmark import Benchmark
-from .compound import CompoundBenchmark
+from evobench.benchmark import Benchmark
+from evobench.compound import CompoundBenchmark
+from evobench.model import Population, Solution
