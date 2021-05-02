@@ -1,0 +1,7 @@
+flake8==3.8.3
+lazy==1.4
+numpy>=1.16.0
+pytest==5.4.3
+pytest-cov==2.10.0
+scipy==1.6.1
+tqdm==4.47.0
