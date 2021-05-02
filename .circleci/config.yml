@@ -6,7 +6,7 @@ jobs:
 
     docker:
 
-      - image: circleci/python:3.7.3
+      - image: circleci/python:3.7.9
     working_directory: ~/evobench
 
     steps:
