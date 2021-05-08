@@ -1,7 +1,9 @@
+from pathlib import Path
+
+import numpy as np
+
 from .config import Config
 from .spin import Spin
-from pathlib import Path
-import numpy as np
 
 
 def load(path: Path) -> Config:

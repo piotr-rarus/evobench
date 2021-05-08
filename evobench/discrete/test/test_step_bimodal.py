@@ -2,7 +2,6 @@ from pytest import fixture
 
 from evobench.discrete.step_bimodal import StepBimodal
 
-
 __SAMPLES = [
     ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 3),
     ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 3),

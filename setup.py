@@ -22,12 +22,15 @@ setuptools.setup(
     packages=setuptools.find_packages(
         exclude=[
             "test",
-            "visualizations"
         ]
     ),
     install_requires=[
         "lazy>=1.4",
+        "networkx>=2.5.1",
         "numpy>=1.16.0",
+        "plotly>=4.14.3",
+        "scikit-learn>=0.24.0",
+        "scipy>=1.6.1",
         "tqdm>=4.47.0"
     ],
     package_data={
@@ -39,7 +42,6 @@ setuptools.setup(
         "flake8>=3.8.3",
         "pytest>=5.4.3",
         "pytest-cov>=2.10.0",
-        "scipy==1.6.1"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

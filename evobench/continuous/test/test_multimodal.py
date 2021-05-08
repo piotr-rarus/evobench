@@ -2,7 +2,6 @@ from pytest import fixture
 
 from ..multimodal import Multimodal
 
-
 __SAMPLES = [
     ([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0),
 ]
