@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="evobench",
-    description="Benchmarks for model-based optimization.",
+    description="Optimization benchmarks, both synthetic and practical.",
 
     author="Piotr Rarus",
     author_email="piotr.rarus@gmail.com",

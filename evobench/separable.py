@@ -122,7 +122,7 @@ class Separable(Benchmark, DependencyStructureMatrixMixin):
         pass
 
     @lazy
-    def dsm(self) -> np.ndarray:
+    def dsm(self) -> DependencyStructureMatrix:
         start = 0
         interactions = np.zeros((self.genome_size, self.genome_size))
 

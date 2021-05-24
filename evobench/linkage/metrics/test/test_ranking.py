@@ -3,13 +3,12 @@ from pytest import fixture
 
 from evobench.discrete.trap import Trap
 
-from ..ranking import (hit_ratio, mean_average_precision, mean_reciprocal_rank,
-                       ndcg)
+from ..ranking import hit_ratio, mean_average_precision, mean_reciprocal_rank, ndcg
 
 
 @fixture(scope="module")
 def trap() -> Trap:
-    return Trap(blocks=[3] * 2, overlap_size=0, use_shuffle=False)
+    return Trap(blocks=[3] * 2)
 
 
 @fixture(scope="module")

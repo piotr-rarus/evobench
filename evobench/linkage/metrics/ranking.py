@@ -5,14 +5,25 @@ from sklearn.metrics import ndcg_score
 
 from evobench.benchmark import Benchmark
 
+# from evobench.util import deshuffle
+
 
 def mean_reciprocal_rank(
     target_index: int,
     scraps: np.ndarray,
-    benchmark: Benchmark
+    benchmark: Benchmark,
+    k: int = None,
 ) -> List[float]:
 
     _assert_scrap_size(scraps, benchmark)
+
+    if k:
+        scraps = scraps[:, :k]
+
+    # ! TODO: fix
+    # order = benchmark.gene_order[benchmark.gene_order != target_index]
+    # order[order > target_index] -= 1
+    # scraps = deshuffle(scraps, order)
 
     relevance = _get_relevant_genes(target_index, scraps, benchmark)
 
@@ -27,10 +38,14 @@ def mean_reciprocal_rank(
 def mean_average_precision(
     target_index: int,
     scraps: np.ndarray,
-    benchmark: Benchmark
+    benchmark: Benchmark,
+    k: int = None,
 ) -> List[float]:
 
     _assert_scrap_size(scraps, benchmark)
+
+    if k:
+        scraps = scraps[:, :k]
 
     relevance = _get_relevant_genes(target_index, scraps, benchmark)
 
@@ -47,10 +62,15 @@ def ndcg(
     scraps: np.ndarray,
     interactions: np.ndarray,
     benchmark: Benchmark,
-    exp_base: int = 1
+    exp_base: int = 1,
+    k: int = None,
 ) -> List[float]:
 
     _assert_scrap_size(scraps, benchmark)
+
+    if k:
+        scraps = scraps[:, :k]
+
     assert isinstance(exp_base, int)
     assert scraps.shape == interactions.shape
 

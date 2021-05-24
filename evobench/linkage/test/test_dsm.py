@@ -9,7 +9,7 @@ from ..tree import Tree
 
 @fixture()
 def trap() -> Trap:
-    return Trap(blocks=[3] * 2, overlap_size=0, use_shuffle=False)
+    return Trap(blocks=[3] * 2)
 
 
 def test_ils(trap: Trap):
@@ -37,3 +37,17 @@ def test_levels(trap: Trap):
 def test_fig(trap: Trap):
     fig = trap.dsm.get_fig()
     assert isinstance(fig, Figure)
+
+
+def test_levels_fig(trap: Trap):
+    figs = [tree.get_levels_fig() for tree in trap.dsm.trees]
+
+    assert isinstance(figs, list)
+    assert all(isinstance(fig, Figure) for fig in figs)
+
+
+def test_tree_fig(trap: Trap):
+    figs = [tree.get_fig() for tree in trap.dsm.trees]
+
+    assert isinstance(figs, list)
+    assert all(isinstance(fig, Figure) for fig in figs)

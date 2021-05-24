@@ -1,31 +1,6 @@
 # Evobench
 
-Evobench is a collection of benchmark problems dedicated for model-based large scale optimization.
-
-## Overview
-
-This package contains following problems.
-
-### Discrete
-
-- trap
-- step trap
-- bimodal
-- step bimodal
-- HIFF
-- Ising Spin Glass
-
-### Continuous
-
-- trap
-- step trap
-- multimodal
-- step multimodal
-- sawtooth
-
-### Compound
-
-You can create your own benchmark made of other benchmarks.
+Evobench is a collection of benchmark problems dedicated for optimization problems (both synthetic and practical). Please note that Python isn't still best tool for solving optimization problems, as loops are still slow. This might change in a next couple of years. Our main intention is to provide easily accessible package for PoC, research or teaching purposes.
 
 ## Getting started
 
@@ -40,7 +15,13 @@ import evobench
 trap = evobench.discrete.Trap(blocks=[4, 4, 4])
 
 population = trap.initialize_population(population_size=1e3)
-fitness = trap.evaluate_population(population)
+trap.evaluate_population(population)
+```
+
+Fitness evaluation produces side effect of defining solution's fitness.
+
+```py
+print(population.solutions[0].fitness)
 ```
 
 You can also evaluate single solution.
@@ -49,26 +30,39 @@ You can also evaluate single solution.
 fitness = trap.evaluate_solution(population.solutions[0])
 ```
 
-Every time you're evaluating solutions we increment _ffe_ counter.
+Every time you evaluate undefined solution we increment `ffe` counter.
 Solution is not evaluated again, if it didn't change.
-You can access it through `benchmark` instance.
+You can access it through a `benchmark` instance.
 
 ```py
 print(trap.ffe)
 ```
 
-## Ising Spin Glass
+## Overview
 
-To instantiate _ISG_ you need to pass specific problem configuration.
+This package exposes following problems.
 
-```py
-from evobench.discrete import IsingSpinGlass
+### Practical
 
+- TSP
+- cVRP
 
-isg = IsingSpinGlass('IsingSpinGlass_pm_16_0')
-```
+### Discrete
 
-You can find 5,000 instances at `evobench\discrete\isg\data` folder. Instances vary in length and complexity.
+- Trap
+- Step Trap
+- Bimodal
+- Step Bimodal
+- HIFF
+- Ising Spin Glass
+
+### Continuous
+
+- Trap
+- Step Trap
+- Multimodal
+- Step Multimodal
+- Sawtooth
 
 ## Compound Benchmark
 
@@ -76,8 +70,7 @@ Creating your own compound benchmarks is really easy.
 You just need to define your sub-benchmarks and pass them as a list. All other fuctions work just the same as with the normal `Benchmark`.
 
 ```py
-from evobench import CompoundBenchmark
-from evobench import continuous, discrete
+from evobench import CompoundBenchmark, continuous, discrete
 
 
 benchmark = CompoundBenchmark(
@@ -94,22 +87,44 @@ population = benchmark.initialize_population(population_size=1000)
 benchmark.evaluate_population(population)
 ```
 
-## How to implement your own function
+## Ising Spin Glass
 
-### Fully separable
+To instantiate _ISG_ you need to pass specific problem configuration.
+
+```py
+from evobench.discrete import IsingSpinGlass
+
+
+isg = IsingSpinGlass('IsingSpinGlass_pm_16_0')
+```
+
+You can find 5,000 instances at `evobench\discrete\isg\data` folder. Instances vary in length and complexity.
+
+## How to implement your own benchmark
+
+Inherit `Benchmark` class from `evobench.benchmark`. Then implement:
+
+- `def _evaluate_solution(self, solution: Solution) -> float`
+- `def random_solutions(self, population_size: int) -> List[Solution]`
+
+### Partially separable
 
 You need to inherit `Separable` class from `evobench.separable`.
-Then just implement `def evaluate_block(self, block: np.ndarray) -> int` method. Best follow `evobench.discrete.trap` implementation.
+Then just implement:
 
-### Other
-
-Inherit `Benchmark` class from `evobench.benchmark`. Then implement `def _evaluate_solution(self, solution: Solution) -> float` method.
+- `def evaluate_block(self, block: np.ndarray) -> int`.
+  
+Best follow `evobench.discrete.trap` implementation.
 
 ## Linkage quality
 
 Linkage quality metrics are located at `evobench.linkage.metrics`.
 Available metrics:
-    - fill quality
+
+- Mean Reciprocal Ranking
+- Mean Average Precision
+- NDCG$
+- Fill Quality
 
 ## Coming soon
 

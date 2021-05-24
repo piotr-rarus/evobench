@@ -40,6 +40,8 @@ def test_evaluate_population(benchmark: Separable, population: Population):
     assert isinstance(fitness, np.ndarray)
     assert len(fitness.shape) == 1
     assert fitness.size == len(population.solutions)
+    # ! TODO: fix
+    # assert benchmark.ffe == len(population.solutions)
 
 
 def test_dsm(benchmark: Separable):
