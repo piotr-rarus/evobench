@@ -1,2 +1,2 @@
 # flake8: noqa
-from .fill_quality import get_fill_quality_from_dsm
+from .ranking import hit_ratio, mean_average_precision, mean_reciprocal_rank, ndcg

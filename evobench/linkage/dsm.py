@@ -1,66 +1,167 @@
-import numpy as np
 from typing import List
 
+import numpy as np
+import plotly.graph_objects as go
+from lazy import lazy
 
-def get_block_width(
-    gene_index: int,
-    true_dsm: np.ndarray
-) -> int:
-    genome_size, _ = true_dsm.shape
-    interactions = true_dsm[gene_index, :]
-    positive = interactions == 1
-    return positive.sum()
+from evobench.linkage.tree import Tree
 
 
-def get_ils(
-    starting_gene_index: int,
-    dsm: np.ndarray,
-    block_width: int = None
-) -> List[int]:
-    """
-    Optimization by Pairwise Linkage Detection,
-    Incremental Linkage Set, and Restricted / Back Mixing: DSMGA-II
+class DependencyStructureMatrix:
 
-    Shih-Huan Hsu, Tian-Li Yu
+    def __init__(self, interactions: np.ndarray):
 
-    arXiv:1807.11669
+        assert interactions.shape[0] == interactions.shape[1]
+        assert interactions.min() >= 0
+        assert interactions.max() <= 1
 
-    Calculates Incremental Linkage Set for a given gene and DSM.
+        self.interactions = interactions
+        self.GENOME_SIZE = interactions.shape[0]
 
-    Parameters
-    ----------
-    starting_gene_index : int
-        Gene which starts the sequence of dependencies.
-    dsm : np.ndarray
-        Dependency structure matrix
-    block_width : int
-        Block width for given index. Used to speed up computation.
-        By default, calculate ILS for whole genome.
+    @lazy
+    def ils(self) -> List[np.ndarray]:
+        ils = []
 
-    Returns
-    -------
-    List[int]
-        Incremental Linkage Set
-    """
+        for gene_index in range(self.GENOME_SIZE):
+            gene_ils = self._get_ils(gene_index)
+            ils.append(gene_ils)
 
-    ils = [starting_gene_index]
-    genome_size, _ = dsm.shape
+        return ils
 
-    if block_width is None:
-        block_width = genome_size
+    @lazy
+    def trees(self) -> List[Tree]:
+        trees = []
 
-    dependencies = dsm[starting_gene_index, :].copy()
-    unavailable_genes = np.zeros(genome_size, dtype=bool)
-    unavailable_genes[starting_gene_index] = True
-    dependencies[unavailable_genes] = -1
+        for gene_index in range(self.GENOME_SIZE):
+            tree = self._get_tree(gene_index)
+            trees.append(tree)
 
-    while len(ils) < block_width:
+        return trees
 
-        max_index = np.argmax(dependencies)
-        ils.append(max_index)
+    @lazy
+    def levels(self) -> np.ndarray:
+        levels = []
 
-        unavailable_genes[max_index] = True
-        dependencies += dsm[max_index, :]
+        for gene_index in range(self.GENOME_SIZE):
+            gene_levels = np.full(self.GENOME_SIZE, -1)
+            gene_tree = self.trees[gene_index]
+            gene_tree_levels = gene_tree.get_levels()
+
+            for level, genes in gene_tree_levels.items():
+                gene_levels[genes] = level
+
+            levels.append(gene_levels)
+
+        return np.vstack(levels)
+
+    def get_block_width(self, gene_index: int) -> int:
+        interactions = self.interactions[gene_index, :]
+        positive = interactions == 1
+        return positive.sum()
+
+    def get_fig(
+        self,
+        title: str = "Dependency Structure Matrix",
+        colorscale: str = "Brwnyl_r"
+    ) -> go.Figure:
+
+        fig = go.Figure()
+        heatmap = go.Heatmap(
+            z=self.interactions,
+            colorscale=colorscale,
+        )
+        fig.add_trace(heatmap)
+        fig.update_layout(
+            title=title,
+            xaxis=dict(visible=False),
+            yaxis=dict(scaleanchor="x", autorange="reversed", visible=False),
+        )
+
+        return fig
+
+    def _get_ils(self, gene_index: int, block_width: int = None) -> np.ndarray:
+        """
+        Calculates Incremental Linkage Set for a given gene and DSM.
+
+        Optimization by Pairwise Linkage Detection,
+        Incremental Linkage Set, and Restricted / Back Mixing: DSMGA-II
+
+        Shih-Huan Hsu, Tian-Li Yu
+
+        arXiv:1807.11669
+
+        Parameters
+        ----------
+        gene_index : int
+            Gene which starts the sequence of dependencies.
+        block_width : int
+            Block width for given index. Used to speed up computation.
+            By default, calculate ILS for whole genome.
+
+        Returns
+        -------
+        np.ndarray
+            Incremental Linkage Set
+        """
+
+        ils = [gene_index]
+
+        if block_width is None:
+            block_width = self.GENOME_SIZE
+
+        dependencies = self.interactions[gene_index, :].copy()
+        unavailable_genes = np.zeros(self.GENOME_SIZE, dtype=bool)
+        unavailable_genes[gene_index] = True
         dependencies[unavailable_genes] = -1
 
-    return ils[1:]
+        while len(ils) < block_width:
+
+            max_index = np.argmax(dependencies)
+            ils.append(max_index)
+
+            unavailable_genes[max_index] = True
+            dependencies += self.interactions[max_index, :]
+            dependencies[unavailable_genes] = -1
+
+        return np.array(ils[1:])
+
+    def _get_tree(self, target_index: int) -> Tree:
+        interactions = self.interactions.copy()
+        eye = np.eye(self.GENOME_SIZE, dtype=bool)
+        interactions[eye] = 0
+
+        tree = Tree()
+        tree.add_node(target_index)
+        last_level = [target_index]
+
+        while last_level:
+            next_level = []
+
+            for gene_index in last_level:
+                gene_interactions = interactions[gene_index, :]
+                positive_interactions = np.argwhere(gene_interactions > 0)
+                positive_interactions = positive_interactions.squeeze(axis=1)
+
+                leaves = set(tree.get_leaves())
+                new_interactions = [
+                    interaction for interaction in positive_interactions
+                    if interaction not in leaves
+                ]
+
+                weights = gene_interactions[new_interactions]
+
+                tree.add_edges_from(
+                    zip(
+                        [gene_index] * len(new_interactions),
+                        new_interactions
+                    ),
+                    weight=weights
+                )
+
+                interactions[gene_index, positive_interactions] = 0
+                interactions[positive_interactions, gene_index] = 0
+                next_level += list(positive_interactions)
+
+            last_level = next_level
+
+        return tree

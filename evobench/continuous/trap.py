@@ -1,4 +1,5 @@
 import numpy as np
+
 from evobench.continuous.continuous import Continuous
 from evobench.separable import Separable
 

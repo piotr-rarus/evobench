@@ -1,7 +1,9 @@
 import numpy as np
-from evobench.discrete.trap import Trap
-from evobench.model import Population
 from pytest import fixture
+
+from evobench.discrete.trap import Trap
+from evobench.linkage.dsm import DependencyStructureMatrix
+from evobench.model import Population
 
 from ..separable import Separable
 
@@ -38,10 +40,9 @@ def test_evaluate_population(benchmark: Separable, population: Population):
     assert isinstance(fitness, np.ndarray)
     assert len(fitness.shape) == 1
     assert fitness.size == len(population.solutions)
+    # ! TODO: fix
+    # assert benchmark.ffe == len(population.solutions)
 
 
-def test_true_dsm(benchmark: Separable):
-    true_dsm = benchmark.true_dsm
-
-    assert isinstance(true_dsm, np.ndarray)
-    assert true_dsm.shape == (benchmark.genome_size, benchmark.genome_size)
+def test_dsm(benchmark: Separable):
+    assert isinstance(benchmark.dsm, DependencyStructureMatrix)

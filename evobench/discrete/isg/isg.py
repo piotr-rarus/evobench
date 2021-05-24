@@ -2,15 +2,18 @@ from pathlib import Path
 from typing import Dict
 
 import numpy as np
-from evobench.discrete import Discrete
-from evobench.model import Solution
 from lazy import lazy
+
+from evobench.discrete import Discrete
+from evobench.dsm import DependencyStructureMatrixMixin
+from evobench.linkage.dsm import DependencyStructureMatrix
+from evobench.model import Solution
 
 from .config import Config
 from .parser import load
 
 
-class IsingSpinGlass(Discrete):
+class IsingSpinGlass(Discrete, DependencyStructureMatrixMixin):
 
     def __init__(
         self,
@@ -51,15 +54,15 @@ class IsingSpinGlass(Discrete):
         return load(path)
 
     @lazy
-    def true_dsm(self) -> np.ndarray:
-        dsm = np.eye(self.config.genome_size)
+    def dsm(self) -> DependencyStructureMatrix:
+        interactions = np.eye(self.config.genome_size)
 
         for spin in self.config.spins:
 
-            dsm[spin.a_index, spin.b_index] = 1
-            dsm[spin.b_index, spin.a_index] = 1
+            interactions[spin.a_index, spin.b_index] = 1
+            interactions[spin.b_index, spin.a_index] = 1
 
-        return dsm
+        return DependencyStructureMatrix(interactions)
 
     @lazy
     def genome_size(self) -> int:
@@ -67,10 +70,10 @@ class IsingSpinGlass(Discrete):
 
     @lazy
     def as_dict(self) -> Dict:
-        as_dict = self.config.as_dict
+        config_as_dict = self.config.as_dict
 
         benchmark_as_dict = super().as_dict
-        as_dict = {**benchmark_as_dict, **as_dict}
+        as_dict = {**benchmark_as_dict, **config_as_dict}
 
         return as_dict
 

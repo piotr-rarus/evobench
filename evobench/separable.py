@@ -5,10 +5,12 @@ import numpy as np
 from lazy import lazy
 
 from evobench.benchmark import Benchmark
+from evobench.dsm import DependencyStructureMatrixMixin
+from evobench.linkage.dsm import DependencyStructureMatrix
 from evobench.model import Solution
 
 
-class Separable(Benchmark):
+class Separable(Benchmark, DependencyStructureMatrixMixin):
 
     """
     Base class for separable problems.
@@ -120,15 +122,15 @@ class Separable(Benchmark):
         pass
 
     @lazy
-    def true_dsm(self) -> np.ndarray:
+    def dsm(self) -> DependencyStructureMatrix:
         start = 0
-        dsm = np.zeros((self.genome_size, self.genome_size))
+        interactions = np.zeros((self.genome_size, self.genome_size))
 
         for index, block_size in enumerate(self.BLOCKS):
 
             width = start + block_size
-            dsm[start:width, start:width] = 1.0
+            interactions[start:width, start:width] = 1.0
 
             start += block_size - index * self.OVERLAP_SIZE
 
-        return dsm
+        return DependencyStructureMatrix(interactions)

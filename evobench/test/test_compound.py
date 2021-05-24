@@ -1,8 +1,10 @@
 import numpy as np
+from pytest import fixture
+
 from evobench.continuous.trap import Trap as ContinuousTrap
 from evobench.discrete.trap import Trap as DiscreteTrap
+from evobench.linkage.dsm import DependencyStructureMatrix
 from evobench.model import Population
-from pytest import fixture
 
 from ..compound import CompoundBenchmark
 
@@ -45,11 +47,8 @@ def test_evaluate_population(
     assert fitness.size == len(population.solutions)
 
 
-def test_true_dsm(benchmark: CompoundBenchmark):
-    true_dsm = benchmark.true_dsm
-
-    assert isinstance(true_dsm, np.ndarray)
-    assert true_dsm.shape == (benchmark.genome_size, benchmark.genome_size)
+def test_dsm(benchmark: CompoundBenchmark):
+    assert isinstance(benchmark.dsm, DependencyStructureMatrix)
 
 
 def test_lower_bound(benchmark: CompoundBenchmark):

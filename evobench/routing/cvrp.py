@@ -2,11 +2,12 @@ from pathlib import Path
 from typing import List
 
 import numpy as np
+from lazy import lazy
+from scipy.spatial.distance import cdist
+
 from evobench.benchmark import Benchmark
 from evobench.model.solution import Solution
 from evobench.util import shuffle
-from lazy import lazy
-from scipy.spatial.distance import cdist
 
 from .config import Config, Node
 from .parser import load

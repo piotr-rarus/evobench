@@ -1,10 +1,11 @@
 from typing import List
 
 import numpy as np
+from lazy import lazy
+
 from evobench.benchmark import Benchmark
 from evobench.model.solution import Solution
 from evobench.util import shuffle
-from lazy import lazy
 
 
 class Continuous(Benchmark):

@@ -1,6 +1,7 @@
 import numpy as np
-from evobench.model.solution import Solution
 from pytest import fixture
+
+from evobench.model.solution import Solution
 
 from ..trap import Trap
 

@@ -4,6 +4,7 @@ from pytest import fixture
 from evobench.discrete.isg.config import Config
 from evobench.discrete.isg.isg import IsingSpinGlass
 from evobench.discrete.isg.spin import Spin
+from evobench.linkage.dsm import DependencyStructureMatrix
 from evobench.model import Solution
 
 __CONFIG_NAME = "IsingSpinGlass_pm_16_0"
@@ -48,11 +49,8 @@ def test_best_solution(isg: IsingSpinGlass):
     assert 0 <= pred_fitness <= 1
 
 
-def test_true_dsm(isg: IsingSpinGlass):
-    dsm = isg.true_dsm
-
-    assert isinstance(dsm, np.ndarray)
-    assert dsm.size == isg.genome_size ** 2
+def test_dsm(isg: IsingSpinGlass):
+    assert isinstance(isg.dsm, DependencyStructureMatrix)
 
 
 def test_lower_bound(isg: IsingSpinGlass):

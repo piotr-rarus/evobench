@@ -1,5 +1,6 @@
-from evobench.discrete.bimodal import Bimodal
 from pytest import fixture
+
+from evobench.discrete.bimodal import Bimodal
 
 __SAMPLES = [
     ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 6),
