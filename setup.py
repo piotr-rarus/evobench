@@ -14,7 +14,7 @@ setuptools.setup(
 
     url="https://github.com/piotr-rarus/evobench",
     license="MIT",
-    version="0.5.0",
+    version="0.5.1",
 
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -28,6 +28,7 @@ setuptools.setup(
         "lazy>=1.4",
         "networkx>=2.5.1",
         "numpy>=1.16.0",
+        "pandas>=1.2.4", 
         "plotly>=4.14.3",
         "scikit-learn>=0.24.0",
         "scipy>=1.6.1",
