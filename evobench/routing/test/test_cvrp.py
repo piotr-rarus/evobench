@@ -1,9 +1,10 @@
 from pathlib import Path
 
 import numpy as np
+from pytest import fixture
+
 from evobench.routing.config import Config, Node
 from evobench.routing.cvrp import CVRP, Solution
-from pytest import fixture
 
 SUITE = ""
 INSTANCE = "toy"

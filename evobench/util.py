@@ -14,7 +14,7 @@ def shuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
 
 
 def deshuffle(a: np.ndarray, order: np.ndarray) -> np.ndarray:
-    if a.shape != order.shape:
+    if a.shape[-1] != order.shape[-1]:
         raise AssertionError('Both array and order must be of the same shape')
 
     deshuffled = np.empty(a.shape, dtype=a.dtype)

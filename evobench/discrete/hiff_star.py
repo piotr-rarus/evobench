@@ -1,4 +1,5 @@
 import numpy as np
+
 from evobench.discrete.discrete import Discrete
 from evobench.separable import Separable
 

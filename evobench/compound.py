@@ -7,12 +7,14 @@ from lazy import lazy
 from evobench.benchmark import Benchmark
 from evobench.continuous.continuous import Continuous
 from evobench.discrete.discrete import Discrete
+from evobench.dsm import DependencyStructureMatrixMixin
+from evobench.linkage.dsm import DependencyStructureMatrix
 from evobench.model.solution import Solution
 from evobench.separable import Separable
 from evobench.util import shuffle
 
 
-class CompoundBenchmark(Benchmark):
+class CompoundBenchmark(Benchmark, DependencyStructureMatrixMixin):
 
     def __init__(
         self,
@@ -113,7 +115,7 @@ class CompoundBenchmark(Benchmark):
         return fitness
 
     @lazy
-    def true_dsm(self) -> np.ndarray:
+    def dsm(self) -> DependencyStructureMatrix:
         all_separable = all(
             isinstance(benchmark, Separable)
             for benchmark in self.benchmarks
@@ -125,7 +127,7 @@ class CompoundBenchmark(Benchmark):
             )
 
         start = 0
-        dsm = np.zeros((self.genome_size, self.genome_size))
+        interactions = np.zeros((self.genome_size, self.genome_size))
         blocks = [benchmark.BLOCKS for benchmark in self.benchmarks]
         blocks = list(itertools.chain(*blocks))
 
@@ -139,8 +141,8 @@ class CompoundBenchmark(Benchmark):
         for index, (block_size, overlap_size) in iterator:
 
             width = start + block_size
-            dsm[start:width, start:width] = 1.0
+            interactions[start:width, start:width] = 1.0
 
             start += block_size - index * overlap_size
 
-        return dsm
+        return DependencyStructureMatrix(interactions)
