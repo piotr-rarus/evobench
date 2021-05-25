@@ -128,9 +128,9 @@ Best follow `evobench.discrete.trap` implementation.
 Linkage quality metrics are located at `evobench.linkage.metrics`.
 Available metrics:
 
-- Mean Reciprocal Ranking
-- Mean Average Precision
-- NDCG$
+- Mean Reciprocal Ranking @K
+- Mean Average Precision @K
+- NDCG @K $B
 - Fill Quality
 
 ## Coming soon
