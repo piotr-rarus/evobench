@@ -47,7 +47,6 @@ jobs:
           name: Coverage
           command: |
             . env/bin/activate
-            python -m pytest --cov=evobench
             coverage run -m pytest evobench
             coverage report
             coverage html
@@ -55,8 +54,8 @@ jobs:
       - store_test_results:
           path: test-reports
 
-      - store_artifacts:
-          path: htmlcov
+      # - store_artifacts:
+      #     path: htmlcov
 
   deploy:
 
