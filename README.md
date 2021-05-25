@@ -1,3 +1,13 @@
+[![master-status](https://circleci.com/gh/piotr-rarus/evobench/tree/master.svg?style=shield&circle-token=c5b2d11e09e42bc24801bd01676cb2bc6d016a4e)](https://circleci.com/gh/piotr-rarus/evobench/tree/master)
+
+<!-- [![dev-status](https://circleci.com/gh/piotr-rarus/evobench/tree/develop.svg?style=shield&circle-token=c5b2d11e09e42bc24801bd01676cb2bc6d016a4e)](https://circleci.com/gh/piotr-rarus/evobench/tree/develop) -->
+
+![PyPI](https://img.shields.io/pypi/v/evobench)
+
+![PyPI - License](https://img.shields.io/pypi/l/evobench)
+
+![PyPI - Downloads](https://img.shields.io/pypi/dm/evobench)
+
 # Evobench
 
 Evobench is a collection of benchmark problems dedicated for optimization problems (both synthetic and practical). Please note that Python isn't still best tool for solving optimization problems, as loops are still slow. This might change in a next couple of years. Our main intention is to provide easily accessible package for PoC, research or teaching purposes.
