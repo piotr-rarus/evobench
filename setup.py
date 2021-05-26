@@ -1,6 +1,5 @@
 import setuptools
 
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -22,13 +21,14 @@ setuptools.setup(
     packages=setuptools.find_packages(
         exclude=[
             "test",
+            "examples"
         ]
     ),
     install_requires=[
         "lazy>=1.4",
         "networkx>=2.5.1",
         "numpy>=1.16.0",
-        "pandas>=1.2.4", 
+        "pandas>=1.2.4",
         "plotly>=4.14.3",
         "scikit-learn>=0.24.0",
         "scipy>=1.6.1",
