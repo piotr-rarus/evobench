@@ -31,9 +31,10 @@ jobs:
     - name: Tests
       run: |
         coverage run -m pytest evobench
-        coverage report --include=evobench/**
-        coverage html --include=evobench/**
+        coverage report
+        coverage html
 
-    # - name: Analysing the code with pylint
-    #   run: |
-    #     pylint `ls -R|grep .py$|xargs`
+    - name: Upload codecov
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
