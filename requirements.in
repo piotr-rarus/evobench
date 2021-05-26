@@ -1,5 +1,7 @@
 flake8>=3.8.3
 isort>=5.8.0
+jupyter>=1.0.0
+kaleido>=0.2.1
 lazy>=1.4
 networkx>=2.5.1
 numpy>=1.16.0
