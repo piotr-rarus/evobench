@@ -13,7 +13,7 @@ setuptools.setup(
 
     url="https://github.com/piotr-rarus/evobench",
     license="MIT",
-    version="0.5.2",
+    version="0.5.3",
 
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -45,7 +45,9 @@ setuptools.setup(
         "pytest-cov>=2.10.0",
     ],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],

@@ -4,6 +4,10 @@
 [![PyPI - License](https://img.shields.io/pypi/l/evobench)](https://github.com/piotr-rarus/evobench/blob/master/LICENSE)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/evobench)
 
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/evobench.svg)](https://pypi.python.org/pypi/evobench/)
+
+
+
 # evobench
 
 __evobench__ is a collection of benchmark problems dedicated for optimization problems (both synthetic and practical). Please note that Python isn't still best tool for solving optimization problems, as loops are still slow. This might change in a next couple of years. Our main intention is to provide easily accessible package for PoC, research or teaching purposes.
