@@ -2,6 +2,7 @@
 ![PyPI](https://img.shields.io/pypi/v/evobench)
 ![PyPI - License](https://img.shields.io/pypi/l/evobench)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/evobench)
+[![codecov](https://codecov.io/gh/piotr-rarus/evobench/branch/master/graph/badge.svg?token=D2M7V412G0)](https://codecov.io/gh/piotr-rarus/evobench)
 
 <!-- [![dev-status](https://circleci.com/gh/piotr-rarus/evobench/tree/develop.svg?style=shield&circle-token=c5b2d11e09e42bc24801bd01676cb2bc6d016a4e)](https://circleci.com/gh/piotr-rarus/evobench/tree/develop) -->
 
