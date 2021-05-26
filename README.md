@@ -118,7 +118,7 @@ You need to inherit `Separable` class from `evobench.separable`.
 Then just implement:
 
 - `def evaluate_block(self, block: np.ndarray) -> int`.
-  
+
 Best follow `evobench.discrete.trap` implementation.
 
 ## Linkage quality

@@ -4,6 +4,8 @@
 #
 #    pip-compile
 #
+appdirs==1.4.4
+    # via virtualenv
 argon2-cffi==20.1.0
     # via notebook
 async-generator==1.10
@@ -20,6 +22,8 @@ bleach==3.3.0
     # via nbconvert
 cffi==1.14.5
     # via argon2-cffi
+cfgv==3.3.0
+    # via pre-commit
 colorama==0.4.4
     # via
     #   ipython
@@ -32,16 +36,24 @@ decorator==4.4.2
     #   networkx
 defusedxml==0.7.1
     # via nbconvert
+distlib==0.3.1
+    # via virtualenv
 entrypoints==0.3
     # via nbconvert
+filelock==3.0.12
+    # via virtualenv
 flake8==3.9.2
     # via -r requirements.in
+identify==2.2.6
+    # via pre-commit
 importlib-metadata==4.0.1
     # via
     #   flake8
     #   jsonschema
     #   pluggy
+    #   pre-commit
     #   pytest
+    #   virtualenv
 iniconfig==1.1.1
     # via pytest
 ipykernel==5.5.5
@@ -126,6 +138,8 @@ nest-asyncio==1.5.1
     # via nbclient
 networkx==2.5.1
     # via -r requirements.in
+nodeenv==1.6.0
+    # via pre-commit
 notebook==6.4.0
     # via
     #   jupyter
@@ -152,6 +166,8 @@ plotly==4.14.3
     # via -r requirements.in
 pluggy==0.13.1
     # via pytest
+pre-commit==2.13.0
+    # via -r requirements.in
 prometheus-client==0.10.1
     # via notebook
 prompt-toolkit==3.0.18
@@ -189,7 +205,13 @@ python-dateutil==2.8.1
     #   pandas
 pytz==2021.1
     # via pandas
-pyzmq==22.0.3
+# pywin32==300
+    # via jupyter-core
+# pywinpty==1.1.1
+    # via terminado
+pyyaml==5.4.1
+    # via pre-commit
+pyzmq==22.1.0
     # via
     #   jupyter-client
     #   notebook
@@ -216,6 +238,9 @@ six==1.16.0
     #   plotly
     #   python-dateutil
     #   retrying
+    #   virtualenv
+terminado==0.10.0
+    # via notebook
 testpath==0.5.0
     # via nbconvert
 threadpoolctl==2.1.0
@@ -223,6 +248,7 @@ threadpoolctl==2.1.0
 toml==0.10.2
     # via
     #   coverage
+    #   pre-commit
     #   pytest
 tornado==6.1
     # via
@@ -247,6 +273,8 @@ traitlets==5.0.5
     #   qtconsole
 typing-extensions==3.10.0.0
     # via importlib-metadata
+virtualenv==20.4.7
+    # via pre-commit
 wcwidth==0.2.5
     # via prompt-toolkit
 webencodings==0.5.1
