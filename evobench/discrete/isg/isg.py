@@ -79,6 +79,7 @@ class IsingSpinGlass(Discrete, DependencyStructureMatrixMixin):
 
     def _evaluate_solution(self, solution: Solution) -> float:
 
+        # ! TODO
         genome = solution.genome.copy()
         genome[solution.genome == 0] = -1
 
