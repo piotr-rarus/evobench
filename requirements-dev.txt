@@ -10,12 +10,10 @@ argon2-cffi==20.1.0
     # via notebook
 async-generator==1.10
     # via nbclient
-atomicwrites==1.4.0
-    # via pytest
 attrs==21.2.0
     # via
+    #   -c requirements-test.txt
     #   jsonschema
-    #   pytest
 backcall==0.2.0
     # via ipython
 bleach==3.3.0
@@ -26,10 +24,8 @@ cfgv==3.3.0
     # via pre-commit
 colorama==0.4.4
     # via
+    #   -c requirements-test.txt
     #   ipython
-    #   pytest
-coverage==5.5
-    # via pytest-cov
 decorator==4.4.2
     # via
     #   -c requirements.txt
@@ -42,20 +38,14 @@ entrypoints==0.3
     # via nbconvert
 filelock==3.0.12
     # via virtualenv
-flake8==3.9.2
-    # via -r requirements-dev.in
 identify==2.2.10
     # via pre-commit
 importlib-metadata==4.5.0
     # via
-    #   flake8
+    #   -c requirements-test.txt
     #   jsonschema
-    #   pluggy
     #   pre-commit
-    #   pytest
     #   virtualenv
-iniconfig==1.1.1
-    # via pytest
 ipykernel==5.5.5
     # via
     #   ipywidgets
@@ -114,8 +104,6 @@ markupsafe==2.0.1
     # via jinja2
 matplotlib-inline==0.1.2
     # via ipython
-mccabe==0.6.1
-    # via flake8
 mistune==0.8.4
     # via nbconvert
 nbclient==0.5.3
@@ -140,16 +128,14 @@ notebook==6.4.0
     #   widgetsnbextension
 packaging==20.9
     # via
+    #   -c requirements-test.txt
     #   bleach
-    #   pytest
 pandocfilters==1.4.3
     # via nbconvert
 parso==0.8.2
     # via jedi
 pickleshare==0.7.5
     # via ipython
-pluggy==0.13.1
-    # via pytest
 pre-commit==2.13.0
     # via -r requirements-dev.in
 prometheus-client==0.11.0
@@ -158,14 +144,8 @@ prompt-toolkit==3.0.18
     # via
     #   ipython
     #   jupyter-console
-py==1.10.0
-    # via pytest
-pycodestyle==2.7.0
-    # via flake8
 pycparser==2.20
     # via cffi
-pyflakes==2.3.1
-    # via flake8
 pygments==2.9.0
     # via
     #   ipython
@@ -174,15 +154,11 @@ pygments==2.9.0
     #   nbconvert
     #   qtconsole
 pyparsing==2.4.7
-    # via packaging
+    # via
+    #   -c requirements-test.txt
+    #   packaging
 pyrsistent==0.17.3
     # via jsonschema
-pytest-cov==2.12.1
-    # via -r requirements-dev.in
-pytest==6.2.4
-    # via
-    #   -r requirements-dev.in
-    #   pytest-cov
 python-dateutil==2.8.1
     # via
     #   -c requirements.txt
@@ -218,9 +194,8 @@ testpath==0.5.0
     # via nbconvert
 toml==0.10.2
     # via
+    #   -c requirements-test.txt
     #   pre-commit
-    #   pytest
-    #   pytest-cov
 tornado==6.1
     # via
     #   ipykernel
@@ -241,7 +216,9 @@ traitlets==5.0.5
     #   notebook
     #   qtconsole
 typing-extensions==3.10.0.0
-    # via importlib-metadata
+    # via
+    #   -c requirements-test.txt
+    #   importlib-metadata
 virtualenv==20.4.7
     # via pre-commit
 wcwidth==0.2.5
@@ -251,7 +228,9 @@ webencodings==0.5.1
 widgetsnbextension==3.5.1
     # via ipywidgets
 zipp==3.4.1
-    # via importlib-metadata
+    # via
+    #   -c requirements-test.txt
+    #   importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

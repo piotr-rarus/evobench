@@ -35,6 +35,10 @@ repos:
         name: pip-compile setup.py
         files: ^(setup\.py|requirements\.txt)$
       - id: pip-compile
+        name: pip-compile requirements-test.in
+        args: [requirements-test.in]
+        files: ^requirements-test\.(in|txt)$
+      - id: pip-compile
         name: pip-compile requirements-dev.in
         args: [requirements-dev.in]
         files: ^requirements-dev\.(in|txt)$
