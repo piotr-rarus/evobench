@@ -1,12 +1,10 @@
 [![PyPI version](https://badge.fury.io/py/evobench.svg)](https://badge.fury.io/py/evobench)
-![build](https://github.com/piotr-rarus/evobench/actions/workflows/build.yml/badge.svg?branch=master)
+![build](https://github.com/piotr-rarus/evobench/actions/workflows/build.yml/badge.svg?branch=mail)
 [![codecov](https://codecov.io/gh/piotr-rarus/evobench/branch/master/graph/badge.svg?token=D2M7V412G0)](https://codecov.io/gh/piotr-rarus/evobench)
-[![PyPI - License](https://img.shields.io/pypi/l/evobench)](https://github.com/piotr-rarus/evobench/blob/master/LICENSE)
+[![PyPI - License](https://img.shields.io/pypi/l/evobench)](https://github.com/piotr-rarus/evobench/blob/main/LICENSE)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/evobench)
 
 [![PyPI pyversions](https://img.shields.io/pypi/pyversions/evobench.svg)](https://pypi.python.org/pypi/evobench/)
-
-
 
 # evobench
 
