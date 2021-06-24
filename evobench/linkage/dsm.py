@@ -1,6 +1,7 @@
 from typing import List
 
 import numpy as np
+import plotly.figure_factory as ff
 import plotly.graph_objects as go
 from lazy import lazy
 
@@ -62,15 +63,22 @@ class DependencyStructureMatrix:
     def get_fig(
         self,
         title: str = "Dependency Structure Matrix",
-        colorscale: str = "Brwnyl_r"
+        colorscale: str = "Brwnyl_r",
+        use_annotations: bool = False
     ) -> go.Figure:
 
-        fig = go.Figure()
-        heatmap = go.Heatmap(
-            z=self.interactions,
-            colorscale=colorscale,
-        )
-        fig.add_trace(heatmap)
+        fig: go.Figure
+
+        if use_annotations:
+            fig = ff.create_annotated_heatmap(self.interactions, colorscale=colorscale)
+        else:
+            fig = go.Figure()
+            heatmap = go.Heatmap(
+                z=self.interactions,
+                colorscale=colorscale,
+            )
+            fig.add_trace(heatmap)
+
         fig.update_layout(
             title=title,
             xaxis=dict(visible=False),
