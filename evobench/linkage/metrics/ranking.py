@@ -70,6 +70,7 @@ def ndcg(
 
     if k:
         scraps = scraps[:, :k]
+        interactions = interactions[:, :k]
 
     assert isinstance(exp_base, int)
     assert scraps.shape == interactions.shape

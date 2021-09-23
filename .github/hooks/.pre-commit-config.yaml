@@ -3,7 +3,6 @@ default_stages: [commit]
 fail_fast: true
 
 repos:
-  # ! TODO: add some more stuff later
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.0.1
     hooks:
@@ -14,8 +13,7 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: no-commit-to-branch
-        args: ['--branch', 'master']
-        args: ['--branch', 'develop']
+        args: ['--branch', 'main']
       - id: pretty-format-json
       - id: trailing-whitespace
 
@@ -31,6 +29,16 @@ repos:
         additional_dependencies: [flake8-isort]
 
   - repo: https://github.com/jazzband/pip-tools
-    rev: 5.0.0
+    rev: 6.1.0
     hooks:
       - id: pip-compile
+        name: pip-compile setup.py
+        files: ^(setup\.py|requirements\.txt)$
+      - id: pip-compile
+        name: pip-compile requirements-test.in
+        args: [requirements-test.in]
+        files: ^requirements-test\.(in|txt)$
+      - id: pip-compile
+        name: pip-compile requirements-dev.in
+        args: [requirements-dev.in]
+        files: ^requirements-dev\.(in|txt)$

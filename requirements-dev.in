@@ -1,0 +1,6 @@
+-c requirements.txt
+-c requirements-test.txt
+isort>=5.8.0
+jupyter>=1.0.0
+kaleido>=0.2.1
+pre-commit>=2.13.0
