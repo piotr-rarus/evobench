@@ -171,6 +171,8 @@ class Benchmark(ABC):
             Fitness value.
         """
 
+        assert solution.genome.size == self.genome_size
+
         if gene_order is None:
             gene_order = self.gene_order
 
