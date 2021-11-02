@@ -5,7 +5,6 @@ from typing import Dict, List
 
 import numpy as np
 from lazy import lazy
-from numpy.random import RandomState
 from tqdm.auto import tqdm
 
 from evobench.model.population import Population
@@ -34,7 +33,7 @@ class Benchmark(ABC):
         self.VERBOSE = verbose
 
         self.ffe = 0
-        self.random_state = RandomState(random_state)
+        self.random_state = np.random.default_rng(random_state)
 
     @abstractproperty
     def genome_size(self) -> int:
