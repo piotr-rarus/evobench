@@ -87,7 +87,6 @@ benchmark = CompoundBenchmark(
         continuous.Trap(blocks=[3, 6, 4])
     ],
     use_shuffle=True,
-    multiprocessing=True,
     verbose=1
 )
 

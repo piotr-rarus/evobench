@@ -21,12 +21,10 @@ class CompoundBenchmark(Benchmark, DependencyStructureMatrixMixin):
         *,
         benchmarks: List[Benchmark],
         use_shuffle: bool = False,
-        multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(CompoundBenchmark, self).__init__(
             use_shuffle=use_shuffle,
-            multiprocessing=multiprocessing,
             verbose=verbose
         )
 

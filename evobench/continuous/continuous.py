@@ -13,15 +13,13 @@ class Continuous(Benchmark):
     def __init__(
         self,
         *,
-        random_state: int = 42,
+        rng_seed: int = 42,
         use_shuffle: bool = False,
-        multiprocessing: bool = False,
         verbose: int = 0
     ):
         super(Continuous, self).__init__(
-            random_state=random_state,
+            rng_seed=rng_seed,
             use_shuffle=use_shuffle,
-            multiprocessing=multiprocessing,
             verbose=verbose
         )
 
@@ -36,7 +34,7 @@ class Continuous(Benchmark):
         return np.array(upper_bound)
 
     def random_solutions(self, population_size: int) -> List[Solution]:
-        genomes = self.random_state.uniform(
+        genomes = self.rng.uniform(
             low=0,
             high=1,
             size=(population_size, self.genome_size)

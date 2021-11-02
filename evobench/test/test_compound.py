@@ -13,18 +13,17 @@ __POPULATION_SIZE = 20
 
 @fixture(
     scope='module',
-    params=[(False, True), (True, False)],
+    params=[False, True],
 )
 def benchmark(request) -> CompoundBenchmark:
 
-    multiprocessing, shuffle = request.param
+    shuffle = request.param
 
     return CompoundBenchmark(
         benchmarks=[
             DiscreteTrap(blocks=[5]),
             ContinuousTrap(blocks=[5])
         ],
-        multiprocessing=multiprocessing,
         use_shuffle=shuffle
     )
 

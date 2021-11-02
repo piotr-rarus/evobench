@@ -20,9 +20,8 @@
 #         *,
 #         suite: str,
 #         instance: str,
-#         random_state: int = 42,
+#         rng_seed: int = 42,
 #         use_shuffle: bool = False,
-#         multiprocessing: bool = False,
 #         verbose: int = 0
 #     ):
 #         """
@@ -38,9 +37,8 @@
 #         """
 
 #         super(CVRP, self).__init__(
-#             random_state=random_state,
+#             rng_seed=rng_seed,
 #             use_shuffle=use_shuffle,
-#             multiprocessing=multiprocessing,
 #             verbose=verbose
 #         )
 
@@ -72,7 +70,7 @@
 
 #         genomes = []
 #         for _ in range(population_size):
-#             genome = self.random_state.permutation(nodes_idx)
+#             genome = self.rng_seed.permutation(nodes_idx)
 #             genomes.append(genome)
 
 #         genomes = np.array(genomes)

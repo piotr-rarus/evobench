@@ -19,9 +19,8 @@ class IsingSpinGlass(Discrete, DependencyStructureMatrixMixin):
         self,
         config_name: str,
         *,
-        random_state: int = 42,
+        rng_seed: int = 42,
         use_shuffle: bool = False,
-        multiprocessing: bool = False,
         verbose: int = 0
     ):
         """
@@ -37,9 +36,8 @@ class IsingSpinGlass(Discrete, DependencyStructureMatrixMixin):
         """
 
         super(IsingSpinGlass, self).__init__(
-            random_state=random_state,
+            rng_seed=rng_seed,
             use_shuffle=use_shuffle,
-            multiprocessing=multiprocessing,
             verbose=verbose,
         )
 

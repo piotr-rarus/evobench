@@ -39,7 +39,7 @@ setuptools.setup(
     },
     include_package_data=True,
     tests_require=[
-        "flake8>=3.8.3",
+        "flake8>=4.0.1",
         "pytest>=5.4.3",
         "pytest-cov>=2.10.0",
     ],
