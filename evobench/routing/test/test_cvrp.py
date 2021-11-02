@@ -1,67 +1,67 @@
-from pathlib import Path
+# from pathlib import Path
 
-import numpy as np
-from pytest import fixture
+# import numpy as np
+# from pytest import fixture
 
-from evobench.routing.config import Config, Node
-from evobench.routing.cvrp import CVRP, Solution
+# from evobench.routing.config import Config, Node
+# from evobench.routing.cvrp import CVRP, Solution
 
-SUITE = ""
-INSTANCE = "toy"
-
-
-@fixture(scope="module")
-def cVRP() -> CVRP:
-    return CVRP(suite=SUITE, instance=INSTANCE)
+# SUITE = ""
+# INSTANCE = "toy"
 
 
-def test_config(cVRP: CVRP):
-    config = cVRP.config
-
-    assert isinstance(config, Config)
-    assert isinstance(config.capacity, float)
-    assert isinstance(config.nodes, dict)
-    assert isinstance(config.depot, Node)
-    assert isinstance(config.global_opt, float)
-
-    assert isinstance(config.best_route, list)
-    assert all(isinstance(node, Node) for node in config.best_route)
-
-    assert isinstance(config.target_nodes, list)
-    assert all(isinstance(node, Node) for node in config.target_nodes)
+# @fixture(scope="module")
+# def cVRP() -> CVRP:
+#     return CVRP(suite=SUITE, instance=INSTANCE)
 
 
-def test_initialization(cVRP: CVRP):
-    population = cVRP.initialize_population(100)
-    fitness = cVRP.evaluate_population(population)
+# def test_config(cVRP: CVRP):
+#     config = cVRP.config
 
-    assert isinstance(fitness, np.ndarray)
+#     assert isinstance(config, Config)
+#     assert isinstance(config.capacity, float)
+#     assert isinstance(config.nodes, dict)
+#     assert isinstance(config.depot, Node)
+#     assert isinstance(config.global_opt, float)
 
+#     assert isinstance(config.best_route, list)
+#     assert all(isinstance(node, Node) for node in config.best_route)
 
-def test_best_solution(cVRP: CVRP):
-
-    best_route = cVRP.config.best_route
-    genome = [node.id for node in best_route]
-    genome = np.array(genome)
-    best_solution = Solution(genome)
-
-    fitness = cVRP.evaluate_solution(best_solution)
-
-    assert isinstance(fitness, float)
+#     assert isinstance(config.target_nodes, list)
+#     assert all(isinstance(node, Node) for node in config.target_nodes)
 
 
-def test_best_solutions():
-    data_a = Path("evobench/routing/data/A")
+# def test_initialization(cVRP: CVRP):
+#     population = cVRP.initialize_population(100)
+#     fitness = cVRP.evaluate_population(population)
 
-    for file in data_a.glob("*.vrp"):
-        instance = file.stem
+#     assert isinstance(fitness, np.ndarray)
 
-        cVRP = CVRP(suite="A", instance=instance)
 
-        best_route = cVRP.config.best_route
-        genome = [node.id for node in best_route]
-        genome = np.array(genome)
-        best_solution = Solution(genome)
+# def test_best_solution(cVRP: CVRP):
 
-        fitness = cVRP.evaluate_solution(best_solution)
-        assert isinstance(fitness, float)
+#     best_route = cVRP.config.best_route
+#     genome = [node.id for node in best_route]
+#     genome = np.array(genome)
+#     best_solution = Solution(genome)
+
+#     fitness = cVRP.evaluate_solution(best_solution)
+
+#     assert isinstance(fitness, float)
+
+
+# def test_best_solutions():
+#     data_a = Path("evobench/routing/data/A")
+
+#     for file in data_a.glob("*.vrp"):
+#         instance = file.stem
+
+#         cVRP = CVRP(suite="A", instance=instance)
+
+#         best_route = cVRP.config.best_route
+#         genome = [node.id for node in best_route]
+#         genome = np.array(genome)
+#         best_solution = Solution(genome)
+
+#         fitness = cVRP.evaluate_solution(best_solution)
+#         assert isinstance(fitness, float)

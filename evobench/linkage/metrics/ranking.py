@@ -1,7 +1,6 @@
 from typing import List
 
 import numpy as np
-from sklearn.metrics import ndcg_score
 
 from evobench.benchmark import Benchmark
 
@@ -13,7 +12,7 @@ def mean_reciprocal_rank(
     scraps: np.ndarray,
     benchmark: Benchmark,
     k: int = None,
-) -> List[float]:
+) -> np.ndarray:
 
     _assert_scrap_size(scraps, benchmark)
 
@@ -26,13 +25,8 @@ def mean_reciprocal_rank(
     # scraps = deshuffle(scraps, order)
 
     relevance = _get_relevant_genes(target_index, scraps, benchmark)
-
-    scores = []
-    for ranking in relevance:
-        score = _mean_reciprocal_rank(ranking)
-        scores.append(score)
-
-    return scores
+    scores = [_mean_reciprocal_rank(ranking) for ranking in relevance]
+    return np.array(scores)
 
 
 def mean_average_precision(
@@ -40,7 +34,7 @@ def mean_average_precision(
     scraps: np.ndarray,
     benchmark: Benchmark,
     k: int = None,
-) -> List[float]:
+) -> np.ndarray:
 
     _assert_scrap_size(scraps, benchmark)
 
@@ -48,44 +42,29 @@ def mean_average_precision(
         scraps = scraps[:, :k]
 
     relevance = _get_relevant_genes(target_index, scraps, benchmark)
-
-    scores = []
-    for ranking in relevance:
-        score = _mean_average_precision(ranking)
-        scores.append(score)
-
-    return scores
+    scores = [_mean_average_precision(ranking) for ranking in relevance]
+    return np.array(scores)
 
 
 def ndcg(
     target_index: int,
     scraps: np.ndarray,
-    interactions: np.ndarray,
     benchmark: Benchmark,
-    exp_base: int = 1,
     k: int = None,
-) -> List[float]:
+) -> np.ndarray:
 
     _assert_scrap_size(scraps, benchmark)
 
     if k:
         scraps = scraps[:, :k]
-        interactions = interactions[:, :k]
 
-    assert isinstance(exp_base, int)
-    assert scraps.shape == interactions.shape
-
-    exp_base = float(exp_base)
     levels = benchmark.dsm.levels[target_index]
     relevance = levels[scraps].astype(float)
     relevance[relevance <= 0] = np.inf
     relevance -= 1
-    relevance = np.power(exp_base, -relevance)
+    relevance = np.exp2(-relevance)
 
-    scores = []
-    for interaction, ranking in zip(interactions, relevance):
-        score = ndcg_score([interaction], [ranking])
-        scores.append(score)
+    scores = _ndcg(relevance)
 
     return scores
 
@@ -138,3 +117,29 @@ def _mean_average_precision(ranking: List[bool]) -> float:
         score = np.mean(scores)
 
     return score
+
+
+def _ndcg(ranking: np.ndarray) -> np.ndarray:
+
+    gain = _dcg(ranking)
+
+    y_true_sorted = np.sort(ranking, axis=1)
+    y_true_sorted = np.flip(y_true_sorted, axis=1)
+    normalizing_gain = _dcg(y_true_sorted)
+
+    all_irrelevant = normalizing_gain == 0
+    gain[all_irrelevant] = 0
+    gain[~all_irrelevant] /= normalizing_gain[~all_irrelevant]
+
+    return gain
+
+
+def _dcg(scores: np.ndarray) -> np.ndarray:
+
+    graded_relevance = np.exp2(scores) - 1
+
+    idx = np.arange(scores.shape[1]) + 1
+    reduction = np.log2(idx + 1)
+    dcg = graded_relevance / reduction
+
+    return np.sum(dcg, axis=1)
