@@ -22,9 +22,8 @@ class Separable(Benchmark, DependencyStructureMatrixMixin):
         blocks: List[int],
         blocks_scaling: List[int] = None,
         overlap_size: int = 0,
-        random_state: int = 42,
+        rng_seed: int = 42,
         use_shuffle: bool = False,
-        multiprocessing: bool = False,
         verbose: int = 0
     ):
         """
@@ -38,14 +37,11 @@ class Separable(Benchmark, DependencyStructureMatrixMixin):
             That many genes will overlap between different blocks, by default 0
         use_shuffle : bool, optional
             Whether to shuffle the genome, by default False
-        multiprocessing : bool, optional
-            Whether to evaluate population on all cores, by default False
         """
 
         super(Separable, self).__init__(
-            random_state=random_state,
+            rng_seed=rng_seed,
             use_shuffle=use_shuffle,
-            multiprocessing=multiprocessing,
             verbose=verbose
         )
 

@@ -12,17 +12,13 @@ __POPULATION_SIZE = 20
 
 @fixture(
     scope='module',
-    params=[(False, True), (True, False)],
+    params=[False, True],
 )
 def benchmark(request) -> Separable:
-
-    multiprocessing, shuffle = request.param
-
     return Trap(
         blocks=[6, 6, 6, 6],
         blocks_scaling=[1, 0.75, 0.5, 0.25],
-        multiprocessing=multiprocessing,
-        use_shuffle=shuffle,
+        use_shuffle=request.param,
         verbose=1
     )
 
