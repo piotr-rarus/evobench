@@ -52,17 +52,15 @@ This package exposes following problems.
 
 ### Practical
 
-- TSP
-- cVRP
-
 ### Discrete
 
-- Trap
-- Step Trap
 - Bimodal
-- Step Bimodal
+- Bimodal Noised
 - HIFF
 - Ising Spin Glass
+- Step Trap
+- Step Bimodal
+- Trap
 
 ### Continuous
 
@@ -130,10 +128,9 @@ Available metrics:
 
 - Mean Reciprocal Ranking @K
 - Mean Average Precision @K
-- NDCG @K $B
+- NDCG @K
 - Fill Quality
 
 ## Coming soon
 
 We'll be adding more problems in the near future. If you're looking for any particular problem, please mail us or open an issue.
-We're working on linkage quality metrics. Once they're published, we'll be incorporating them to this package.

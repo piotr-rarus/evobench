@@ -35,7 +35,8 @@ setuptools.setup(
     ],
     package_data={
         "evobench.discrete.isg": ["data/*.txt"],
-        "evobench.routing": ["data/*"]
+        "evobench.routing": ["data/*"],
+        "evobench.continuous.cec2013lsgo": ["data/*.txt"]
     },
     include_package_data=True,
     tests_require=[

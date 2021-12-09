@@ -22,6 +22,6 @@ class Helpers:
             assert pred_fitness == fitness
 
 
-@fixture(scope='session')
+@fixture(scope="session")
 def helpers() -> Helpers:
     return Helpers

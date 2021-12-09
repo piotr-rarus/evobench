@@ -1,3 +1,4 @@
+import warnings
 from abc import ABC, abstractmethod, abstractproperty
 from typing import Dict, List
 
@@ -95,6 +96,11 @@ class Benchmark(ABC):
 
         return Solution(genome)
 
+    def check_bounds(self, x: np.ndarray) -> np.ndarray:
+        mask = x > self.upper_bound
+        mask += x < self.lower_bound
+        return mask
+
     def evaluate_population(self, population: Population) -> np.ndarray:
         """
         Evaluates population of solutions.
@@ -142,6 +148,13 @@ class Benchmark(ABC):
 
         if self.USE_SHUFFLE:
             solution = deshuffle_solution(solution, self.gene_order)
+
+        bounds_violated = np.any(self.check_bounds(solution.genome))
+        if bounds_violated:
+            warnings.warn(
+                f"Solution {solution.__hash__} is violating boundary constraints."
+            )
+            return None
 
         return self._evaluate_solution(solution)
 
