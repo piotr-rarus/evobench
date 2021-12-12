@@ -4,7 +4,10 @@ from lazy import lazy
 from .cec2013lsgo import CEC2013LSGO
 
 
-class F2(CEC2013LSGO):
+class F5(CEC2013LSGO):
+    """
+    7-nonseparable, 1-separable Shifted and Rotated Elliptic Function
+    """
 
     def __init__(
         self,
@@ -13,10 +16,10 @@ class F2(CEC2013LSGO):
         use_shuffle: bool = False,
         verbose: int = 0
     ):
-        super(F2, self).__init__(
+        super(F5, self).__init__(
             rng_seed=rng_seed,
             use_shuffle=use_shuffle,
-            verbose=verbose
+            verbose=verbose,
         )
 
     @property
@@ -37,6 +40,27 @@ class F2(CEC2013LSGO):
         out_of_bounds = self.check_bounds(x)
         out_of_bounds = np.any(out_of_bounds, axis=1)
         x -= self.xopt
-        fitness = self._rastrigin(x)
+
+        fitness = 0
+        ldim = 0
+
+        for i in range(len(self.s)):
+            f: np.ndarray
+            slice = x[:, self.p[ldim:ldim + self.s[i]] - 1].T
+            ldim += self.s[i]
+
+            if self.s[i] == 25:
+                f = self.R25
+            elif self.s[i] == 50:
+                f = self.R50
+            elif self.s[i] == 100:
+                f = self.R100
+
+            f = f @ slice
+            f = self._rastrigin(f.T)
+            fitness += self.w[i] * f
+
+        fitness += self._rastrigin(x[:, self.p[ldim:] - 1])
+
         fitness[out_of_bounds] = None
         return fitness

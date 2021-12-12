@@ -26,6 +26,27 @@ class Helpers:
         assert isinstance(fitness, np.ndarray)
         assert len(fitness) == population.size
 
+    @staticmethod
+    def test_data_files(benchmark: CEC2013LSGO):
+        assert isinstance(benchmark.p, np.ndarray)
+        assert isinstance(benchmark.R25, np.ndarray)
+        assert isinstance(benchmark.R50, np.ndarray)
+        assert isinstance(benchmark.R100, np.ndarray)
+        assert isinstance(benchmark.s, np.ndarray)
+        assert isinstance(benchmark.w, np.ndarray)
+        assert isinstance(benchmark.xopt, np.ndarray)
+
+        assert benchmark.p.shape == (1000,)
+        assert benchmark.R25.shape == (25, 25)
+        assert benchmark.R50.shape == (50, 50)
+        assert benchmark.R100.shape == (100, 100)
+        assert benchmark.s.shape == (7,)
+        assert benchmark.w.shape == (7,)
+        assert benchmark.xopt.shape == (1000,)
+
+        assert benchmark.p.dtype == np.int
+        assert benchmark.s.dtype == np.int
+
 
 @fixture(scope="session")
 def helpers() -> Helpers:

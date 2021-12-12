@@ -9,7 +9,7 @@ def f1() -> F1:
     return F1()
 
 
-def test_xopt(f1: F1):
+def test_data_files(f1: F1):
     assert isinstance(f1.xopt, np.ndarray)
     assert f1.xopt.shape == (1000,)
 
