@@ -8,10 +8,6 @@ def f11() -> F11:
     return F11()
 
 
-def test_data_files(f11: F11, helpers):
-    helpers.test_data_files(f11)
-
-
 def test_evaluate_solution(f11: F11, helpers):
     helpers.test_evaluate_solution(f11)
 
