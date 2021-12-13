@@ -73,6 +73,10 @@ class CEC2013LSGO(Continuous):
     def _evaluate(self, x: np.ndarray) -> np.ndarray:
         pass
 
+    def _sphere(self, x: np.ndarray) -> np.ndarray:
+        fit = np.sum(x ** 2, axis=-1)
+        return fit
+
     def _elliptic(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         condition = 1e+6
@@ -114,10 +118,11 @@ class CEC2013LSGO(Continuous):
 
     def _schwefel(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
+        x = self._T_irreg(x)
         x = self._T_asy(x, beta=0.2)
         fit = 0
         for i in range(D):
-            fit += np.sum(x[0:i, :], axis=-1) ** 2
+            fit += np.sum(x[:, :i+1], axis=-1) ** 2
 
         return fit
 
