@@ -54,7 +54,7 @@ class F13(CEC2013LSGO):
             udim = self.c[i] - i * self.m
 
             f: np.ndarray
-            slice = x[:, self.p[ldim:udim] - 1].T
+            z = x[:, self.p[ldim:udim] - 1].T
 
             if self.s[i] == 25:
                 f = self.R25
@@ -63,7 +63,7 @@ class F13(CEC2013LSGO):
             elif self.s[i] == 100:
                 f = self.R100
 
-            f = f @ slice
+            f = f @ z
             f = self._schwefel(f.T)
             fitness += self.w[i] * f
 

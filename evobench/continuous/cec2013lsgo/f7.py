@@ -46,7 +46,7 @@ class F7(CEC2013LSGO):
 
         for i in range(len(self.s)):
             f: np.ndarray
-            slice = x[:, self.p[ldim:ldim + self.s[i]] - 1].T
+            z = x[:, self.p[ldim:ldim + self.s[i]] - 1].T
             ldim += self.s[i]
 
             if self.s[i] == 25:
@@ -56,7 +56,7 @@ class F7(CEC2013LSGO):
             elif self.s[i] == 100:
                 f = self.R100
 
-            f = f @ slice
+            f = f @ z
             f = self._schwefel(f.T)
             fitness += self.w[i] * f
 

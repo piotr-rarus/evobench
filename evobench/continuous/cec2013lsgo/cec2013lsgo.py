@@ -157,10 +157,7 @@ class CEC2013LSGO(Continuous):
         This transformation function is used to break the symmetry of symmetric
         functions.
         """
-        D = x.shape[-1]
-        pop_size = 1
-        if x.ndim > 1:
-            pop_size = x.shape[0]
+        pop_size, D = x.shape
 
         g = x.copy()
         temp = beta * np.linspace(0, 1, D).reshape(1, -1)
