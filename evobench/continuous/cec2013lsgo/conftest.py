@@ -36,16 +36,8 @@ class Helpers:
         assert isinstance(benchmark.w, np.ndarray)
         assert isinstance(benchmark.xopt, np.ndarray)
 
-        assert benchmark.p.shape == (1000,)
-        assert benchmark.R25.shape == (25, 25)
-        assert benchmark.R50.shape == (50, 50)
-        assert benchmark.R100.shape == (100, 100)
-        assert benchmark.s.shape == (7,)
-        assert benchmark.w.shape == (7,)
-        assert benchmark.xopt.shape == (1000,)
-
-        assert benchmark.p.dtype == np.int
-        assert benchmark.s.dtype == np.int
+        assert benchmark.p.dtype is int
+        assert benchmark.s.dtype is int
 
 
 @fixture(scope="session")

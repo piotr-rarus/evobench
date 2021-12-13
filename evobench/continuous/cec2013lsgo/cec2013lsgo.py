@@ -37,7 +37,7 @@ class CEC2013LSGO(Continuous):
             data = np.loadtxt(data_file, delimiter=",")
             attr_name = data_file.stem.replace(f"{fn}-", "")
             if attr_name in ["p", "s"]:
-                data = data.astype(np.int)
+                data = data.astype(int)
             setattr(self, attr_name, data)
 
     def evaluate_population(self, population: Population) -> np.ndarray:
@@ -140,7 +140,8 @@ class CEC2013LSGO(Continuous):
 
     def _rosenbrock(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
-        fit = np.sum(100 * (x[0:D-2, :] ** 2 - x[1:D-1, :]) ** 2 + (x[0:D-2, :]-1) ** 2)
+        x = 100 * (x[:, 0:D-1] ** 2 - x[:, 1:D]) ** 2 + (x[:, 0:D-1]-1) ** 2
+        fit = np.sum(x, axis=-1)
         return fit
 
 # %------------------------------------------------------------------------------
