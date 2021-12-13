@@ -104,18 +104,6 @@ class CEC2013LSGO(Continuous):
         fit += np.exp(1)
         return fit
 
-# %------------------------------------------------------------------------------
-# % Ackley's Function
-# %------------------------------------------------------------------------------
-# function fit = ackley(x)
-#     [D ps] = size(x);
-#     x = T_irreg(x);
-#     x = T_asy(x, 0.2);
-#     x = T_diag(x, 10);
-#     fit = sum(x.^2,1);
-#     fit = 20-20.*exp(-0.2.*sqrt(fit./D))-exp(sum(cos(2.*pi.*x),1)./D)+exp(1);
-# end
-
     def _schwefel(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         x = self._T_irreg(x)
@@ -126,31 +114,11 @@ class CEC2013LSGO(Continuous):
 
         return fit
 
-# %------------------------------------------------------------------------------
-# % Schwefel's Problem 1.2
-# %------------------------------------------------------------------------------
-# function fit = schwefel(x)
-#     [D ps] = size(x);
-#     x = T_asy(T_irreg(x), 0.2);
-#     fit = 0;
-#     for i = 1:D
-#         fit = fit + sum(x(1:i,:),1).^2;
-#     end
-# end
-
     def _rosenbrock(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         x = 100 * (x[:, 0:D-1] ** 2 - x[:, 1:D]) ** 2 + (x[:, 0:D-1]-1) ** 2
         fit = np.sum(x, axis=-1)
         return fit
-
-# %------------------------------------------------------------------------------
-# % Rosenbrock's Function
-# %------------------------------------------------------------------------------
-# function fit = rosenbrock(x)
-#     [D ps] = size(x);
-#     fit = sum(100.*(x(1:D-1,:).^2-x(2:D, :)).^2+(x(1:D-1, :)-1).^2);
-# end
 
     def _T_asy(self, x: np.ndarray, beta: float) -> np.ndarray:
         """
