@@ -5,10 +5,12 @@ import numpy as np
 from lazy import lazy
 
 from evobench.continuous.continuous import Continuous
+from evobench.dsm import DependencyStructureMatrixMixin
+from evobench.linkage.dsm import DependencyStructureMatrix
 from evobench.model import Population, Solution
 
 
-class CEC2013LSGO(Continuous):
+class CEC2013LSGO(Continuous, DependencyStructureMatrixMixin):
 
     def __init__(
         self,
@@ -39,6 +41,13 @@ class CEC2013LSGO(Continuous):
             if attr_name in ["p", "s"]:
                 data = data.astype(int)
             setattr(self, attr_name, data)
+
+    @lazy
+    def dsm(self) -> DependencyStructureMatrix:
+        fn = self.__class__.__name__
+        dsm_path = self._data_path.joinpath(f"{fn}-dsm.csv")
+        dsm = np.loadtxt(dsm_path, delimiter=",")
+        return DependencyStructureMatrix(dsm)
 
     def evaluate_population(self, population: Population) -> np.ndarray:
         """

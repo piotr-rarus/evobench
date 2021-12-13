@@ -1,6 +1,7 @@
 import numpy as np
 from pytest import fixture
 
+from evobench.linkage.dsm import DependencyStructureMatrix
 from evobench.model import Population, Solution
 
 from .cec2013lsgo import CEC2013LSGO
@@ -25,6 +26,13 @@ class Helpers:
         fitness = benchmark.evaluate_population(population)
         assert isinstance(fitness, np.ndarray)
         assert len(fitness) == population.size
+
+    @staticmethod
+    def test_dsm(benchmark: CEC2013LSGO):
+        D = benchmark.genome_size
+        dsm = benchmark.dsm
+        assert isinstance(dsm, DependencyStructureMatrix)
+        assert dsm.interactions.shape == (D, D)
 
 
 @fixture(scope="session")

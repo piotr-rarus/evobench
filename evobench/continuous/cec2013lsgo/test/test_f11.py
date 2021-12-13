@@ -14,3 +14,7 @@ def test_evaluate_solution(f11: F11, helpers):
 
 def test_evaluate_population(f11: F11, helpers):
     helpers.test_evaluate_population(f11)
+
+
+def test_dsm(f11: F11, helpers):
+    helpers.test_dsm(f11)
