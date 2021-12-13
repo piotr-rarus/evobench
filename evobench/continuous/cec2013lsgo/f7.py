@@ -28,12 +28,12 @@ class F7(CEC2013LSGO):
 
     @lazy
     def lower_bound(self) -> np.ndarray:
-        lower_bound = [-5] * self.genome_size
+        lower_bound = [-100] * self.genome_size
         return np.array(lower_bound)
 
     @lazy
     def upper_bound(self) -> np.ndarray:
-        upper_bound = [5] * self.genome_size
+        upper_bound = [100] * self.genome_size
         return np.array(upper_bound)
 
     def _evaluate(self, x: np.ndarray) -> np.ndarray:

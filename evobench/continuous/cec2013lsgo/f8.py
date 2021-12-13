@@ -4,7 +4,7 @@ from lazy import lazy
 from .cec2013lsgo import CEC2013LSGO
 
 
-class F6(CEC2013LSGO):
+class F8(CEC2013LSGO):
     """
     7-nonseparable, 1-separable Shifted and Rotated Elliptic Function
     """
@@ -16,7 +16,7 @@ class F6(CEC2013LSGO):
         use_shuffle: bool = False,
         verbose: int = 0
     ):
-        super(F6, self).__init__(
+        super(F8, self).__init__(
             rng_seed=rng_seed,
             use_shuffle=use_shuffle,
             verbose=verbose,
@@ -28,12 +28,12 @@ class F6(CEC2013LSGO):
 
     @lazy
     def lower_bound(self) -> np.ndarray:
-        lower_bound = [-32] * self.genome_size
+        lower_bound = [-100] * self.genome_size
         return np.array(lower_bound)
 
     @lazy
     def upper_bound(self) -> np.ndarray:
-        upper_bound = [32] * self.genome_size
+        upper_bound = [100] * self.genome_size
         return np.array(upper_bound)
 
     def _evaluate(self, x: np.ndarray) -> np.ndarray:
@@ -57,10 +57,8 @@ class F6(CEC2013LSGO):
                 f = self.R100
 
             f = f @ slice
-            f = self._ackley(f.T)
+            f = self._elliptic(f.T)
             fitness += self.w[i] * f
-
-        fitness += self._ackley(x[:, self.p[ldim:] - 1])
 
         fitness[out_of_bounds] = None
         return fitness
