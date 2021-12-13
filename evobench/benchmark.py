@@ -80,7 +80,7 @@ class Benchmark(ABC):
         population_size = int(population_size)
 
         if self.VERBOSE:
-            print(f"\nInitializing poptulation: {population_size} samples")
+            print(f"\nInitializing population: {population_size} samples")
 
         solutions = self.random_solutions(population_size)
         return Population(solutions)

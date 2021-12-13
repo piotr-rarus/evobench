@@ -65,6 +65,9 @@ class CEC2013LSGO(Continuous, DependencyStructureMatrixMixin):
             Order is the same as input population.
         """
 
+        if self.VERBOSE:
+            print(f"\nEvaluating population of {population.size} solutions\n")
+
         x = population.as_ndarray[~population.evaluated_mask]
         y = self._evaluate(x)
 
