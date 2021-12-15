@@ -36,7 +36,7 @@ class F2(CEC2013LSGO):
     def _evaluate(self, x: np.ndarray) -> np.ndarray:
         out_of_bounds = self.check_bounds(x)
         out_of_bounds = np.any(out_of_bounds, axis=1)
-        x -= self.xopt
+        x = x - self.xopt
         fitness = self._rastrigin(x)
         fitness[out_of_bounds] = None
         return fitness

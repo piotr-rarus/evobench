@@ -40,7 +40,7 @@ class F12(CEC2013LSGO):
         out_of_bounds = self.check_bounds(x)
         out_of_bounds = np.any(out_of_bounds, axis=1)
 
-        x -= self.xopt
+        x = x - self.xopt
         fitness = self._rosenbrock(x)
 
         fitness[out_of_bounds] = None
