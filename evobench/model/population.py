@@ -1,3 +1,4 @@
+import itertools
 from dataclasses import dataclass
 from typing import List
 
@@ -28,25 +29,26 @@ class Population:
         return np.array(population)
 
     @property
-    def are_all_evaluated(self) -> bool:
-        return all(
+    def evaluated_mask(self) -> np.ndarray:
+        mask = [
             solution.fitness is not None
             for solution in self.solutions
-        )
-
-    def get_not_evaluated_solutions(self) -> List[Solution]:
-        solutions = [
-            solution
-            for solution in self.solutions
-            if solution.fitness is None
         ]
 
+        return np.array(mask)
+
+    @property
+    def are_all_evaluated(self) -> bool:
+        return np.all(self.evaluated_mask)
+
+    def get_not_evaluated_solutions(self) -> List[Solution]:
+        solutions = itertools.compress(self.solutions, ~self.evaluated_mask)
         return list(solutions)
 
     @property
     def fitness(self) -> np.ndarray:
         if not self.are_all_evaluated:
-            raise Exception('Please evaluate your population first.')
+            raise Exception("Please evaluate your population first.")
 
         fitness = [solution.fitness for solution in self.solutions]
         return np.array(fitness)

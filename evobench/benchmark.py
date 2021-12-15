@@ -1,3 +1,4 @@
+import warnings
 from abc import ABC, abstractmethod, abstractproperty
 from typing import Dict, List
 
@@ -79,21 +80,15 @@ class Benchmark(ABC):
         population_size = int(population_size)
 
         if self.VERBOSE:
-            print(f"\nInitializing poptulation: {population_size} samples")
+            print(f"\nInitializing population: {population_size} samples")
 
         solutions = self.random_solutions(population_size)
         return Population(solutions)
 
-    def fix(self, solution: Solution) -> Solution:
-        genome = solution.genome.copy()
-
-        mask = genome > self.upper_bound
-        genome[mask] = self.upper_bound[mask]
-
-        mask = genome < self.lower_bound
-        genome[mask] = self.lower_bound[mask]
-
-        return Solution(genome)
+    def check_bounds(self, x: np.ndarray) -> np.ndarray:
+        mask = x > self.upper_bound
+        mask += x < self.lower_bound
+        return mask
 
     def evaluate_population(self, population: Population) -> np.ndarray:
         """
@@ -142,6 +137,13 @@ class Benchmark(ABC):
 
         if self.USE_SHUFFLE:
             solution = deshuffle_solution(solution, self.gene_order)
+
+        bounds_violated = np.any(self.check_bounds(solution.genome))
+        if bounds_violated:
+            warnings.warn(
+                f"Solution {solution.__hash__} is violating boundary constraints."
+            )
+            return None
 
         return self._evaluate_solution(solution)
 

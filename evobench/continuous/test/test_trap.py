@@ -49,16 +49,3 @@ def test_random_solution(trap: Trap):
 
     assert isinstance(solution.genome, np.ndarray)
     assert solution.genome.size == trap.genome_size
-
-
-def test_fix():
-    trap = Trap(blocks=[3])
-    genome = np.array([0, 1, 2])
-    solution = Solution(genome)
-
-    solution = trap.fix(solution)
-
-    assert isinstance(solution, Solution)
-    assert isinstance(solution.genome, np.ndarray)
-
-    assert list(solution.genome) == [0, 1, 1]
