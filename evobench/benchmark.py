@@ -85,17 +85,6 @@ class Benchmark(ABC):
         solutions = self.random_solutions(population_size)
         return Population(solutions)
 
-    def fix(self, solution: Solution) -> Solution:
-        genome = solution.genome.copy()
-
-        mask = genome > self.upper_bound
-        genome[mask] = self.upper_bound[mask]
-
-        mask = genome < self.lower_bound
-        genome[mask] = self.lower_bound[mask]
-
-        return Solution(genome)
-
     def check_bounds(self, x: np.ndarray) -> np.ndarray:
         mask = x > self.upper_bound
         mask += x < self.lower_bound

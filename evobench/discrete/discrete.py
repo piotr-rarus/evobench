@@ -33,12 +33,6 @@ class Discrete(Benchmark):
         upper_bound = [1] * self.genome_size
         return np.array(upper_bound)
 
-    def fix(self, solution: Solution) -> Solution:
-        solution = super(Discrete, self).fix(solution)
-        genome = solution.genome.astype(dtype=int)
-
-        return Solution(genome)
-
     def random_solutions(self, population_size: int) -> List[Solution]:
         genomes = self.rng.uniform(
             low=0,

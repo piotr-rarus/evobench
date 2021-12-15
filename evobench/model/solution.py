@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import List, Optional, Union
 
 from numpy import ndarray
 
@@ -7,7 +7,7 @@ from numpy import ndarray
 @dataclass
 class Solution:
     genome: ndarray
-    fitness: Optional[float] = None
+    fitness: Optional[Union[float, List[float]]] = None
 
     def __hash__(self) -> int:
         return id(self.genome)

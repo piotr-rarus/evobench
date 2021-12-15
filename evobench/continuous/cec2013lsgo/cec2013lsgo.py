@@ -12,6 +12,12 @@ from evobench.model import Population, Solution
 
 class CEC2013LSGO(Continuous, DependencyStructureMatrixMixin):
 
+    """
+    Li, Xiaodong & Tang, Ke & Omidvar, Mohammmad Nabi & Yang, Zhenyu & Qin, Kai. (2013).
+    Benchmark Functions for the CEC'2013 Special Session and Competition on
+    Large-Scale Global Optimization.
+    """
+
     def __init__(
         self,
         *,
@@ -86,15 +92,15 @@ class CEC2013LSGO(Continuous, DependencyStructureMatrixMixin):
         pass
 
     def _sphere(self, x: np.ndarray) -> np.ndarray:
-        fit = np.sum(x ** 2, axis=-1)
-        return fit
+        fitness = np.sum(x ** 2, axis=-1)
+        return fitness
 
     def _elliptic(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         condition = 1e+6
         coefficients = condition ** np.linspace(0, 1, D)
-        fit = coefficients @ (self._T_irreg(x) ** 2).T
-        return fit
+        fitness = coefficients @ (self._T_irreg(x) ** 2).T
+        return fitness
 
     def _rastrigin(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
@@ -102,35 +108,35 @@ class CEC2013LSGO(Continuous, DependencyStructureMatrixMixin):
         x = self._T_irreg(x)
         x = self._T_asy(x, beta=0.2)
         x = self._T_diag(x, alpha=10)
-        fit = A * (D - np.sum(np.cos(2 * np.pi * x), axis=-1)) + np.sum(x ** 2, axis=-1)
-        return fit
+        fitness = A * (D - np.sum(np.cos(2 * np.pi * x), axis=-1)) + np.sum(x ** 2, -1)
+        return fitness
 
     def _ackley(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         x = self._T_irreg(x)
         x = self._T_asy(x, beta=0.2)
         x = self._T_diag(x, alpha=10)
-        fit = np.sum(x ** 2, axis=-1)
-        fit = 20 - 20 * np.exp(-0.2 * np.sqrt(fit / D))
-        fit -= np.exp(np.sum(np.cos(2 * np.pi * x), axis=-1) / D)
-        fit += np.exp(1)
-        return fit
+        fitness = np.sum(x ** 2, axis=-1)
+        fitness = 20 - 20 * np.exp(-0.2 * np.sqrt(fitness / D))
+        fitness -= np.exp(np.sum(np.cos(2 * np.pi * x), axis=-1) / D)
+        fitness += np.exp(1)
+        return fitness
 
     def _schwefel(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         x = self._T_irreg(x)
         x = self._T_asy(x, beta=0.2)
-        fit = 0
+        fitness = 0
         for i in range(D):
-            fit += np.sum(x[:, :i+1], axis=-1) ** 2
+            fitness += np.sum(x[:, :i+1], axis=-1) ** 2
 
-        return fit
+        return fitness
 
     def _rosenbrock(self, x: np.ndarray) -> np.ndarray:
         D = x.shape[-1]
         x = 100 * (x[:, 0:D-1] ** 2 - x[:, 1:D]) ** 2 + (x[:, 0:D-1]-1) ** 2
-        fit = np.sum(x, axis=-1)
-        return fit
+        fitness = np.sum(x, axis=-1)
+        return fitness
 
     def _T_asy(self, x: np.ndarray, beta: float) -> np.ndarray:
         """
