@@ -52,3 +52,11 @@ class Population:
 
         fitness = [solution.fitness for solution in self.solutions]
         return np.array(fitness)
+
+    def contains(self, solution: Solution) -> bool:
+        solution_hash = solution.__hash__
+        for s in self.solutions:
+            if solution_hash == s.__hash__:
+                return True
+
+        return False

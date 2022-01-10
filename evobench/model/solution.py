@@ -10,4 +10,4 @@ class Solution:
     fitness: Optional[Union[float, List[float]]] = None
 
     def __hash__(self) -> int:
-        return id(self.genome)
+        return hash(bytes(self.genome))
