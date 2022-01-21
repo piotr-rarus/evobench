@@ -4,8 +4,6 @@
 #
 #    pip-compile requirements-dev.in
 #
-argcomplete==1.12.3
-    # via ipykernel
 argon2-cffi==21.1.0
     # via notebook
 attrs==21.2.0
@@ -22,11 +20,6 @@ cffi==1.14.6
     # via argon2-cffi
 cfgv==3.3.1
     # via pre-commit
-colorama==0.4.4
-    # via
-    #   -c requirements-test.txt
-    #   -c requirements.txt
-    #   ipython
 debugpy==1.4.3
     # via ipykernel
 decorator==5.1.0
@@ -43,15 +36,6 @@ filelock==3.0.12
     # via virtualenv
 identify==2.2.15
     # via pre-commit
-importlib-metadata==4.8.1
-    # via
-    #   -c requirements-test.txt
-    #   argcomplete
-    #   backports.entry-points-selectable
-    #   ipykernel
-    #   jsonschema
-    #   pre-commit
-    #   virtualenv
 ipykernel==6.4.1
     # via
     #   ipywidgets
@@ -59,6 +43,11 @@ ipykernel==6.4.1
     #   jupyter-console
     #   notebook
     #   qtconsole
+ipython==7.31.1
+    # via
+    #   ipykernel
+    #   ipywidgets
+    #   jupyter-console
 ipython-genutils==0.2.0
     # via
     #   ipykernel
@@ -66,11 +55,6 @@ ipython-genutils==0.2.0
     #   nbformat
     #   notebook
     #   qtconsole
-ipython==7.27.0
-    # via
-    #   ipykernel
-    #   ipywidgets
-    #   jupyter-console
 ipywidgets==7.6.5
     # via jupyter
 isort==5.9.3
@@ -83,6 +67,8 @@ jinja2==3.0.1
     #   notebook
 jsonschema==3.2.0
     # via nbformat
+jupyter==1.0.0
+    # via -r requirements-dev.in
 jupyter-client==7.0.3
     # via
     #   ipykernel
@@ -99,8 +85,6 @@ jupyter-core==4.8.1
     #   nbformat
     #   notebook
     #   qtconsole
-jupyter==1.0.0
-    # via -r requirements-dev.in
 jupyterlab-pygments==0.1.2
     # via nbconvert
 jupyterlab-widgets==1.0.2
@@ -145,6 +129,8 @@ pandocfilters==1.5.0
     # via nbconvert
 parso==0.8.2
     # via jedi
+pexpect==4.8.0
+    # via ipython
 pickleshare==0.7.5
     # via ipython
 platformdirs==2.3.0
@@ -157,6 +143,10 @@ prompt-toolkit==3.0.20
     # via
     #   ipython
     #   jupyter-console
+ptyprocess==0.7.0
+    # via
+    #   pexpect
+    #   terminado
 pycparser==2.20
     # via cffi
 pygments==2.10.0
@@ -176,10 +166,6 @@ python-dateutil==2.8.2
     # via
     #   -c requirements.txt
     #   jupyter-client
-pywin32==301
-    # via jupyter-core
-pywinpty==1.1.4
-    # via terminado
 pyyaml==5.4.1
     # via pre-commit
 pyzmq==22.3.0
@@ -227,10 +213,6 @@ traitlets==5.1.0
     #   nbformat
     #   notebook
     #   qtconsole
-typing-extensions==3.10.0.2
-    # via
-    #   -c requirements-test.txt
-    #   importlib-metadata
 virtualenv==20.8.0
     # via pre-commit
 wcwidth==0.2.5
@@ -239,10 +221,6 @@ webencodings==0.5.1
     # via bleach
 widgetsnbextension==3.5.1
     # via ipywidgets
-zipp==3.5.0
-    # via
-    #   -c requirements-test.txt
-    #   importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
