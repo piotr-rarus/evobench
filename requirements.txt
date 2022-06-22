@@ -10,7 +10,7 @@ lazy==1.4
     # via evobench (setup.py)
 networkx==2.6.3
     # via evobench (setup.py)
-numpy==1.21.2
+numpy==1.22.0
     # via
     #   evobench (setup.py)
     #   pandas
